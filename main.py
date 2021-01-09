@@ -66,8 +66,17 @@ def assign_afb(units, hits):
         if u.fighter:
             units.remove(u)
             hits -= 1
-
     return units
+
+
+def space_cannon(units):
+    result = 0
+    for u in units:
+        for val in u.cannon:
+            x = random.randint(1, 10)
+            if x >= val:
+                result += 1
+    return result
 
 
 def iteration(att_units, def_units, ground_combat):
@@ -75,10 +84,12 @@ def iteration(att_units, def_units, ground_combat):
     # 1 - attacker won
     # 2 - defender won
 
-    # bombardment
-    if ground_combat:
-        bombard_hits = bombardment(att_units)
-        def_units = assign_hits(def_units, bombard_hits)
+    # space cannon offense
+    if not ground_combat:
+        att_cannon_hits = space_cannon(att_units)
+        def_cannon_hits = space_cannon(def_units)
+        att_units = assign_hits(att_units, def_cannon_hits)
+        def_units = assign_hits(def_units, att_cannon_hits)
 
     # anti-fighter barrage
     if not ground_combat:
@@ -86,6 +97,20 @@ def iteration(att_units, def_units, ground_combat):
         def_afb = antifighter(def_units)
         att_units = assign_afb(att_units, def_afb)
         def_units = assign_afb(def_units, att_afb)
+
+    # bombardment
+    if ground_combat:
+        bombard_hits = bombardment(att_units)
+        def_units = assign_hits(def_units, bombard_hits)
+
+    # space cannon defense
+    if ground_combat:
+        cannon_hits = space_cannon(def_units)
+        att_units = assign_hits(att_units, cannon_hits)
+
+    # remove PDS as they do not participate in combat (cannot be assigned hits)
+    att_units = list(filter(lambda x: not x.pds, att_units))
+    def_units = list(filter(lambda x: not x.pds, def_units))
 
     while att_units and def_units:
         att_units, def_units = combat_round(att_units, def_units)
@@ -98,30 +123,47 @@ def iteration(att_units, def_units, ground_combat):
         return 1
 
 
-def filter_ground(units):
-    result = []
-    for u in units:
+def shield_active(att_units, def_units):
+    for u in att_units:
+        if u.disable_shield:
+            return False
+
+    for u in def_units:
+        if u.shield:
+            return True
+
+    return False
+
+
+def filter_ground(att_units, def_units):
+    att_res, def_res = [], []
+
+    shield = shield_active(att_units, def_units)
+    for u in att_units:
         if u.ground:
-            result.append(u)
-        elif u.bombard:
+            att_res.append(u)
+        elif u.bombard and not shield:
             u.combat = []  # disable combat
-            result.append(u)
-    return result
+            att_res.append(u)
+
+    for u in def_units:
+        if u.ground or u.cannon:
+            def_res.append(u)
+
+    return att_res, def_res
 
 
-def filter_space(units):
-    return list(filter(lambda x: not x.ground, units))
+def filter_space(att_units, def_units):
+    return list(filter(lambda x: not x.ground, att_units)), list(filter(lambda x: not x.ground, def_units))
 
 
 def run_simulation(att_units, def_units, it=10000, ground_combat=False):
     outcomes = [0, 0, 0]
 
     if ground_combat:
-        att_units = filter_ground(att_units)
-        def_units = filter_ground(def_units)
+        att_units, def_units = filter_ground(att_units, def_units)
     else:
-        att_units = filter_space(att_units)
-        def_units = filter_space(def_units)
+        att_units, def_units = filter_space(att_units, def_units)
 
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), ground_combat)
@@ -143,9 +185,9 @@ def_inf = 2
 att_units = [units.infantry()] * att_inf + [units.dread()] * att_dreads
 def_units = [units.infantry()] * def_inf + [units.mech()] * def_mech
 
-att_units = [units.destroyer()] * 4
-def_units = [units.carrier(), units.fighter()] * 4
+att_units = [units.infantry()] * 1
+def_units = [units.pds()] * 1
 
-outcomes = run_simulation(att_units, def_units, ground_combat=False)
+outcomes = run_simulation(att_units, def_units, ground_combat=True)
 
 print_results(outcomes)

@@ -1,19 +1,23 @@
 class Unit:
-    def __init__(self, combat, sustain=False, ground=False, bombard=[], afb=[], cannon=[], shield=False, fighter=False):
+    def __init__(self, combat, sustain=False, ground=False, bombard=[], afb=[], cannon=[], shield=False, fighter=False,
+                 pds=False, disable_shield=False):
         self.combat = combat
         self.sustain = sustain
         self.ground = ground
         self.bombard = bombard
         self.afb = afb
         self.cannon = cannon
+        self.shield = shield
         self.fighter = fighter
+        self.pds = pds
+        self.disable_shield = disable_shield
 
     def __repr__(self):
         return "<Combat: %s, Sustain: %s>" % (self.combat, self.sustain)
 
 
 def warsun():
-    return Unit([3, 3, 3], sustain=True, bombard=[3, 3, 3])
+    return Unit([3, 3, 3], sustain=True, bombard=[3, 3, 3], disable_shied=True)
 
 
 def cruiser():
@@ -37,11 +41,11 @@ def destroyer2():
 
 
 def pds():
-    return Unit([], cannon=[6], shield=True)
+    return Unit([], cannon=[6], shield=True, pds=True)
 
 
 def pds2():
-    return Unit([], cannon=[5], shield=True)
+    return Unit([], cannon=[5], shield=True, pds=True)
 
 
 def carrier():
