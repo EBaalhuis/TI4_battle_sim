@@ -49,6 +49,27 @@ def bombardment(units):
     return result
 
 
+def antifighter(units):
+    result = 0
+    for u in units:
+        for val in u.afb:
+            x = random.randint(1, 10)
+            if x >= val:
+                result += 1
+    return result
+
+
+def assign_afb(units, hits):
+    for u in units:
+        if hits == 0:
+            return units
+        if u.fighter:
+            units.remove(u)
+            hits -= 1
+
+    return units
+
+
 def iteration(att_units, def_units, ground_combat):
     # 0 - tie
     # 1 - attacker won
@@ -58,6 +79,13 @@ def iteration(att_units, def_units, ground_combat):
     if ground_combat:
         bombard_hits = bombardment(att_units)
         def_units = assign_hits(def_units, bombard_hits)
+
+    # anti-fighter barrage
+    if not ground_combat:
+        att_afb = antifighter(att_units)
+        def_afb = antifighter(def_units)
+        att_units = assign_afb(att_units, def_afb)
+        def_units = assign_afb(def_units, att_afb)
 
     while att_units and def_units:
         att_units, def_units = combat_round(att_units, def_units)
@@ -115,8 +143,8 @@ def_inf = 2
 att_units = [units.infantry()] * att_inf + [units.dread()] * att_dreads
 def_units = [units.infantry()] * def_inf + [units.mech()] * def_mech
 
-att_units = [units.destroyer()] * 3
-def_units = [units.carrier()] + [units.fighter()] * 4
+att_units = [units.destroyer()] * 4
+def_units = [units.carrier(), units.fighter()] * 4
 
 outcomes = run_simulation(att_units, def_units, ground_combat=False)
 

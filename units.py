@@ -1,11 +1,12 @@
 class Unit:
-    def __init__(self, combat, sustain=False, ground=False, bombard=[], afb=[], cannon=[], shield=False):
+    def __init__(self, combat, sustain=False, ground=False, bombard=[], afb=[], cannon=[], shield=False, fighter=False):
         self.combat = combat
         self.sustain = sustain
         self.ground = ground
         self.bombard = bombard
         self.afb = afb
         self.cannon = cannon
+        self.fighter = fighter
 
     def __repr__(self):
         return "<Combat: %s, Sustain: %s>" % (self.combat, self.sustain)
@@ -48,11 +49,11 @@ def carrier():
 
 
 def fighter():
-    return Unit([9])
+    return Unit([9], fighter=True)
 
 
 def fighter2():
-    return Unit([8])
+    return Unit([8], fighter=True)
 
 
 def infantry():
