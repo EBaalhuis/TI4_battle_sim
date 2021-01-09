@@ -6,9 +6,10 @@ import units
 def generate_hits(units):
     result = 0
     for u in units:
-        x = random.randint(1, 10)
-        if x >= u.combat:
-            result += 1
+        for val in u.combat:
+            x = random.randint(1, 10)
+            if x >= val:
+                result += 1
     return result
 
 
@@ -41,9 +42,10 @@ def bombardment(units):
     result = 0
     for u in units:
         if u.bombard:
-            x = random.randint(1, 10)
-            if x >= u.bombard:
-                result += 1
+            for val in u.bombard:
+                x = random.randint(1, 10)
+                if x >= val:
+                    result += 1
     return result
 
 
@@ -74,7 +76,7 @@ def filter_ground(units):
         if u.ground:
             result.append(u)
         elif u.bombard:
-            u.combat = 99  # disable combat
+            u.combat = []  # disable combat
             result.append(u)
     return result
 
@@ -113,6 +115,9 @@ def_inf = 2
 att_units = [units.infantry()] * att_inf + [units.dread()] * att_dreads
 def_units = [units.infantry()] * def_inf + [units.mech()] * def_mech
 
-outcomes = run_simulation(att_units, def_units, ground_combat=True)
+att_units = [units.destroyer()] * 3
+def_units = [units.carrier()] + [units.fighter()] * 4
+
+outcomes = run_simulation(att_units, def_units, ground_combat=False)
 
 print_results(outcomes)
