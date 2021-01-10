@@ -1,11 +1,9 @@
 from flask import render_template, redirect
 from app import app
 import app.calculator as calculator
+from app.route_helpers import units_from_form, options_from_form
 from app.forms import InputForm
 from collections import defaultdict
-import requests
-import csv
-import time
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -13,27 +11,28 @@ import time
 def index():
     form = InputForm()
     if form.validate_on_submit():
-        attacker = defaultdict(lambda: 0)
-        defender = defaultdict(lambda: 0)
-        attacker["infantry"] = form.att_inf.data
-        defender["infantry"] = form.def_inf.data
-        print("form.att_inf.data: %s" % form.att_inf.data)
-        print("form.def_inf.data: %s" % form.def_inf.data)
-        options = {"ground_combat": True,
-                   "att_faction": "Arborec",
-                   "def_faction": "Barony"}
+        attacker, defender = units_from_form(form)
+        print(attacker)
+        print(defender)
+        options = options_from_form(form)
+        options["att_faction"] = "Arborec"
+        options["def_faction"] = "Letnev"
         outcomes = calculator.calculate(attacker, defender, options)
-        return render_template('index.html', outcomes=outcomes, form=form)
+        defaults = form
+        return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults)
 
     outcomes = [0, 0, 0]
-    return render_template('index.html', outcomes=outcomes, form=form)
+    defaults = defaultdict(lambda: {"data": "0"})
+    defaults["ground_combat"] = False
+    return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, test="att_flagship")
 
 
 # attacker = defaultdict(lambda: 0)
-# attacker["flagship"] = 1
+# attacker["flagship"] = ""
 # defender = defaultdict(lambda: 0)
 # defender["fighter"] = 4
 # options = {"ground_combat": False,
 #            "att_faction": "Arborec",
 #            "def_faction": "Barony"}
 # outcomes = calculator.calculate(attacker, defender, options)
+# print(outcomes)

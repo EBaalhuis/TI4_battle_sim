@@ -6,25 +6,180 @@
         <div class="col-sm-4 col-sm-offset-4">
             <form action="" method="post" novalidate>
                 {{ form.hidden_tag() }}
-                <p>
-                    {{ form.att_inf.label }}<br>
-                    {{ form.att_inf() }}
-                </p>
-                <p>
-                    {{ form.def_inf.label }}<br>
-                    {{ form.def_inf() }}
-                </p>
-                <p>{{ form.submit() }}</p>
+                <div class="form-group row">
+                    <div class="col-sm-4" align="center">
+                        <b>Attacker</b>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        <b>Defender</b>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input id="att_flagship" name="att_flagship" type="text" value="{{ defaults['att_flagship'].data }}">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        Flagship
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="def_flagship" name="def_flagship" type="text" value="{{ defaults['def_flagship'].data }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input id="att_warsun" name="att_warsun" type="text" value="{{ defaults['att_warsun'].data }}">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        War Sun
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="def_warsun" name="def_warsun" type="text" value="{{ defaults['def_warsun'].data }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input id="att_dread" name="att_dread" type="text" value="{{ defaults['att_dread'].data }}">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        Dreadnought
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="def_dread" name="def_dread" type="text" value="{{ defaults['def_dread'].data }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input id="att_cruiser" name="att_cruiser" type="text" value="{{ defaults['att_cruiser'].data }}">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        Cruiser
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="def_cruiser" name="def_cruiser" type="text" value="{{ defaults['def_cruiser'].data }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input id="att_carrier" name="att_carrier" type="text" value="{{ defaults['att_carrier'].data }}">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        Carrier
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="def_carrier" name="def_carrier" type="text" value="{{ defaults['def_carrier'].data }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input id="att_destroyer" name="att_destroyer" type="text" value="{{ defaults['att_destroyer'].data }}">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        Destroyer
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="def_destroyer" name="def_destroyer" type="text" value="{{ defaults['def_destroyer'].data }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input id="att_fighter" name="att_fighter" type="text" value="{{ defaults['att_fighter'].data }}">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        Fighter
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="def_fighter" name="def_fighter" type="text" value="{{ defaults['def_fighter'].data }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input id="att_mech" name="att_mech" type="text" value="{{ defaults['att_mech'].data }}">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        Mech
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="def_mech" name="def_mech" type="text" value="{{ defaults['def_mech'].data }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input id="att_infantry" name="att_infantry" type="text" value="{{ defaults['att_infantry'].data }}">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        Infantry
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="def_infantry" name="def_infantry" type="text" value="{{ defaults['def_infantry'].data }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input id="att_pds" name="att_pds" type="text" value="{{ defaults['att_pds'].data }}">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        PDS
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="def_pds" name="def_pds" type="text" value="{{ defaults['def_pds'].data }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4" align="center">
+                        <input id="ground_combat" name="ground_combat" type="checkbox">
+                        Ground combat
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4" align="center">
+                        <p>{{ form.submit() }}</p>
+                    </div>
+                </div>
+
             </form>
         </div>
     </div>
+
     <div class="row">
-        <h1><p class="text-center .display-4">Outcomes</p></h1>
-        <div class="col-sm-4 col-sm-offset-4">
-            <p>Attacker wins: {{ outcomes[1]}}%</p>
-            <p>Tie: {{ outcomes[0] }}%</p>
-            <p>Defender wins: {{ outcomes[2] }}%</p>
+        <div class="col-sm-2 col-sm-offset-5" align="center">
+            <h4>Attacker wins: {{ outcomes[1]}}%</h4>
+            <h4>Tie: {{ outcomes[0] }}%</h4>
+            <h4>Defender wins: {{ outcomes[2] }}%</h4>
         </div>
     </div>
+
+<!--    plus/minus button stuff -->
+<!--    <div class="col-sm-4 col-sm-offset-4">-->
+<!--        <div class="input-group">-->
+<!--            <span class="input-group-btn">-->
+<!--                <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">-->
+<!--                    <span class="glyphicon glyphicon-minus"></span>-->
+<!--                </button>-->
+<!--            </span>-->
+<!--            <input type="text" name="quant[1]" class="form-control input-number" value="0" min="0" max="99">-->
+<!--            <span class="input-group-btn">-->
+<!--                <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">-->
+<!--                    <span class="glyphicon glyphicon-plus"></span>-->
+<!--                </button>-->
+<!--            </span>-->
+<!--        </div>-->
+<!--    </div>-->
+
 </div>
 {% endblock %}

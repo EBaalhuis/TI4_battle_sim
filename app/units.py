@@ -11,6 +11,7 @@ class Unit:
         self.fighter = fighter
         self.pds = pds
         self.disable_shield = disable_shield
+        self.direct_hit_immune = direct_hit_immune
 
     def __repr__(self):
         return "<Combat: %s, Sustain: %s>" % (self.combat, self.sustain)
