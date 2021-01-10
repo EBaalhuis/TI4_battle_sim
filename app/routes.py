@@ -21,11 +21,11 @@ def index():
     return render_template('index.html', outcomes=outcomes)
 
 
-attacker = defaultdict(lambda: 0)
-attacker["flagship"] = 1
-defender = defaultdict(lambda: 0)
-defender["fighter"] = 4
-options = {"ground_combat": False,
-           "att_faction": "Arborec",
-           "def_faction": "Barony"}
-outcomes = calculator.calculate(attacker, defender, options)
+# attacker = defaultdict(lambda: 0)
+# attacker["flagship"] = 1
+# defender = defaultdict(lambda: 0)
+# defender["fighter"] = 4
+# options = {"ground_combat": False,
+#            "att_faction": "Arborec",
+#            "def_faction": "Barony"}
+# outcomes = calculator.calculate(attacker, defender, options)

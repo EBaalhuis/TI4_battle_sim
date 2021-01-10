@@ -82,6 +82,10 @@ def space_cannon(units):
     return result
 
 
+def filter_bombardment(units):
+    return list(filter(lambda x: x.ground, units))
+
+
 def iteration(att_units, def_units, ground_combat):
     # 0 - tie
     # 1 - attacker won
@@ -105,6 +109,7 @@ def iteration(att_units, def_units, ground_combat):
     if ground_combat:
         bombard_hits = bombardment(att_units)
         def_units = assign_hits(def_units, bombard_hits)
+        att_units = filter_bombardment(att_units)
 
     # space cannon defense
     if ground_combat:
@@ -146,7 +151,6 @@ def filter_ground(att_units, def_units):
         if u.ground:
             att_res.append(u)
         elif u.bombard and not shield:
-            u.combat = []  # disable combat
             att_res.append(u)
 
     for u in def_units:

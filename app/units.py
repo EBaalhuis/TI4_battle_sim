@@ -1,6 +1,6 @@
 class Unit:
     def __init__(self, combat, sustain=False, ground=False, bombard=[], afb=[], cannon=[], shield=False, fighter=False,
-                 pds=False, disable_shield=False):
+                 pds=False, disable_shield=False, direct_hit_immune=False):
         self.combat = combat
         self.sustain = sustain
         self.ground = ground
@@ -32,6 +32,13 @@ def dread(faction):
     return Unit([5], sustain=True, bombard=5)
 
 
+def dread2(faction):
+    if faction == "L1Z1X":
+        return Unit([4], sustain=True, bombard=4, direct_hit_immune=True)
+
+    return Unit([5], sustain=True, bombard=5, direct_hit_immune=True)
+
+
 def destroyer(faction):
     return Unit([9], afb=[9, 9])
 
@@ -52,6 +59,13 @@ def carrier(faction):
     return Unit([9])
 
 
+def carrier2(faction):
+    if faction == "Sol":
+        return Unit([9], sustain=True)
+
+    return Unit([9])
+
+
 def fighter(faction):
     return Unit([9], fighter=True)
 
@@ -61,14 +75,25 @@ def fighter2(faction):
 
 
 def infantry(faction):
+    if faction == "Sol":
+        return Unit([7], ground=True)
+
     return Unit([8], ground=True)
 
 
 def infantry2(faction):
+    if faction == "Sol":
+        return Unit([6], ground=True)
+
     return Unit([7], ground=True)
 
 
 def mech(faction):
+    if faction == "Arborec":
+        return Unit([6], sustain=True, ground=True, shield=True)
+    if faction == "L1Z1X":
+        return Unit([6], sustain=True, ground=True, bombard=[8])
+
     return Unit([6], sustain=True, ground=True)
 
 
