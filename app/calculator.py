@@ -194,7 +194,7 @@ def parse_units(unit_dict, faction):
            [units.pds(faction)] * unit_dict["pds"] + \
            [units.carrier(faction)] * unit_dict["carrier"] + \
            [units.fighter(faction)] * unit_dict["fighter"] + \
-           [units.infantry(faction)] * unit_dict["inf"] + \
+           [units.infantry(faction)] * unit_dict["infantry"] + \
            [units.mech(faction)] * unit_dict["mech"]
 
 
