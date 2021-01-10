@@ -16,59 +16,64 @@ class Unit:
         return "<Combat: %s, Sustain: %s>" % (self.combat, self.sustain)
 
 
-def warsun():
-    return Unit([3, 3, 3], sustain=True, bombard=[3, 3, 3], disable_shied=True)
+def flagship(faction):
+    if faction == "Arborec":
+        return Unit([7, 7], sustain=True)
 
 
-def cruiser():
+def warsun(faction):
+    return Unit([3, 3, 3], sustain=True, bombard=[3, 3, 3], disable_shield=True)
+
+
+def cruiser(faction):
     return Unit([7])
 
 
-def cruiser2():
+def cruiser2(faction):
     return Unit([6])
 
 
-def dread():
+def dread(faction):
     return Unit([5], sustain=True, bombard=5)
 
 
-def destroyer():
+def destroyer(faction):
     return Unit([9], afb=[9, 9])
 
 
-def destroyer2():
+def destroyer2(faction):
     return Unit([8], afb=[6, 6, 6])
 
 
-def pds():
+def pds(faction):
     return Unit([], cannon=[6], shield=True, pds=True)
 
 
-def pds2():
+def pds2(faction):
     return Unit([], cannon=[5], shield=True, pds=True)
 
 
-def carrier():
+def carrier(faction):
     return Unit([9])
 
 
-def fighter():
+def fighter(faction):
     return Unit([9], fighter=True)
 
 
-def fighter2():
+def fighter2(faction):
     return Unit([8], fighter=True)
 
 
-def infantry():
+def infantry(faction):
     return Unit([8], ground=True)
 
 
-def infantry2():
+def infantry2(faction):
     return Unit([7], ground=True)
 
 
-def mech():
+def mech(faction):
     return Unit([6], sustain=True, ground=True)
 
 

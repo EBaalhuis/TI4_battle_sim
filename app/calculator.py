@@ -181,9 +181,22 @@ def print_results(outcomes, it=IT):
     print("Defender wins: %.1f%%" % (outcomes[2] / it * 100))
 
 
+def parse_units(unit_dict, faction):
+    return [units.flagship(faction)] * unit_dict["flagship"] + \
+           [units.warsun(faction)] * unit_dict["warsun"] + \
+           [units.cruiser(faction)] * unit_dict["cruiser"] + \
+           [units.dread(faction)] * unit_dict["dread"] + \
+           [units.destroyer(faction)] * unit_dict["destroyer"] + \
+           [units.pds(faction)] * unit_dict["pds"] + \
+           [units.carrier(faction)] * unit_dict["carrier"] + \
+           [units.fighter(faction)] * unit_dict["fighter"] + \
+           [units.infantry(faction)] * unit_dict["inf"] + \
+           [units.mech(faction)] * unit_dict["mech"]
+
+
 def calculate(attacker, defender, options):
-    att_units = [units.infantry()] * attacker["inf"]
-    def_units = [units.infantry()] * defender["inf"]
+    att_units = parse_units(attacker, options["att_faction"])
+    def_units = parse_units(defender, options["def_faction"])
 
     outcomes = run_simulation(att_units, def_units, ground_combat=options["ground_combat"])
 
