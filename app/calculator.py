@@ -1,6 +1,9 @@
 import random
 import copy
-import units
+import app.units as units
+
+
+IT = 10000
 
 
 def generate_hits(units):
@@ -157,7 +160,7 @@ def filter_space(att_units, def_units):
     return list(filter(lambda x: not x.ground, att_units)), list(filter(lambda x: not x.ground, def_units))
 
 
-def run_simulation(att_units, def_units, it=10000, ground_combat=False):
+def run_simulation(att_units, def_units, it=IT, ground_combat=False):
     outcomes = [0, 0, 0]
 
     if ground_combat:
@@ -172,22 +175,16 @@ def run_simulation(att_units, def_units, it=10000, ground_combat=False):
     return outcomes
 
 
-def print_results(outcomes, it=10000):
+def print_results(outcomes, it=IT):
     print("Attacker wins: %.1f%%" % (outcomes[1] / it * 100))
     print("Tie: %.1f%%" % (outcomes[0] / it * 100))
     print("Defender wins: %.1f%%" % (outcomes[2] / it * 100))
 
 
-att_inf = 2
-att_dreads = 0
-def_mech = 0
-def_inf = 2
-att_units = [units.infantry()] * att_inf + [units.dread()] * att_dreads
-def_units = [units.infantry()] * def_inf + [units.mech()] * def_mech
+def calculate(attacker, defender, options):
+    att_units = [units.infantry()] * attacker["inf"]
+    def_units = [units.infantry()] * defender["inf"]
 
-att_units = [units.infantry()] * 1
-def_units = [units.pds()] * 1
+    outcomes = run_simulation(att_units, def_units, ground_combat=options["ground_combat"])
 
-outcomes = run_simulation(att_units, def_units, ground_combat=True)
-
-print_results(outcomes)
+    return list(map(lambda x: round(x/IT*100, 1), outcomes))
