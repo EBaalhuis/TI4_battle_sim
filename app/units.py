@@ -16,11 +16,6 @@ class Unit:
         return "<Combat: %s, Sustain: %s>" % (self.combat, self.sustain)
 
 
-def flagship(faction):
-    if faction == "Arborec":
-        return Unit([7, 7], sustain=True)
-
-
 def warsun(faction):
     return Unit([3, 3, 3], sustain=True, bombard=[3, 3, 3], disable_shield=True)
 
@@ -77,5 +72,57 @@ def mech(faction):
     return Unit([6], sustain=True, ground=True)
 
 
+def flagship(faction):
+    if faction == "Arborec":
+        return Unit([7, 7], sustain=True)
+    if faction == "Letnev":
+        return Unit([5, 5], sustain=True, bombard=[5, 5, 5], disable_shield=True)
+    if faction == "Saar":
+        return Unit([5, 5], sustain=True, afb=[6, 6, 6, 6])
+    if faction == "Muaat":
+        return Unit([5, 5], sustain=True)
+    if faction == "Hacan":
+        return Unit([7, 7], sustain=True)
+    if faction == "Sol":
+        return Unit([5, 5], sustain=True)
+    if faction == "Creuss":
+        return Unit([5], sustain=True)
+    if faction == "L1Z1X":
+        return Unit([5, 5], sustain=True)
+    if faction == "Mentak":
+        return Unit([7, 7], sustain=True)
+    if faction == "Naalu":
+        return Unit([9, 9], sustain=True)
+    if faction == "Nekro":
+        return Unit([9, 9], sustain=True)
+    if faction == "Sardakk":
+        return Unit([5, 5], sustain=True)
+    if faction == "Jol-Nar":
+        return Unit([7, 7], sustain=True)
+    if faction == "Winnu":
+        return Unit([7], sustain=True)
+    if faction == "Xxcha":
+        return Unit([7, 7], sustain=True, cannon=[5, 5, 5])
+    if faction == "Yin":
+        return Unit([9, 9], sustain=True)
+    if faction == "Yssaril":
+        return Unit([5, 5], sustain=True)
+    if faction == "Argent":
+        return Unit([7, 7], sustain=True)
+    if faction == "Empyrean":
+        return Unit([5, 5], sustain=True)
+    if faction == "Mahact":
+        return Unit([5, 5], sustain=True)
+    if faction == "Naaz-Rokha":
+        return Unit([9, 9], sustain=True)
+    if faction == "Nomad":
+        return Unit([7, 7], sustain=True, afb=[8, 8, 8])
+    if faction == "Titans":
+        return Unit([7, 7], sustain=True)
+    if faction == "Vuil'Raith":
+        return Unit([5, 5], sustain=True, bombard=[5])
 
 
+def flagship2(faction):
+    if faction == "Nomad":
+        return Unit([5, 5], sustain=True, afb=[5, 5, 5])
