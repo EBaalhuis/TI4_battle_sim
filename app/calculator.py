@@ -1,7 +1,7 @@
 import random
 import copy
 import app.units as units
-from app.factions import sardakk_mechs
+from app.factions import *
 
 
 IT = 10000
@@ -136,7 +136,7 @@ def iteration(att_units, def_units, options):
         return 1
 
 
-def shield_active(att_units, def_units):
+def shield_active(att_units, def_units, options):
     for u in att_units:
         if u.disable_shield:
             return False
@@ -148,10 +148,10 @@ def shield_active(att_units, def_units):
     return False
 
 
-def filter_ground(att_units, def_units):
+def filter_ground(att_units, def_units, options):
     att_res, def_res = [], []
 
-    shield = shield_active(att_units, def_units)
+    shield = shield_active(att_units, def_units, options)
     for u in att_units:
         if u.ground:
             att_res.append(u)
@@ -165,7 +165,7 @@ def filter_ground(att_units, def_units):
     return att_res, def_res
 
 
-def filter_space(att_units, def_units):
+def filter_space(att_units, def_units, options):
     return list(filter(lambda x: not x.ground, att_units)), list(filter(lambda x: not x.ground, def_units))
 
 
@@ -173,9 +173,9 @@ def run_simulation(att_units, def_units, options, it=IT):
     outcomes = [0, 0, 0]
 
     if options["ground_combat"]:
-        att_units, def_units = filter_ground(att_units, def_units)
+        att_units, def_units = filter_ground(att_units, def_units, options)
     else:
-        att_units, def_units = filter_space(att_units, def_units)
+        att_units, def_units = filter_space(att_units, def_units, options)
 
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), options)
