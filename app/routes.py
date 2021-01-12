@@ -12,10 +12,8 @@ def index():
     form = InputForm()
     if form.validate_on_submit():
         attacker, defender = units_from_form(form)
-        print(attacker)
-        print(defender)
         options = options_from_form(form)
-        options["att_faction"] = "Arborec"
+        options["att_faction"] = "Sardakk"
         options["def_faction"] = "Letnev"
         outcomes = calculator.calculate(attacker, defender, options)
         defaults = form
