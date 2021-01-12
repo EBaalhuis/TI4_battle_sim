@@ -7,6 +7,10 @@ from app.factions import *
 IT = 10000
 
 
+def has_flagship(units):
+    return len(list(filter(lambda x: x.name == "flagship", units))) > 0
+
+
 def generate_hits(units, faction):
     result = 0
     for u in units:
@@ -19,6 +23,12 @@ def generate_hits(units, faction):
             if faction == "Jol-Nar" and u.name == "flagship":
                 if x >= 9:
                     result += 2
+
+            # Sardakk flagship
+            if faction == "Sardakk" and has_flagship(units) and u.name != "flagship":
+                if x == val - 1:
+                    result += 1
+
     return result
 
 
