@@ -1,3 +1,13 @@
+def argent_flagship(att_units, def_units, options):
+    if options["att_faction"] == "Argent":
+        def_units = list(filter(lambda x: x.name != "pds", def_units))
+
+    if options["def_faction"] == "Argent":
+        att_units = list(filter(lambda x: x.name != "pds", att_units))
+
+    return att_units, def_units
+
+
 def sardakk_mechs(att_units, def_units, att_hits, def_hits, options):
     if not options["ground_combat"]:
         return att_hits, def_hits
