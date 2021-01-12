@@ -195,8 +195,14 @@ def run_simulation(att_units, def_units, options, it=IT):
         att_units, def_units = filter_ground(att_units, def_units, options)
     else:
         att_units, def_units = filter_space(att_units, def_units, options)
+
+        # Argent flagship
         if options["att_faction"] == "Argent" or options["def_faction"] == "Argent":
             att_units, def_units = argent_flagship(att_units, def_units, options)
+
+        # Mentak flagship
+        if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
+            att_units, def_units = mentak_flagship(att_units, def_units, options)
 
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), options)

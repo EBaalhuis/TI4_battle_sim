@@ -10,6 +10,18 @@ def argent_flagship(att_units, def_units, options):
     return att_units, def_units
 
 
+def mentak_flagship(att_units, def_units, options):
+    if options["att_faction"] == "Mentak":
+        for u in def_units:
+            u.sustain = False
+
+    if options["def_faction"] == "Mentak":
+        for u in att_units:
+            u.sustain = False
+
+    return att_units, def_units
+
+
 def sardakk_mechs(att_units, def_units, att_hits, def_hits, options):
     if not options["ground_combat"]:
         return att_hits, def_hits
