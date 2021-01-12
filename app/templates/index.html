@@ -6,7 +6,7 @@
         <div class="col-sm-4 col-sm-offset-4">
             <form action="" method="post" novalidate>
                 {{ form.hidden_tag() }}
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4" align="center">
                         <b>Attacker</b>
                     </div>
@@ -17,7 +17,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4" align="center">
                         {{ form.att_faction()}}
                     </div>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4">
                         <input id="att_flagship" name="att_flagship" type="text" value="{{ defaults['att_flagship'].data }}">
                     </div>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4">
                         <input id="att_warsun" name="att_warsun" type="text" value="{{ defaults['att_warsun'].data }}">
                     </div>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4">
                         <input id="att_dread" name="att_dread" type="text" value="{{ defaults['att_dread'].data }}">
                     </div>
@@ -64,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4">
                         <input id="att_cruiser" name="att_cruiser" type="text" value="{{ defaults['att_cruiser'].data }}">
                     </div>
@@ -76,7 +76,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4">
                         <input id="att_carrier" name="att_carrier" type="text" value="{{ defaults['att_carrier'].data }}">
                     </div>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4">
                         <input id="att_destroyer" name="att_destroyer" type="text" value="{{ defaults['att_destroyer'].data }}">
                     </div>
@@ -100,7 +100,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4">
                         <input id="att_fighter" name="att_fighter" type="text" value="{{ defaults['att_fighter'].data }}">
                     </div>
@@ -112,7 +112,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4">
                         <input id="att_mech" name="att_mech" type="text" value="{{ defaults['att_mech'].data }}">
                     </div>
@@ -124,7 +124,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4">
                         <input id="att_infantry" name="att_infantry" type="text" value="{{ defaults['att_infantry'].data }}">
                     </div>
@@ -136,7 +136,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4">
                         <input id="att_pds" name="att_pds" type="text" value="{{ defaults['att_pds'].data }}">
                     </div>
@@ -148,30 +148,121 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4"></div>
                     <div class="col-sm-4" align="center">
                         <input id="ground_combat" name="ground_combat" type="checkbox">
                         Ground combat
                     </div>
+                    <div class="col-sm-4"></div>
                 </div>
 
-                <div class="form-group row">
+                <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4"></div>
                     <div class="col-sm-4" align="center">
                         <p>{{ form.submit() }}</p>
                     </div>
+                    <div class="col-sm-4"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col" align="center">
+                        <h4>Attacker wins: {{ outcomes[1]}}%</h4>
+                        <h4>Tie: {{ outcomes[0] }}%</h4>
+                        <h4>Defender wins: {{ outcomes[2] }}%</h4>
+                    </div>
+                </div>
+
+                <!-- Technology checkboxes -->
+                <div class="o-grid o-grid--no-gutter center-grid row" align="center">
+                    <b>Technologies</b>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        Antimass Deflectors <input id="att_antimass" type="checkbox">
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_antimass" type="checkbox"> Antimass Deflectors
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        Graviton Laser System <input id="att_graviton" type="checkbox">
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_graviton" type="checkbox"> Graviton Laser System
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        Plasma Scoring <input id="att_plasma" type="checkbox">
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_plasma" type="checkbox"> Plasma Scoring
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_magen" type="checkbox"> Magen Defense Grid
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        X-89 Bacterial Weapon Ω <input id="att_bacterial" type="checkbox">
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_magen_o" type="checkbox"> Magen Defense Grid Ω
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        Duranium Armor <input id="att_duranium" type="checkbox">
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_duranium" type="checkbox"> Duranium Armor
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        Assault Cannon <input id="att_assault" type="checkbox">
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_assault" type="checkbox"> Assault Cannon
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row" align="center">
+                    <b>Action Cards</b>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        Morale Boost 1st round <input id="att_morale" type="checkbox">
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_morale" type="checkbox"> Morale Boost 1st round
+                    </div>
                 </div>
 
             </form>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-2 col-sm-offset-5" align="center">
-            <h4>Attacker wins: {{ outcomes[1]}}%</h4>
-            <h4>Tie: {{ outcomes[0] }}%</h4>
-            <h4>Defender wins: {{ outcomes[2] }}%</h4>
         </div>
     </div>
 

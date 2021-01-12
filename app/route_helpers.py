@@ -2,10 +2,13 @@ from collections import defaultdict
 
 
 def options_from_form(form):
+    labels = ["ground_combat", "att_faction", "def_faction", "att_antimass", "def_antimass", "att_graviton",
+              "def_graviton", "att_plasma", "def_plasma", "def_magen", "def_magen_o", "att_bacterial", "att_duranium",
+              "def_duranium", "att_assault", "def_assault"]
     options = {}
-    options["ground_combat"] = form.ground_combat.data
-    options["att_faction"] = form.att_faction.data
-    options["def_faction"] = form.def_faction.data
+
+    for label in labels:
+        options[label] = form[label].data
 
     return options
 

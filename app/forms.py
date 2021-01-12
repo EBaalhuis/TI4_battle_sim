@@ -1,6 +1,5 @@
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, SubmitField, BooleanField, SelectField
-import os
 
 
 class InputForm(FlaskForm):
@@ -43,3 +42,22 @@ class InputForm(FlaskForm):
     ground_combat = BooleanField("Ground Combat", default=False)
 
     submit = SubmitField("Calculate")
+
+    # Technologies
+    att_antimass = BooleanField("Antimass Deflectors", default=False)
+    def_antimass = BooleanField("Antimass Deflectors", default=False)
+    att_graviton = BooleanField("Graviton Laser System", default=False)
+    def_graviton = BooleanField("Graviton Laser System", default=False)
+    att_plasma = BooleanField("Plasma Scoring", default=False)
+    def_plasma = BooleanField("Plasma Scoring", default=False)
+    def_magen = BooleanField("Magen Defense Grid", default=False)
+    def_magen_o = BooleanField("Magen Defense Grid Ω", default=False)
+    att_bacterial = BooleanField("X-89 Bacterial Weapon Ω", default=False)
+    att_duranium = BooleanField("Duranium Armor", default=False)
+    def_duranium = BooleanField("Duranium Armor", default=False)
+    att_assault = BooleanField("Assault Cannon", default=False)
+    def_assault = BooleanField("Assault Cannon", default=False)
+
+    # Action Cards
+    att_morale = BooleanField("Morale Boost 1st Round", default=False)
+    def_morale = BooleanField("Morale Boost 1st Round", default=False)
