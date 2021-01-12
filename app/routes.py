@@ -13,13 +13,26 @@ def index():
     if form.validate_on_submit():
         attacker, defender = units_from_form(form)
         options = options_from_form(form)
+        print(form["att_antimass"])
+        print(form["def_antimass"])
+        print(options["att_antimass"])
+        print(options["def_antimass"])
+        print(form["att_graviton"])
+        print(form["def_graviton"])
+        print(options["att_graviton"])
+        print(options["def_graviton"])
         outcomes = calculator.calculate(attacker, defender, options)
         defaults = form
         return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults)
-    print(form.validate_on_submit())
     outcomes = [0, 0, 0]
+
     defaults = defaultdict(lambda: {"data": "0"})
-    defaults["ground_combat"] = False
+    labels = ["ground_combat", "att_faction", "def_faction", "att_antimass", "def_antimass", "att_graviton",
+              "def_graviton", "att_plasma", "def_plasma", "def_magen", "def_magen_o", "att_bacterial", "att_duranium",
+              "def_duranium", "att_assault", "def_assault"]
+    for label in labels:
+        defaults[label] = False
+
     return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, test="att_flagship")
 
 

@@ -47,6 +47,40 @@ def assign_hits(units, hits):
     return units
 
 
+def assign_fighters_only(units, hits):
+    for u in units:
+        if hits == 0:
+            return units
+        if u.fighter:
+            units.remove(u)
+            hits -= 1
+    return units
+
+
+def assign_nonfighters_first(units, hits):
+    for u in units:
+        if hits == 0:
+            return units
+        if u.sustain:
+            u.sustain = False
+            hits -= 1
+
+    for u in units:
+        if hits == 0:
+            return units
+        if u.name != "fighter":
+            units.remove(u)
+            hits -= 1
+
+    for u in units:
+        if hits == 0:
+            return units
+        units.remove(u)
+        hits -= 1
+
+    return units
+
+
 def combat_round(att_units, def_units, options):
     # Winnu flagship
     if options["att_faction"] == "Winnu" or options["def_faction"] == "Winnu":
@@ -86,16 +120,6 @@ def antifighter(units):
     return result
 
 
-def assign_afb(units, hits):
-    for u in units:
-        if hits == 0:
-            return units
-        if u.fighter:
-            units.remove(u)
-            hits -= 1
-    return units
-
-
 def space_cannon(units):
     result = 0
     for u in units:
@@ -119,15 +143,21 @@ def iteration(att_units, def_units, options):
     if not options["ground_combat"]:
         att_cannon_hits = space_cannon(att_units)
         def_cannon_hits = space_cannon(def_units)
-        att_units = assign_hits(att_units, def_cannon_hits)
-        def_units = assign_hits(def_units, att_cannon_hits)
+        if options["def_graviton"]:
+            att_units = assign_nonfighters_first(att_units, def_cannon_hits)
+        else:
+            att_units = assign_hits(att_units, def_cannon_hits)
+        if options["att_graviton"]:
+            def_units = assign_nonfighters_first(def_units, att_cannon_hits)
+        else:
+            def_units = assign_hits(def_units, att_cannon_hits)
 
     # anti-fighter barrage
     if not options["ground_combat"]:
-        att_afb = antifighter(att_units)
-        def_afb = antifighter(def_units)
-        att_units = assign_afb(att_units, def_afb)
-        def_units = assign_afb(def_units, att_afb)
+        att_afb_hits = antifighter(att_units)
+        def_afb_hits = antifighter(def_units)
+        att_units = assign_fighters_only(att_units, def_afb_hits)
+        def_units = assign_fighters_only(def_units, att_afb_hits)
 
     # bombardment
     if options["ground_combat"]:
@@ -204,6 +234,14 @@ def run_simulation(att_units, def_units, options, it=IT):
         if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
             att_units, def_units = mentak_flagship(att_units, def_units, options)
 
+    # Antimass Deflectors
+    if options["att_antimass"]:
+        for u in def_units:
+            u.cannon = [x+1 for x in u.cannon]
+    if options["def_antimass"]:
+        for u in att_units:
+            u.cannon = [x + 1 for x in u.cannon]
+
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), options)
         outcomes[res] += 1
@@ -218,16 +256,17 @@ def print_results(outcomes, it=IT):
 
 
 def parse_units(unit_dict, faction):
-    return [units.fighter(faction)] * unit_dict["fighter"] + \
-           [units.carrier(faction)] * unit_dict["carrier"] + \
-           [units.destroyer(faction)] * unit_dict["destroyer"] + \
-           [units.cruiser(faction)] * unit_dict["cruiser"] + \
-           [units.dread(faction)] * unit_dict["dread"] + \
-           [units.flagship(faction)] * unit_dict["flagship"] + \
-           [units.warsun(faction)] * unit_dict["warsun"] + \
-           [units.pds(faction)] * unit_dict["pds"] + \
-           [units.infantry(faction)] * unit_dict["infantry"] + \
-           [units.mech(faction)] * unit_dict["mech"]
+
+    return [units.fighter(faction) for i in range(unit_dict["fighter"])] + \
+           [units.carrier(faction) for i in range(unit_dict["carrier"])] + \
+           [units.destroyer(faction) for i in range(unit_dict["destroyer"])] + \
+           [units.cruiser(faction) for i in range(unit_dict["cruiser"])] + \
+           [units.dread(faction) for i in range(unit_dict["dread"])] + \
+           [units.flagship(faction) for i in range(unit_dict["flagship"])] + \
+           [units.warsun(faction) for i in range(unit_dict["warsun"])] + \
+           [units.pds(faction) for i in range(unit_dict["pds"])] + \
+           [units.infantry(faction) for i in range(unit_dict["infantry"])] + \
+           [units.mech(faction) for i in range(unit_dict["mech"])]
 
 
 def calculate(attacker, defender, options):
