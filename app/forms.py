@@ -1,8 +1,15 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, SubmitField, BooleanField
+from wtforms import IntegerField, SubmitField, BooleanField, SelectField
+import os
 
 
 class InputForm(FlaskForm):
+    factions = ["Arborec", "Argent", "Creuss", "Empyrean", "Hacan", "Jol-Nar", "L1Z1X", "Letnev", "Mahact", "Mentak",
+                "Muaat", "Naalu", "Naaz-Rokha", "Nekro", "Nomad", "Saar", "Sardakk", "Sol", "Titans", "Vuil'Raith",
+                "Winnu", "Xxcha", "Yin", "Yssaril"]
+    att_faction = SelectField("Attacker faction", choices=factions)
+    def_faction = SelectField("Defender faction", choices=factions)
+
     att_flagship = IntegerField("Attacker Flagship", default=0)
     def_flagship = IntegerField("Defender Flagship", default=0)
 

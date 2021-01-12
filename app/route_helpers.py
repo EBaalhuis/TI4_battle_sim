@@ -4,6 +4,8 @@ from collections import defaultdict
 def options_from_form(form):
     options = {}
     options["ground_combat"] = form.ground_combat.data
+    options["att_faction"] = form.att_faction.data
+    options["def_faction"] = form.def_faction.data
 
     return options
 

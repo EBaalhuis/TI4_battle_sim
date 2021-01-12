@@ -13,12 +13,10 @@ def index():
     if form.validate_on_submit():
         attacker, defender = units_from_form(form)
         options = options_from_form(form)
-        options["att_faction"] = "Sardakk"
-        options["def_faction"] = "Letnev"
         outcomes = calculator.calculate(attacker, defender, options)
         defaults = form
         return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults)
-
+    print(form.validate_on_submit())
     outcomes = [0, 0, 0]
     defaults = defaultdict(lambda: {"data": "0"})
     defaults["ground_combat"] = False
@@ -26,7 +24,7 @@ def index():
 
 
 # attacker = defaultdict(lambda: 0)
-# attacker["flagship"] = ""
+# attacker["flagship"] = 1
 # defender = defaultdict(lambda: 0)
 # defender["fighter"] = 4
 # options = {"ground_combat": False,

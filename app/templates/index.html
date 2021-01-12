@@ -18,6 +18,17 @@
                 </div>
 
                 <div class="form-group row">
+                    <div class="col-sm-4" align="center">
+                        {{ form.att_faction()}}
+                    </div>
+                    <div class="col-sm-4" align="center">
+                    </div>
+                    <div class="col-sm-4" align="center">
+                        {{ form.def_faction()}}
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <div class="col-sm-4">
                         <input id="att_flagship" name="att_flagship" type="text" value="{{ defaults['att_flagship'].data }}">
                     </div>
