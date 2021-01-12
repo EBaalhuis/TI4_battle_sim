@@ -1,9 +1,11 @@
 def argent_flagship(att_units, def_units, options):
     if options["att_faction"] == "Argent":
-        def_units = list(filter(lambda x: x.name != "pds", def_units))
+        if len(list(filter(lambda x: x.name == "flagship", att_units))) > 0:
+            def_units = list(filter(lambda x: x.name != "pds", def_units))
 
     if options["def_faction"] == "Argent":
-        att_units = list(filter(lambda x: x.name != "pds", att_units))
+        if len(list(filter(lambda x: x.name == "flagship", def_units))) > 0:
+            att_units = list(filter(lambda x: x.name != "pds", att_units))
 
     return att_units, def_units
 
