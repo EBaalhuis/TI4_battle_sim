@@ -33,6 +33,10 @@ def assign_hits(units, hits):
 
 
 def combat_round(att_units, def_units, options):
+    # Winnu flagship
+    if options["att_faction"] == "Winnu" or options["def_faction"] == "Winnu":
+        att_units, def_units = winnu_flagship(att_units, def_units, options)
+
     att_hits = generate_hits(att_units)
     def_hits = generate_hits(def_units)
 
