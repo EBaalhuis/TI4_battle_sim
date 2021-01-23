@@ -43,17 +43,17 @@ def dread(faction):
     if faction == "Sardakk":
         return Unit("dread", [4], sustain=True, bombard=[4, 4])
 
-    return Unit("dread", [5], sustain=True, bombard=5)
+    return Unit("dread", [5], sustain=True, bombard=[5])
 
 
 def dread2(faction):
     if faction == "L1Z1X":
-        return Unit("dread2", [4], sustain=True, bombard=4, direct_hit_immune=True)
+        return Unit("dread2", [4], sustain=True, bombard=[4], direct_hit_immune=True)
 
     if faction == "Sardakk":
         return Unit("dread", [4], sustain=True, bombard=[4, 4], direct_hit_immune=True)
 
-    return Unit("dread", [5], sustain=True, bombard=5, direct_hit_immune=True)
+    return Unit("dread", [5], sustain=True, bombard=[5], direct_hit_immune=True)
 
 
 def destroyer(faction):
