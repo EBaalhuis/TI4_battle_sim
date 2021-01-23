@@ -47,6 +47,9 @@ def cruiser2(faction):
     if faction == "Jol-Nar":
         return Unit("cruiser", [7])
 
+    if faction == "Titans":
+        return Unit("cruiser", [6], sustain=True)
+
     return Unit("cruiser", [6])
 
 
@@ -80,6 +83,9 @@ def destroyer(faction):
     if faction == "Jol-Nar":
         return Unit("destroyer", [10], afb=[9, 9])
 
+    if faction == "Argent":
+        return Unit("destroyer", [8], afb=[9, 9])
+
     return Unit("destroyer", [9], afb=[9, 9])
 
 
@@ -89,6 +95,9 @@ def destroyer2(faction):
 
     if faction == "Jol-Nar":
         return Unit("destroyer", [9], afb=[6, 6, 6])
+
+    if faction == "Argent":
+        return Unit("destroyer", [7], afb=[6, 6, 6])
 
     return Unit("destroyer", [8], afb=[6, 6, 6])
 
