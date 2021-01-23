@@ -192,8 +192,14 @@ def iteration(att_units, def_units, options):
     if not options["ground_combat"]:
         att_afb_hits = antifighter(att_units)
         def_afb_hits = antifighter(def_units)
-        att_units = assign_fighters_only(att_units, def_afb_hits)
-        def_units = assign_fighters_only(def_units, att_afb_hits)
+        if options["def_waylay"]:
+            att_units = assign_hits(att_units, def_afb_hits)
+        else:
+            att_units = assign_fighters_only(att_units, def_afb_hits)
+        if options["att_waylay"]:
+            def_units = assign_hits(def_units, att_afb_hits)
+        else:
+            def_units = assign_fighters_only(def_units, att_afb_hits)
 
     # bombardment
     if options["ground_combat"]:
