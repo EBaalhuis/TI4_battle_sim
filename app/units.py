@@ -101,11 +101,17 @@ def fighter(faction):
     if faction == "Sardakk":
         return Unit("fighter", [8], fighter=True)
 
+    if faction == "Naalu":
+        return Unit("fighter", [8], fighter=True)
+
     return Unit("fighter", [9], fighter=True)
 
 
 def fighter2(faction):
     if faction == "Sardakk":
+        return Unit("fighter", [7], fighter=True)
+
+    if faction == "Naalu":
         return Unit("fighter", [7], fighter=True)
 
     return Unit("fighter", [8], fighter=True)
