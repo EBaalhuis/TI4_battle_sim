@@ -214,8 +214,8 @@ def iteration(att_units, def_units, options):
         att_units = magen_omega(att_units)
 
     # remove PDS as they do not participate in combat (cannot be assigned hits)
-    att_units = list(filter(lambda x: not x.pds, att_units))
-    def_units = list(filter(lambda x: not x.pds, def_units))
+    att_units = list(filter(lambda x: not x.pds or x.ground, att_units))
+    def_units = list(filter(lambda x: not x.pds or x.ground, def_units))
 
     first_round = True
     while att_units and def_units:
@@ -303,16 +303,16 @@ def print_results(outcomes, it=IT):
 
 def parse_units(unit_dict, faction):
 
-    return [units.fighter(faction) for i in range(unit_dict["fighter"])] + \
-           [units.carrier(faction) for i in range(unit_dict["carrier"])] + \
-           [units.destroyer(faction) for i in range(unit_dict["destroyer"])] + \
-           [units.cruiser(faction) for i in range(unit_dict["cruiser"])] + \
-           [units.dread(faction) for i in range(unit_dict["dread"])] + \
-           [units.flagship(faction) for i in range(unit_dict["flagship"])] + \
-           [units.warsun(faction) for i in range(unit_dict["warsun"])] + \
-           [units.pds(faction) for i in range(unit_dict["pds"])] + \
-           [units.infantry(faction) for i in range(unit_dict["infantry"])] + \
-           [units.mech(faction) for i in range(unit_dict["mech"])]
+    return [units.fighter(faction) for _ in range(unit_dict["fighter"])] + \
+           [units.carrier(faction) for _ in range(unit_dict["carrier"])] + \
+           [units.destroyer(faction) for _ in range(unit_dict["destroyer"])] + \
+           [units.cruiser(faction) for _ in range(unit_dict["cruiser"])] + \
+           [units.dread(faction) for _ in range(unit_dict["dread"])] + \
+           [units.flagship(faction) for _ in range(unit_dict["flagship"])] + \
+           [units.warsun(faction) for _ in range(unit_dict["warsun"])] + \
+           [units.infantry(faction) for _ in range(unit_dict["infantry"])] + \
+           [units.mech(faction) for _ in range(unit_dict["mech"])] + \
+           [units.pds(faction) for _ in range(unit_dict["pds"])]
 
 
 def calculate(attacker, defender, options):

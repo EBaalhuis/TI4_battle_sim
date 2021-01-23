@@ -103,10 +103,16 @@ def destroyer2(faction):
 
 
 def pds(faction):
+    if faction == "Titans":
+        return Unit("pds", [7], cannon=[6], shield=True, pds=True, sustain=True, ground=True)
+
     return Unit("pds", [], cannon=[6], shield=True, pds=True)
 
 
 def pds2(faction):
+    if faction == "Titans":
+        return Unit("pds", [6], cannon=[5], shield=True, pds=True, sustain=True, ground=True)
+
     return Unit("pds", [], cannon=[5], shield=True, pds=True)
 
 
