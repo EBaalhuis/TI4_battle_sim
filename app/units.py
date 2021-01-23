@@ -24,12 +24,18 @@ def warsun(faction):
     if faction == "Sardakk":
         return Unit("warsun", [2, 2, 2], sustain=True, bombard=[3, 3, 3], disable_shield=True)
 
+    if faction == "Jol-Nar":
+        return Unit("warsun", [4, 4, 4], sustain=True, bombard=[3, 3, 3], disable_shield=True)
+
     return Unit("warsun", [3, 3, 3], sustain=True, bombard=[3, 3, 3], disable_shield=True)
 
 
 def cruiser(faction):
     if faction == "Sardakk":
         return Unit("cruiser", [6])
+
+    if faction == "Jol-Nar":
+        return Unit("cruiser", [8])
 
     return Unit("cruiser", [7])
 
@@ -38,6 +44,9 @@ def cruiser2(faction):
     if faction == "Sardakk":
         return Unit("cruiser", [5])
 
+    if faction == "Jol-Nar":
+        return Unit("cruiser", [7])
+
     return Unit("cruiser", [6])
 
 
@@ -45,15 +54,21 @@ def dread(faction):
     if faction == "Sardakk":
         return Unit("dread", [4], sustain=True, bombard=[4, 4])
 
+    if faction == "Jol-Nar":
+        return Unit("dread", [6], sustain=True, bombard=[5])
+
     return Unit("dread", [5], sustain=True, bombard=[5])
 
 
 def dread2(faction):
     if faction == "L1Z1X":
-        return Unit("dread2", [4], sustain=True, bombard=[4], direct_hit_immune=True)
+        return Unit("dread", [4], sustain=True, bombard=[4], direct_hit_immune=True)
 
     if faction == "Sardakk":
         return Unit("dread", [4], sustain=True, bombard=[4, 4], direct_hit_immune=True)
+
+    if faction == "Jol-Nar":
+        return Unit("dread", [6], sustain=True, bombard=[5], direct_hit_immune=True)
 
     return Unit("dread", [5], sustain=True, bombard=[5], direct_hit_immune=True)
 
@@ -62,12 +77,18 @@ def destroyer(faction):
     if faction == "Sardakk":
         return Unit("destroyer", [8], afb=[9, 9])
 
+    if faction == "Jol-Nar":
+        return Unit("destroyer", [10], afb=[9, 9])
+
     return Unit("destroyer", [9], afb=[9, 9])
 
 
 def destroyer2(faction):
     if faction == "Sardakk":
         return Unit("destroyer", [7], afb=[6, 6, 6])
+
+    if faction == "Jol-Nar":
+        return Unit("destroyer", [9], afb=[6, 6, 6])
 
     return Unit("destroyer", [8], afb=[6, 6, 6])
 
@@ -84,6 +105,9 @@ def carrier(faction):
     if faction == "Sardakk":
         return Unit("carrier", [8])
 
+    if faction == "Jol-Nar":
+        return Unit("carrier", [10])
+
     return Unit("carrier", [9])
 
 
@@ -93,6 +117,9 @@ def carrier2(faction):
 
     if faction == "Sardakk":
         return Unit("carrier", [8])
+
+    if faction == "Jol-Nar":
+        return Unit("carrier", [10])
 
     return Unit("carrier", [9])
 
@@ -104,6 +131,9 @@ def fighter(faction):
     if faction == "Naalu":
         return Unit("fighter", [8], fighter=True)
 
+    if faction == "Jol-Nar":
+        return Unit("fighter", [10], fighter=True)
+
     return Unit("fighter", [9], fighter=True)
 
 
@@ -113,6 +143,9 @@ def fighter2(faction):
 
     if faction == "Naalu":
         return Unit("fighter", [7], fighter=True)
+
+    if faction == "Jol-Nar":
+        return Unit("fighter", [9], fighter=True)
 
     return Unit("fighter", [8], fighter=True)
 
@@ -124,6 +157,9 @@ def infantry(faction):
     if faction == "Sardakk":
         return Unit("infantry", [7], ground=True)
 
+    if faction == "Jol-Nar":
+        return Unit("infantry", [9], ground=True)
+
     return Unit("infantry", [8], ground=True)
 
 
@@ -133,6 +169,9 @@ def infantry2(faction):
 
     if faction == "Sardakk":
         return Unit("infantry", [6], ground=True)
+
+    if faction == "Jol-Nar":
+        return Unit("infantry", [8], ground=True)
 
     return Unit("infantry", [7], ground=True)
 
@@ -144,6 +183,8 @@ def mech(faction):
         return Unit("mech", [6], sustain=True, ground=True, bombard=[8])
     if faction == "Sardakk":
         return Unit("mech", [5], sustain=True, ground=True)
+    if faction == "Jol-Nar":
+        return Unit("mech", [7], sustain=True, ground=True)
 
     return Unit("mech", [6], sustain=True, ground=True)
 
