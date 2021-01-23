@@ -2,6 +2,7 @@ import random
 import copy
 import app.units as units
 from app.faction_abilities import *
+from app.tech_abilities import *
 
 
 IT = 10000
@@ -181,7 +182,10 @@ def iteration(att_units, def_units, options):
     # bombardment
     if options["ground_combat"]:
         bombard_hits = bombardment(att_units, options)
-        def_units = assign_hits(def_units, bombard_hits)
+        if not options["att_x89"]:
+            def_units = assign_hits(def_units, bombard_hits)
+        else:
+            def_units = x89(def_units, bombard_hits)
         att_units = filter_bombardment(att_units)
 
     # space cannon defense

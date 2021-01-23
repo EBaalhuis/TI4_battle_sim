@@ -1,13 +1,3 @@
-def magen_omega(att_units):
-    # attacking units take 1 hit, assigned by opponent
-    if att_units[0].sustain:
-        att_units[0].sustain = False
-    else:
-        del att_units[0]
-
-    return att_units
-
-
 def argent_flagship(att_units, def_units, options):
     if options["att_faction"] == "Argent":
         if len(list(filter(lambda x: x.name == "flagship", att_units))) > 0:

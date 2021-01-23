@@ -52,7 +52,7 @@ class InputForm(FlaskForm):
     def_plasma = BooleanField("Plasma Scoring", default=False)
     def_magen = BooleanField("Magen Defense Grid", default=False)
     def_magen_o = BooleanField("Magen Defense Grid Ω", default=False)
-    att_bacterial = BooleanField("X-89 Bacterial Weapon Ω", default=False)
+    att_x89 = BooleanField("X-89 Bacterial Weapon Ω", default=False)
     att_duranium = BooleanField("Duranium Armor", default=False)
     def_duranium = BooleanField("Duranium Armor", default=False)
     att_assault = BooleanField("Assault Cannon", default=False)
