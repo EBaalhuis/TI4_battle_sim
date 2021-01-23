@@ -119,11 +119,15 @@ def bombardment(units, options):
             for val in u.bombard:
                 best_dice = min(best_dice, val)
                 x = random.randint(1, 10)
+                if options["def_bunker"]:
+                    x -= 4
                 if x >= val:
                     result += 1
 
     if options["att_plasma"]:
         x = random.randint(1, 10)
+        if options["def_bunker"]:
+            x -= 4
         if x >= best_dice:
             result += 1
 
