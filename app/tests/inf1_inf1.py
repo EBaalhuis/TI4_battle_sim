@@ -25,6 +25,7 @@ options["ground_combat"] = True
 
 outcomes = calculator.calculate(attacker, defender, options)
 
+print(outcomes)
 assert(abs(outcomes[0] - TARGET[0]) < TOL)
 assert(abs(outcomes[1] - TARGET[1]) < TOL)
 assert(abs(outcomes[2] - TARGET[2]) < TOL)
