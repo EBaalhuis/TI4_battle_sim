@@ -169,6 +169,10 @@ def iteration(att_units, def_units, options):
 
     # space cannon offense
     if not options["ground_combat"]:
+        # Experimental Battlestation
+        if options["def_experimental"]:
+            def_units = [units.experimental_battlestation(options["def_faction"])] + def_units
+
         att_cannon_hits = space_cannon(att_units, options, attacker=True)
         def_cannon_hits = space_cannon(def_units, options, attacker=False)
         if options["def_graviton"]:

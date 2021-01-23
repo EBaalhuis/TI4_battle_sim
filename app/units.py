@@ -260,3 +260,7 @@ def flagship(faction):
 def flagship2(faction):
     if faction == "Nomad":
         return Unit("flagship", [5, 5], sustain=True, afb=[5, 5, 5])
+
+
+def experimental_battlestation(faction):
+    return Unit("experimental", [], cannon=[5, 5, 5], pds=True)
