@@ -1,3 +1,12 @@
+def assault(units):
+    for u in units:
+        if not u.fighter:
+            units.remove(u)
+            return units
+
+    return units
+
+
 def duranium(units):
     for u in reversed(units):
         if u.can_sustain and not u.sustain:

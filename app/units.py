@@ -14,6 +14,7 @@ class Unit:
         self.pds = pds
         self.disable_shield = disable_shield
         self.direct_hit_immune = direct_hit_immune
+        self.non_fighter_ship = not ground and not fighter and not pds
 
     def __repr__(self):
         return "<Combat: %s, Sustain: %s>" % (self.combat, self.sustain)

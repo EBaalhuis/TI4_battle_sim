@@ -180,6 +180,14 @@ def iteration(att_units, def_units, options):
         else:
             def_units = assign_hits(def_units, att_cannon_hits)
 
+    # Assault Cannon
+    if not options["ground_combat"]:
+        if options["att_assault"] and len(list(filter(lambda x: x.non_fighter_ship, att_units))) >= 3:
+            def_units = assault(def_units)
+        if options["def_assault"] and len(list(filter(lambda x: x.non_fighter_ship, def_units))) >= 3:
+            att_units = assault(att_units)
+
+
     # anti-fighter barrage
     if not options["ground_combat"]:
         att_afb_hits = antifighter(att_units)
