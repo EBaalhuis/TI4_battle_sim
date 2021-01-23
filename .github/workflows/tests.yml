@@ -21,4 +21,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run unit tests
         run: |
+          ls
+          ls app
+          ls app/tests
           python3 app/tests/inf1_inf1.py
