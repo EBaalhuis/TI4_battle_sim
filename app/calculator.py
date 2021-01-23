@@ -12,11 +12,13 @@ def has_flagship(units):
     return len(list(filter(lambda x: x.name == "flagship", units))) > 0
 
 
-def generate_hits(units, faction):
+def generate_hits(units, faction, prototype):
     result = 0
     for u in units:
         for val in u.combat:
             x = random.randint(1, 10)
+            if prototype and u.fighter:
+                x += 2
             if x >= val:
                 result += 1
 
@@ -87,8 +89,8 @@ def combat_round(att_units, def_units, first_round, options):
     if options["att_faction"] == "Winnu" or options["def_faction"] == "Winnu":
         att_units, def_units = winnu_flagship(att_units, def_units, options)
 
-    att_hits = generate_hits(att_units, options["att_faction"])
-    def_hits = generate_hits(def_units, options["def_faction"])
+    att_hits = generate_hits(att_units, options["att_faction"], first_round and options["att_prototype"])
+    def_hits = generate_hits(def_units, options["def_faction"], first_round and options["def_prototype"])
 
     # Magen Defense Grid
     if first_round and options["def_magen"] and options["ground_combat"]:
