@@ -12,7 +12,7 @@ def has_flagship(units):
     return len(list(filter(lambda x: x.name == "flagship", units))) > 0
 
 
-def generate_hits(units, faction, prototype):
+def generate_hits(units, faction, prototype, fire_team):
     result = 0
     for u in units:
         for val in u.combat:
@@ -21,6 +21,10 @@ def generate_hits(units, faction, prototype):
                 x += 2
             if x >= val:
                 result += 1
+            elif fire_team:  # re-roll if it was a miss, ground combat only (so no prototype)
+                x = random.randint(1, 10)
+                if x >= val:
+                    result += 1
 
             # Jol-Nar flagsip
             if faction == "Jol-Nar" and u.name == "flagship":
@@ -89,8 +93,10 @@ def combat_round(att_units, def_units, first_round, options):
     if options["att_faction"] == "Winnu" or options["def_faction"] == "Winnu":
         att_units, def_units = winnu_flagship(att_units, def_units, options)
 
-    att_hits = generate_hits(att_units, options["att_faction"], first_round and options["att_prototype"])
-    def_hits = generate_hits(def_units, options["def_faction"], first_round and options["def_prototype"])
+    att_hits = generate_hits(att_units, options["att_faction"], prototype=(first_round and options["att_prototype"]),
+                             fire_team=(options["att_fireteam"] and first_round and options["ground_combat"]))
+    def_hits = generate_hits(def_units, options["def_faction"], prototype=(first_round and options["def_prototype"]),
+                             fire_team=(options["def_fireteam"] and first_round and options["ground_combat"]))
 
     # Magen Defense Grid
     if first_round and options["def_magen"] and options["ground_combat"]:
