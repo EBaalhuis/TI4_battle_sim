@@ -21,6 +21,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run unit tests
         run: |
-          apt install python3-setuptools
+          sudo apt install python3-setuptools
           pip3 install -r requirements.txt
           python3 app/tests/inf1_inf1.py
