@@ -185,6 +185,8 @@ def mech(faction):
         return Unit("mech", [5], sustain=True, ground=True)
     if faction == "Jol-Nar":
         return Unit("mech", [7], sustain=True, ground=True)
+    if faction == "Xxcha":
+        return Unit("mech", [6], cannon=[8], sustain=True, ground=True)
 
     return Unit("mech", [6], sustain=True, ground=True)
 

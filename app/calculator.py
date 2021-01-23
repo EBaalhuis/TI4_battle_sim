@@ -260,7 +260,8 @@ def filter_ground(att_units, def_units, options):
 
 
 def filter_space(att_units, def_units, options):
-    return list(filter(lambda x: not x.ground, att_units)), list(filter(lambda x: not x.ground, def_units))
+    return list(filter(lambda x: not x.ground or len(x.cannon) > 0, att_units)), \
+           list(filter(lambda x: not x.ground or len(x.cannon) > 0, def_units))
 
 
 def run_simulation(att_units, def_units, options, it=IT):
