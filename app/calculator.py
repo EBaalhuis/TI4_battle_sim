@@ -187,6 +187,13 @@ def iteration(att_units, def_units, options):
 
         att_cannon_hits = space_cannon(att_units, options, attacker=True)
         def_cannon_hits = space_cannon(def_units, options, attacker=False)
+
+        # Maneuvering Jets
+        if options["def_maneuvering"]:
+            att_cannon_hits = max(0, att_cannon_hits - 1)
+        if options["att_maneuvering"]:
+            def_cannon_hits = max(0, def_cannon_hits - 1)
+
         if options["def_graviton"]:
             att_units = assign_nonfighters_first(att_units, def_cannon_hits)
         else:
@@ -229,6 +236,11 @@ def iteration(att_units, def_units, options):
     # space cannon defense
     if options["ground_combat"]:
         cannon_hits = space_cannon(def_units, options, attacker=False)
+
+        # Maneuvering Jets
+        if options["att_maneuvering"]:
+            cannon_hits = max(0, cannon_hits - 1)
+
         att_units = assign_hits(att_units, cannon_hits)
 
     # Magen Defense Grid Omega
