@@ -1,4 +1,7 @@
 from collections import defaultdict
+import sys, os
+
+sys.path.insert(1, os.path.join(sys.path[0], '../..'))
 from app import calculator
 
 # error tolerance in percentage point probability of each outcome
