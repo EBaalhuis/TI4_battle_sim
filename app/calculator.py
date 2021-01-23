@@ -81,13 +81,16 @@ def assign_nonfighters_first(units, hits):
     return units
 
 
-def combat_round(att_units, def_units, options):
+def combat_round(att_units, def_units, first_round, options):
     # Winnu flagship
     if options["att_faction"] == "Winnu" or options["def_faction"] == "Winnu":
         att_units, def_units = winnu_flagship(att_units, def_units, options)
 
     att_hits = generate_hits(att_units, options["att_faction"])
     def_hits = generate_hits(def_units, options["def_faction"])
+
+    if first_round and options["def_magen"] and options["ground_combat"]:
+        att_hits = 0
 
     # Sardakk mech
     if options["att_faction"] == "Sardakk" or options["def_faction"] == "Sardakk":
@@ -190,8 +193,10 @@ def iteration(att_units, def_units, options):
     att_units = list(filter(lambda x: not x.pds, att_units))
     def_units = list(filter(lambda x: not x.pds, def_units))
 
+    first_round = True
     while att_units and def_units:
-        att_units, def_units = combat_round(att_units, def_units, options)
+        att_units, def_units = combat_round(att_units, def_units, first_round, options)
+        first_round = False
 
     if not att_units and not def_units:
         return 0
