@@ -1,3 +1,12 @@
+def duranium(units):
+    for u in reversed(units):
+        if u.can_sustain and not u.sustain:
+            u.sustain = True
+            return units
+
+    return units
+
+
 def magen_omega(att_units):
     # attacking units take 1 hit, assigned by opponent
     if att_units[0].sustain:

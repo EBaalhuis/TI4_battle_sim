@@ -90,8 +90,16 @@ def combat_round(att_units, def_units, first_round, options):
     att_hits = generate_hits(att_units, options["att_faction"])
     def_hits = generate_hits(def_units, options["def_faction"])
 
+    # Magen Defense Grid
     if first_round and options["def_magen"] and options["ground_combat"]:
         att_hits = 0
+
+    # Duranium Armor
+    if not first_round:
+        if options["att_duranium"]:
+            duranium(att_units)
+        if options["def_duranium"]:
+            duranium(def_units)
 
     # Sardakk mech
     if options["att_faction"] == "Sardakk" or options["def_faction"] == "Sardakk":

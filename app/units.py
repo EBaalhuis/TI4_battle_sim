@@ -1,9 +1,10 @@
 class Unit:
-    def __init__(self, name, combat, sustain=False, ground=False, bombard=[], afb=[], cannon=[], shield=False,
-                 fighter=False, pds=False, disable_shield=False, direct_hit_immune=False):
+    def __init__(self, name, combat, sustain=False, ground=False, bombard=[], afb=[], cannon=[],
+                 shield=False, fighter=False, pds=False, disable_shield=False, direct_hit_immune=False):
         self.name = name
         self.combat = combat
         self.sustain = sustain
+        self.can_sustain = sustain
         self.ground = ground
         self.bombard = bombard
         self.afb = afb
