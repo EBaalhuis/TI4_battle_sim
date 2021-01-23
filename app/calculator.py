@@ -99,14 +99,22 @@ def combat_round(att_units, def_units, options):
     return att_units, def_units
 
 
-def bombardment(units):
+def bombardment(units, options):
     result = 0
+    best_dice = 11
     for u in units:
         if u.bombard:
             for val in u.bombard:
+                best_dice = min(best_dice, val)
                 x = random.randint(1, 10)
                 if x >= val:
                     result += 1
+
+    if options["att_plasma"]:
+        x = random.randint(1, 10)
+        if x >= best_dice:
+            result += 1
+
     return result
 
 
@@ -120,13 +128,21 @@ def antifighter(units):
     return result
 
 
-def space_cannon(units):
+def space_cannon(units, options, attacker):
     result = 0
+    best_dice = 11
     for u in units:
         for val in u.cannon:
+            best_dice = min(best_dice, val)
             x = random.randint(1, 10)
             if x >= val:
                 result += 1
+
+    if (attacker and options["att_plasma"]) or (not attacker and options["def_plasma"]):
+        x = random.randint(1, 10)
+        if x >= best_dice:
+            result += 1
+
     return result
 
 
@@ -141,8 +157,8 @@ def iteration(att_units, def_units, options):
 
     # space cannon offense
     if not options["ground_combat"]:
-        att_cannon_hits = space_cannon(att_units)
-        def_cannon_hits = space_cannon(def_units)
+        att_cannon_hits = space_cannon(att_units, options, attacker=True)
+        def_cannon_hits = space_cannon(def_units, options, attacker=False)
         if options["def_graviton"]:
             att_units = assign_nonfighters_first(att_units, def_cannon_hits)
         else:
@@ -161,13 +177,13 @@ def iteration(att_units, def_units, options):
 
     # bombardment
     if options["ground_combat"]:
-        bombard_hits = bombardment(att_units)
+        bombard_hits = bombardment(att_units, options)
         def_units = assign_hits(def_units, bombard_hits)
         att_units = filter_bombardment(att_units)
 
     # space cannon defense
     if options["ground_combat"]:
-        cannon_hits = space_cannon(def_units)
+        cannon_hits = space_cannon(def_units, options, attacker=False)
         att_units = assign_hits(att_units, cannon_hits)
 
     # remove PDS as they do not participate in combat (cannot be assigned hits)
