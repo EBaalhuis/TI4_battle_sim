@@ -1,7 +1,7 @@
 import random
 import copy
 import app.units as units
-from app.factions import *
+from app.faction_abilities import *
 
 
 IT = 10000
@@ -188,6 +188,10 @@ def iteration(att_units, def_units, options):
     if options["ground_combat"]:
         cannon_hits = space_cannon(def_units, options, attacker=False)
         att_units = assign_hits(att_units, cannon_hits)
+
+    # Magen Defense Grid Omega
+    if options["def_magen_o"] and options["ground_combat"]:
+        att_units = magen_omega(att_units)
 
     # remove PDS as they do not participate in combat (cannot be assigned hits)
     att_units = list(filter(lambda x: not x.pds, att_units))
