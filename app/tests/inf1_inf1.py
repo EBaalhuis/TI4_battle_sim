@@ -27,8 +27,10 @@ outcomes = calculator.calculate(attacker, defender, options)
 
 assert(abs(outcomes[0] - TARGET[0]) < TOL)
 assert(abs(outcomes[1] - TARGET[1]) < TOL)
-# assert(abs(outcomes[2] - TARGET[2]) < TOL)
-#
-# print("Attacker wins: %.1f%%" % outcomes[1])
-# print("Tie: %.1f%%" % outcomes[0])
-# print("Defender wins: %.1f%%" % outcomes[2])
+assert(abs(outcomes[2] - TARGET[2]) < TOL)
+
+print("Attacker wins: %.1f%%" % outcomes[1])
+print("Tie: %.1f%%" % outcomes[0])
+print("Defender wins: %.1f%%" % outcomes[2])
+file_name = __file__.split("/")[-1]
+print("Test " + file_name + " successful")
