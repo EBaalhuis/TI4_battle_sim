@@ -331,11 +331,15 @@ def run_simulation(att_units, def_units, options, it=IT):
     # Antimass Deflectors
     if options["att_antimass"]:
         for u in def_units:
-            u.cannon = [x+1 for x in u.cannon]
+            u.cannon = [x + 1 for x in u.cannon]
     if options["def_antimass"]:
         for u in att_units:
             u.cannon = [x + 1 for x in u.cannon]
 
+    print("attacker units")
+    print(att_units)
+    print("defender units")
+    print(def_units)
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), options)
         outcomes[res] += 1
@@ -349,23 +353,50 @@ def print_results(outcomes, it=IT):
     print("Defender wins: %.1f%%" % (outcomes[2] / it * 100))
 
 
-def parse_units(unit_dict, faction):
+def parse_unit(unit_type, unit_dict, attacker, options):
+    prefix = "att_" if attacker else "def_"
 
-    return [units.fighter(faction) for _ in range(unit_dict["fighter"])] + \
-           [units.carrier(faction) for _ in range(unit_dict["carrier"])] + \
-           [units.destroyer(faction) for _ in range(unit_dict["destroyer"])] + \
-           [units.cruiser(faction) for _ in range(unit_dict["cruiser"])] + \
-           [units.dread(faction) for _ in range(unit_dict["dread"])] + \
-           [units.flagship(faction) for _ in range(unit_dict["flagship"])] + \
-           [units.warsun(faction) for _ in range(unit_dict["warsun"])] + \
-           [units.infantry(faction) for _ in range(unit_dict["infantry"])] + \
-           [units.mech(faction) for _ in range(unit_dict["mech"])] + \
-           [units.pds(faction) for _ in range(unit_dict["pds"])]
+    faction = options[prefix + "faction"]
+    amount = unit_dict[unit_type]
+    upgraded = options[prefix + unit_type + "2"]
+
+    if unit_type == "fighter":
+        func = units.fighter2 if upgraded else units.fighter
+    elif unit_type == "carrier":
+        func = units.carrier2 if upgraded else units.carrier
+    elif unit_type == "destroyer":
+        func = units.destroyer2 if upgraded else units.destroyer
+    elif unit_type == "cruiser":
+        func = units.cruiser2 if upgraded else units.cruiser
+    elif unit_type == "dread":
+        func = units.dread2 if upgraded else units.dread
+    elif unit_type == "flagship":
+        func = units.flagship2 if upgraded else units.flagship
+    elif unit_type == "warsun":
+        func = units.warsun2 if upgraded else units.warsun
+    elif unit_type == "infantry":
+        func = units.infantry2 if upgraded else units.infantry
+    elif unit_type == "mech":
+        func = units.mech2 if upgraded else units.mech
+    elif unit_type == "pds":
+        func = units.pds2 if upgraded else units.pds
+
+    return [func(faction) for _ in range(amount)]
 
 
-def calculate(attacker, defender, options):
-    att_units = parse_units(attacker, options["att_faction"])
-    def_units = parse_units(defender, options["def_faction"])
+def parse_units(unit_dict, attacker, options):
+    unit_types = ["fighter", "carrier", "destroyer", "cruiser", "dread", "flagship", "warsun", "infantry", "mech",
+                  "pds"]
+    result = []
+    for u in unit_types:
+        result = result + parse_unit(u, unit_dict, attacker, options)
+
+    return result
+
+
+def calculate(attacker_units, defender_units, options):
+    att_units = parse_units(attacker_units, attacker=True, options=options)
+    def_units = parse_units(defender_units, attacker=False, options=options)
 
     outcomes = run_simulation(att_units, def_units, options)
 
