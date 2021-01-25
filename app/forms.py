@@ -52,6 +52,8 @@ class InputForm(FlaskForm):
 
     # General options
     def_nebula = BooleanField("Defending in Nebula", default=False)
+    att_riskdirecthit = BooleanField("Risk Direct Hit", default=True)
+    def_riskdirecthit = BooleanField("Risk Direct Hit", default=True)
 
     # Technologies
     att_antimass = BooleanField("Antimass Deflectors", default=False)

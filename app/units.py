@@ -193,17 +193,17 @@ def infantry2(faction):
 
 def mech(faction):
     if faction == "Arborec":
-        return Unit("mech", [6], sustain=True, ground=True, shield=True)
+        return Unit("mech", [6], sustain=True, ground=True, shield=True, direct_hit_immune=True)
     if faction == "L1Z1X":
-        return Unit("mech", [6], sustain=True, ground=True, bombard=[8])
+        return Unit("mech", [6], sustain=True, ground=True, bombard=[8], direct_hit_immune=True)
     if faction == "Sardakk":
-        return Unit("mech", [5], sustain=True, ground=True)
+        return Unit("mech", [5], sustain=True, ground=True, direct_hit_immune=True)
     if faction == "Jol-Nar":
-        return Unit("mech", [7], sustain=True, ground=True)
+        return Unit("mech", [7], sustain=True, ground=True, direct_hit_immune=True)
     if faction == "Xxcha":
-        return Unit("mech", [6], cannon=[8], sustain=True, ground=True)
+        return Unit("mech", [6], cannon=[8], sustain=True, ground=True, direct_hit_immune=True)
 
-    return Unit("mech", [6], sustain=True, ground=True)
+    return Unit("mech", [6], sustain=True, ground=True, direct_hit_immune=True)
 
 
 def flagship(faction):

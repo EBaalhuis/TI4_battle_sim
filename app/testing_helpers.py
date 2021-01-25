@@ -7,6 +7,8 @@ def defaults():
     options = defaultdict(lambda: 0)
     options["att_faction"] = "Winnu"
     options["def_faction"] = "Winnu"
+    options["att_riskdirecthit"] = True
+    options["def_riskdirecthit"] = True
     tol = 1.7  # error tolerance in percentage point probability of each outcome
 
     return attacker, defender, options, tol

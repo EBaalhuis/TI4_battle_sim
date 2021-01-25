@@ -49,17 +49,21 @@ def generate_hits(units, faction, morale, prototype, fire_team):
     return result
 
 
-def assign_hits(units, hits):
+def assign_hits(units, hits, risk_direct_hit):
     for u in units:
         if hits == 0:
             return units
-        if u.sustain:
+        if u.sustain and (u.direct_hit_immune or risk_direct_hit):
             u.sustain = False
             hits -= 1
 
     while hits > 0 and units:
-        del units[0]
-        hits -= 1
+        if units[0].sustain:
+            units[0].sustain = False
+            hits -= 1
+        else:
+            del units[0]
+            hits -= 1
 
     return units
 
@@ -74,11 +78,11 @@ def assign_fighters_only(units, hits):
     return units
 
 
-def assign_nonfighters_first(units, hits):
+def assign_nonfighters_first(units, hits, risk_direct_hit):
     for u in units:
         if hits == 0:
             return units
-        if u.sustain:
+        if u.sustain and (u.direct_hit_immune or risk_direct_hit):
             u.sustain = False
             hits -= 1
 
@@ -86,8 +90,16 @@ def assign_nonfighters_first(units, hits):
         if hits == 0:
             return units
         if u.name != "fighter":
-            units.remove(u)
-            hits -= 1
+            if u.sustain:
+                if hits > 1:
+                    units.remove(u)
+                    hits -= 2
+                else:
+                    u.sustain = False
+                    hits -= 1
+            else:
+                units.remove(u)
+                hits -= 1
 
     for u in units:
         if hits == 0:
@@ -127,8 +139,8 @@ def combat_round(att_units, def_units, first_round, options):
     if options["att_faction"] == "Sardakk" or options["def_faction"] == "Sardakk":
         att_hits, def_hits = sardakk_mechs(att_units, def_units, att_hits, def_hits, options)
 
-    att_units = assign_hits(att_units, def_hits)
-    def_units = assign_hits(def_units, att_hits)
+    att_units = assign_hits(att_units, def_hits, options["att_riskdirecthit"])
+    def_units = assign_hits(def_units, att_hits, options["def_riskdirecthit"])
 
     return att_units, def_units
 
@@ -209,13 +221,13 @@ def iteration(att_units, def_units, options):
             def_cannon_hits = max(0, def_cannon_hits - 1)
 
         if options["def_graviton"]:
-            att_units = assign_nonfighters_first(att_units, def_cannon_hits)
+            att_units = assign_nonfighters_first(att_units, def_cannon_hits, options["att_riskdirecthit"])
         else:
-            att_units = assign_hits(att_units, def_cannon_hits)
+            att_units = assign_hits(att_units, def_cannon_hits, options["att_riskdirecthit"])
         if options["att_graviton"]:
-            def_units = assign_nonfighters_first(def_units, att_cannon_hits)
+            def_units = assign_nonfighters_first(def_units, att_cannon_hits, options["def_riskdirecthit"])
         else:
-            def_units = assign_hits(def_units, att_cannon_hits)
+            def_units = assign_hits(def_units, att_cannon_hits, options["def_riskdirecthit"])
 
     # Assault Cannon
     if not options["ground_combat"]:
@@ -230,11 +242,11 @@ def iteration(att_units, def_units, options):
         att_afb_hits = antifighter(att_units)
         def_afb_hits = antifighter(def_units)
         if options["def_waylay"]:
-            att_units = assign_hits(att_units, def_afb_hits)
+            att_units = assign_hits(att_units, def_afb_hits, options["att_riskdirecthit"])
         else:
             att_units = assign_fighters_only(att_units, def_afb_hits)
         if options["att_waylay"]:
-            def_units = assign_hits(def_units, att_afb_hits)
+            def_units = assign_hits(def_units, att_afb_hits, options["def_riskdirecthit"])
         else:
             def_units = assign_fighters_only(def_units, att_afb_hits)
 
@@ -242,7 +254,7 @@ def iteration(att_units, def_units, options):
     if options["ground_combat"]:
         bombard_hits = bombardment(att_units, options)
         if not options["att_x89"]:
-            def_units = assign_hits(def_units, bombard_hits)
+            def_units = assign_hits(def_units, bombard_hits, options["def_riskdirecthit"])
         else:
             def_units = x89(def_units, bombard_hits)
         att_units = filter_bombardment(att_units)
@@ -255,7 +267,7 @@ def iteration(att_units, def_units, options):
         if options["att_maneuvering"]:
             cannon_hits = max(0, cannon_hits - 1)
 
-        att_units = assign_hits(att_units, cannon_hits)
+        att_units = assign_hits(att_units, cannon_hits, options["att_riskdirecthit"])
 
     # Magen Defense Grid Omega
     if options["def_magen_o"] and options["ground_combat"]:
