@@ -15,11 +15,19 @@ def index():
         options = options_from_form(form)
         outcomes = calculator.calculate(attacker, defender, options)
         defaults = form
-        return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults)
+
+        checkboxes = defaultdict(lambda x: "")
+        for opt in options.keys():
+            checkboxes[opt] = "checked" if options[opt] else ""
+
+        return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes)
     outcomes = [0, 0, 0]
 
     defaults = defaultdict(lambda: {"data": "0"})
+    checkboxes = defaultdict(lambda x: "")
+    checkboxes["att_riskdirecthit"] = "checked"
+    checkboxes["def_riskdirecthit"] = "checked"
 
-    return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, test="att_flagship")
+    return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes)
 
 
