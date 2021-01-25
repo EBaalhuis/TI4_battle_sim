@@ -336,10 +336,6 @@ def run_simulation(att_units, def_units, options, it=IT):
         for u in att_units:
             u.cannon = [x + 1 for x in u.cannon]
 
-    print("attacker units")
-    print(att_units)
-    print("defender units")
-    print(def_units)
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), options)
         outcomes[res] += 1

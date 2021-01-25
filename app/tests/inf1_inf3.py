@@ -8,11 +8,11 @@ from app import testing_helpers
 attacker, defender, options, tol = testing_helpers.defaults()
 
 # target source: http://alphamou.se/ti4calc/
-target = [18, 41, 41]  # target percentages; [tie, attacker, defender]
+target = [1, 1, 98]  # target percentages; [tie, attacker, defender]
 
 # Units
 attacker["infantry"] = 1
-defender["infantry"] = 1
+defender["infantry"] = 3
 
 # Factions
 
