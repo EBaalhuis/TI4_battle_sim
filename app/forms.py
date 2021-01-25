@@ -79,5 +79,9 @@ class InputForm(FlaskForm):
     att_waylay = BooleanField("Waylay", default=False)
     def_waylay = BooleanField("Waylay", default=False)
 
+    # Agendas
+    conventions = BooleanField("Conventions of War", default=False)
+    publicize = BooleanField("Publicize Weapon Schematics", default=False)
+
     ground_combat = BooleanField("Ground Combat", default=False)
     submit = SubmitField("Calculate")

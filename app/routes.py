@@ -19,11 +19,6 @@ def index():
     outcomes = [0, 0, 0]
 
     defaults = defaultdict(lambda: {"data": "0"})
-    labels = ["ground_combat", "att_faction", "def_faction", "att_antimass", "def_antimass", "att_graviton",
-              "def_graviton", "att_plasma", "def_plasma", "def_magen", "def_magen_o", "att_bacterial", "att_duranium",
-              "def_duranium", "att_assault", "def_assault"]
-    for label in labels:
-        defaults[label] = False
 
     return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, test="att_flagship")
 
