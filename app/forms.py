@@ -7,8 +7,8 @@ class InputForm(FlaskForm):
     factions = ["Arborec", "Argent", "Creuss", "Empyrean", "Hacan", "Jol-Nar", "L1Z1X", "Letnev", "Mahact", "Mentak",
                 "Muaat", "Naalu", "Naaz-Rokha", "Nekro", "Nomad", "Saar", "Sardakk", "Sol", "Titans", "Vuil'Raith",
                 "Winnu", "Xxcha", "Yin", "Yssaril"]
-    att_faction = SelectField("Attacker faction", choices=factions)
-    def_faction = SelectField("Defender faction", choices=factions)
+    att_faction = SelectField("Attacker faction_units", choices=factions)
+    def_faction = SelectField("Defender faction_units", choices=factions)
 
     # Unit amounts
     att_flagship = IntegerField("Attacker Flagship", default=0)
@@ -49,6 +49,9 @@ class InputForm(FlaskForm):
     def_infantry2 = BooleanField("Infantry 2", default=False)
     att_pds2 = BooleanField("PDS 2", default=False)
     def_pds2 = BooleanField("PDS 2", default=False)
+
+    # General options
+    def_nebula = BooleanField("Defending in Nebula", default=False)
 
     # Technologies
     att_antimass = BooleanField("Antimass Deflectors", default=False)

@@ -2,7 +2,7 @@ from collections import defaultdict
 
 
 def options_from_form(form):
-    misc = ["ground_combat", "att_faction", "def_faction"]
+    misc = ["ground_combat", "att_faction", "def_faction", "def_nebula"]
     techs = ["att_antimass", "def_antimass", "att_graviton", "def_graviton", "att_plasma", "def_plasma", "def_magen",
              "def_magen_o", "att_x89", "att_duranium", "def_duranium", "att_assault", "def_assault"]
     cards = ["def_bunker", "def_experimental", "att_prototype", "def_prototype", "att_fireteam", "def_fireteam",

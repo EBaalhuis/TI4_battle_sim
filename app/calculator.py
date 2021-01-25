@@ -328,6 +328,11 @@ def run_simulation(att_units, def_units, options, it=IT):
         if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
             att_units, def_units = mentak_flagship(att_units, def_units, options)
 
+    # Defending in Nebula
+    if options["def_nebula"] and not options["ground_combat"]:
+        for u in def_units:
+            u.combat = [x - 1 for x in u.combat]
+
     # Antimass Deflectors
     if options["att_antimass"]:
         for u in def_units:
@@ -364,7 +369,7 @@ def print_results(outcomes, it=IT):
 def parse_unit(unit_type, unit_dict, attacker, options):
     prefix = "att_" if attacker else "def_"
 
-    faction = options[prefix + "faction"]
+    faction = options[prefix + "faction_units"]
     amount = unit_dict[unit_type]
     upgraded = options[prefix + unit_type + "2"]
 
