@@ -61,3 +61,13 @@ class InputForm(FlaskForm):
     # Action Cards
     att_morale = BooleanField("Morale Boost 1st Round", default=False)
     def_morale = BooleanField("Morale Boost 1st Round", default=False)
+    def_bunker = BooleanField("Bunker", default=False)
+    def_experimental = BooleanField("Experimental Battlestation", default=False)
+    att_prototype = BooleanField("Fighter Prototype", default=False)
+    def_prototype = BooleanField("Fighter Prototype", default=False)
+    att_fireteam = BooleanField("Fire Team", default=False)
+    def_fireteam = BooleanField("Fire Team", default=False)
+    att_maneuvering = BooleanField("Maneuvering Jets", default=False)
+    def_maneuvering = BooleanField("Maneuvering Jets", default=False)
+    att_waylay = BooleanField("Waylay", default=False)
+    def_waylay = BooleanField("Waylay", default=False)
