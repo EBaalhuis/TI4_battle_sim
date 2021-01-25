@@ -369,7 +369,7 @@ def print_results(outcomes, it=IT):
 def parse_unit(unit_type, unit_dict, attacker, options):
     prefix = "att_" if attacker else "def_"
 
-    faction = options[prefix + "faction_units"]
+    faction = options[prefix + "faction"]
     amount = unit_dict[unit_type]
     upgraded = options[prefix + unit_type + "2"]
 
