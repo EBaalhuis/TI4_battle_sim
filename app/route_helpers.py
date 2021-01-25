@@ -5,7 +5,7 @@ def options_from_form(form):
     labels = ["ground_combat", "att_faction", "def_faction", "att_antimass", "def_antimass", "att_graviton",
               "def_graviton", "att_plasma", "def_plasma", "def_magen", "def_magen_o", "att_x89", "att_duranium",
               "def_duranium", "att_assault", "def_assault"]
-    options = {}
+    options = defaultdict(lambda: False)
 
     for label in labels:
         options[label] = form[label].data

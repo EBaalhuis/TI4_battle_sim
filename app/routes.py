@@ -13,14 +13,6 @@ def index():
     if form.validate_on_submit():
         attacker, defender = units_from_form(form)
         options = options_from_form(form)
-        print(form["att_antimass"])
-        print(form["def_antimass"])
-        print(options["att_antimass"])
-        print(options["def_antimass"])
-        print(form["att_graviton"])
-        print(form["def_graviton"])
-        print(options["att_graviton"])
-        print(options["def_graviton"])
         outcomes = calculator.calculate(attacker, defender, options)
         defaults = form
         return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults)
