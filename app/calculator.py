@@ -125,8 +125,13 @@ def combat_round(att_units, def_units, first_round, options):
                              fire_team=(options["def_fireteam"] and first_round and options["ground_combat"]))
 
     # Magen Defense Grid
-    if first_round and options["def_magen"] and options["ground_combat"]:
+    if first_round and options["def_magen"] and options["ground_combat"] and \
+            len(list(filter(lambda x: x.shield, def_units))) > 0:
         att_hits = 0
+
+    # remove PDS as they do not participate in combat (cannot be assigned hits)
+    att_units = list(filter(lambda x: not x.pds or x.ground, att_units))
+    def_units = list(filter(lambda x: not x.pds or x.ground, def_units))
 
     # Duranium Armor
     if not first_round:
@@ -272,10 +277,6 @@ def iteration(att_units, def_units, options):
     # Magen Defense Grid Omega
     if options["def_magen_o"] and options["ground_combat"]:
         att_units = magen_omega(att_units)
-
-    # remove PDS as they do not participate in combat (cannot be assigned hits)
-    att_units = list(filter(lambda x: not x.pds or x.ground, att_units))
-    def_units = list(filter(lambda x: not x.pds or x.ground, def_units))
 
     first_round = True
     while att_units and def_units:
