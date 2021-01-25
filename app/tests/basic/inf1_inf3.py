@@ -9,6 +9,7 @@ attacker, defender, options, tol = testing_helpers.defaults()
 
 # target source: http://alphamou.se/ti4calc/
 target = [1, 1, 98]  # target percentages; [tie, attacker, defender]
+print("1 Infantry vs 3 Infantry")
 
 # Units
 attacker["infantry"] = 1

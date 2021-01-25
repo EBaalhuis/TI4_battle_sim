@@ -20,4 +20,4 @@ def evaluate(outcomes, target, tol):
     assert (abs(outcomes[0] - target[0]) < tol)
     assert (abs(outcomes[1] - target[1]) < tol)
     assert (abs(outcomes[2] - target[2]) < tol)
-    print("Test successful")
+    print("Test successful\n")

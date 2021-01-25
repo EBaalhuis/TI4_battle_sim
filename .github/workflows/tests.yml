@@ -26,7 +26,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          FILES=app/tests/*
+          FILES=app/tests/*/*
           for f in $FILES
           do
             python3 $f
