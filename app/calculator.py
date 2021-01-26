@@ -385,6 +385,13 @@ def run_simulation(att_units, def_units, options, it=IT):
 
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), options)
+
+        # Yin flagship
+        if options["att_faction"] == "Yin" and has_flagship(att_units) and res == 2:
+            res = 0
+        if options["def_faction"] == "Yin" and has_flagship(def_units) and res == 1:
+            res = 0
+
         outcomes[res] += 1
 
     return outcomes
