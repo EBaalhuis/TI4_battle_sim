@@ -12,6 +12,10 @@ def has_flagship(units):
     return len(list(filter(lambda x: x.name == "flagship", units))) > 0
 
 
+def has_mech(units):
+    return len(list(filter(lambda x: x.name == "mech", units))) > 0
+
+
 def generate_hits(units, faction, morale, prototype, fire_team):
     hits = 0
     non_fighter_hits = 0
@@ -346,6 +350,12 @@ def filter_space(att_units, def_units):
 def run_simulation(att_units, def_units, options, it=IT):
     outcomes = [0, 0, 0]
 
+    # Jol-Nar mech
+    if options["att_faction"] == "Jol-Nar" and has_mech(att_units):
+        att_units = faction_abilities.jol_nar_mech(att_units)
+    if options["def_faction"] == "Jol-Nar" and has_mech(def_units):
+        def_units = faction_abilities.jol_nar_mech(def_units)
+
     # Naaz-Rokha flagship
     if options["att_faction"] == "Naaz-Rokha" and has_flagship(att_units):
         att_units = faction_abilities.naaz_flagship(att_units)
@@ -435,7 +445,6 @@ def parse_unit(unit_type, unit_dict, attacker, options):
         func = units.infantry2 if upgraded else units.infantry
     elif unit_type == "mech":
         func = units.mech
-
         # Naaz-Rokha mech (ship side)
         if faction == "Naaz-Rokha" and not options["ground_combat"]:
             func = faction_abilities.naaz_mech

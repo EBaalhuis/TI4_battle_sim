@@ -1,6 +1,13 @@
 from app.units import Unit
 
 
+def jol_nar_mech(units):
+    for u in units:
+        if u.name == "infantry":
+            u.combat = [x - 1 for x in u.combat]
+    return units
+
+
 def naaz_mech():
     return Unit("mech", [8, 8])
 
