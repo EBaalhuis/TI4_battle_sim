@@ -62,6 +62,8 @@ def assign_hits(units, hits, risk_direct_hit):
             units[0].sustain = False
             hits -= 1
         else:
+            if units[0].name == "pds" and not units[0].ground:  # second part rules out Titans PDS
+                return units
             del units[0]
             hits -= 1
 
@@ -89,6 +91,8 @@ def assign_nonfighters_first(units, hits, risk_direct_hit):
     for u in units:
         if hits == 0:
             return units
+        if u.name == "pds" and not u.ground:  # second part rules out Titans PDS
+            break
         if u.name != "fighter":
             if u.sustain:
                 if hits > 1:
@@ -103,6 +107,8 @@ def assign_nonfighters_first(units, hits, risk_direct_hit):
 
     for u in units:
         if hits == 0:
+            return units
+        if u.name == "pds" and not u.ground:  # second part rules out Titans PDS
             return units
         units.remove(u)
         hits -= 1
