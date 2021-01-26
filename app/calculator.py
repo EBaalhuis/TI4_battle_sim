@@ -1,8 +1,8 @@
 import random
 import copy
 import app.units as units
-from app.faction_abilities import *
-from app.tech_abilities import *
+import app.faction_abilities as faction_abilities
+import app.tech_abilities as tech_abilities
 
 
 IT = 10000
@@ -128,16 +128,18 @@ def assign_nonfighters_first(units, hits, risk_direct_hit):
 def combat_round(att_units, def_units, first_round, options):
     # Winnu flagship
     if options["att_faction"] == "Winnu" or options["def_faction"] == "Winnu":
-        att_units, def_units = winnu_flagship(att_units, def_units, options)
+        att_units, def_units = faction_abilities.winnu_flagship(att_units, def_units, options)
 
     att_hits, att_nonfighter_hits = generate_hits(att_units, options["att_faction"],
-                             morale=(first_round and options["att_morale"]),
-                             prototype=(first_round and options["att_prototype"]),
-                             fire_team=(options["att_fireteam"] and first_round and options["ground_combat"]))
+                                                  morale=(first_round and options["att_morale"]),
+                                                  prototype=(first_round and options["att_prototype"]),
+                                                  fire_team=(options["att_fireteam"] and
+                                                             first_round and options["ground_combat"]))
     def_hits, def_nonfighter_hits = generate_hits(def_units, options["def_faction"],
-                             morale=(first_round and options["def_morale"]),
-                             prototype=(first_round and options["def_prototype"]),
-                             fire_team=(options["def_fireteam"] and first_round and options["ground_combat"]))
+                                                  morale=(first_round and options["def_morale"]),
+                                                  prototype=(first_round and options["def_prototype"]),
+                                                  fire_team=(options["def_fireteam"] and
+                                                             first_round and options["ground_combat"]))
 
     # Magen Defense Grid
     if first_round and options["def_magen"] and options["ground_combat"] and \
@@ -151,13 +153,13 @@ def combat_round(att_units, def_units, first_round, options):
     # Duranium Armor
     if not first_round:
         if options["att_duranium"]:
-            duranium(att_units)
+            tech_abilities.duranium(att_units)
         if options["def_duranium"]:
-            duranium(def_units)
+            tech_abilities.duranium(def_units)
 
     # Sardakk mech
     if options["att_faction"] == "Sardakk" or options["def_faction"] == "Sardakk":
-        att_hits, def_hits = sardakk_mechs(att_units, def_units, att_hits, def_hits, options)
+        att_hits, def_hits = faction_abilities.sardakk_mechs(att_units, def_units, att_hits, def_hits, options)
 
     att_units = assign_hits(att_units, def_hits, options["att_riskdirecthit"])
     att_units = assign_nonfighters_first(att_units, def_nonfighter_hits, options["att_riskdirecthit"])
@@ -254,10 +256,9 @@ def iteration(att_units, def_units, options):
     # Assault Cannon
     if not options["ground_combat"]:
         if options["att_assault"] and len(list(filter(lambda x: x.non_fighter_ship, att_units))) >= 3:
-            def_units = assault(def_units)
+            def_units = tech_abilities.assault(def_units)
         if options["def_assault"] and len(list(filter(lambda x: x.non_fighter_ship, def_units))) >= 3:
-            att_units = assault(att_units)
-
+            att_units = tech_abilities.assault(att_units)
 
     # anti-fighter barrage
     if not options["ground_combat"]:
@@ -278,7 +279,7 @@ def iteration(att_units, def_units, options):
         if not options["att_x89"]:
             def_units = assign_hits(def_units, bombard_hits, options["def_riskdirecthit"])
         else:
-            def_units = x89(def_units, bombard_hits)
+            def_units = tech_abilities.x89(def_units, bombard_hits)
         att_units = filter_bombardment(att_units)
 
     # space cannon defense
@@ -293,7 +294,7 @@ def iteration(att_units, def_units, options):
 
     # Magen Defense Grid Omega
     if options["def_magen_o"] and options["ground_combat"]:
-        att_units = magen_omega(att_units)
+        att_units = tech_abilities.magen_omega(att_units)
 
     first_round = True
     while att_units and def_units:
@@ -308,7 +309,7 @@ def iteration(att_units, def_units, options):
         return 1
 
 
-def shield_active(att_units, def_units, options):
+def shield_active(att_units, def_units):
     for u in att_units:
         if u.disable_shield:
             return False
@@ -320,10 +321,10 @@ def shield_active(att_units, def_units, options):
     return False
 
 
-def filter_ground(att_units, def_units, options):
+def filter_ground(att_units, def_units):
     att_res, def_res = [], []
 
-    shield = shield_active(att_units, def_units, options)
+    shield = shield_active(att_units, def_units)
     for u in att_units:
         if u.ground:
             att_res.append(u)
@@ -337,7 +338,7 @@ def filter_ground(att_units, def_units, options):
     return att_res, def_res
 
 
-def filter_space(att_units, def_units, options):
+def filter_space(att_units, def_units):
     return list(filter(lambda x: not x.ground or len(x.cannon) > 0, att_units)), \
            list(filter(lambda x: not x.ground or len(x.cannon) > 0, def_units))
 
@@ -346,17 +347,17 @@ def run_simulation(att_units, def_units, options, it=IT):
     outcomes = [0, 0, 0]
 
     if options["ground_combat"]:
-        att_units, def_units = filter_ground(att_units, def_units, options)
+        att_units, def_units = filter_ground(att_units, def_units)
     else:
-        att_units, def_units = filter_space(att_units, def_units, options)
+        att_units, def_units = filter_space(att_units, def_units)
 
         # Argent flagship
         if options["att_faction"] == "Argent" or options["def_faction"] == "Argent":
-            att_units, def_units = argent_flagship(att_units, def_units, options)
+            att_units, def_units = faction_abilities.argent_flagship(att_units, def_units, options)
 
         # Mentak flagship
         if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
-            att_units, def_units = mentak_flagship(att_units, def_units, options)
+            att_units, def_units = faction_abilities.mentak_flagship(att_units, def_units, options)
 
     # Defending in Nebula
     if options["def_nebula"] and not options["ground_combat"]:
@@ -423,11 +424,15 @@ def parse_unit(unit_type, unit_dict, attacker, options):
     elif unit_type == "flagship":
         func = units.flagship2 if upgraded else units.flagship
     elif unit_type == "warsun":
-        func = units.warsun2 if upgraded else units.warsun
+        func = units.warsun
     elif unit_type == "infantry":
         func = units.infantry2 if upgraded else units.infantry
     elif unit_type == "mech":
-        func = units.mech2 if upgraded else units.mech
+        func = units.mech
+
+        # Naaz-Rokha mech (ship side)
+        if faction == "Naaz-Rokha" and not options["ground_combat"]:
+            func = faction_abilities.naaz_mech
     elif unit_type == "pds":
         func = units.pds2 if upgraded else units.pds
 
@@ -435,7 +440,7 @@ def parse_unit(unit_type, unit_dict, attacker, options):
 
 
 def parse_units(unit_dict, attacker, options):
-    unit_types = ["fighter", "carrier", "destroyer", "cruiser", "dread", "infantry", "mech", "flagship", "warsun", 
+    unit_types = ["fighter", "carrier", "destroyer", "cruiser", "dread", "infantry", "mech", "flagship", "warsun",
                   "pds"]
     result = []
     for u in unit_types:

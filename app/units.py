@@ -202,6 +202,8 @@ def mech(faction):
         return Unit("mech", [7], sustain=True, ground=True, direct_hit_immune=True)
     if faction == "Xxcha":
         return Unit("mech", [6], cannon=[8], sustain=True, ground=True, direct_hit_immune=True)
+    if faction == "Naaz-Rokha":
+        return Unit("mech", [6, 6], sustain=True, ground=True, direct_hit_immune=True)
 
     return Unit("mech", [6], sustain=True, ground=True, direct_hit_immune=True)
 

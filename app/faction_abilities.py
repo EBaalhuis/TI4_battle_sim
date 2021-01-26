@@ -1,3 +1,10 @@
+from units import Unit
+
+
+def naaz_mech():
+    return Unit("mech", [8, 8])
+
+
 def argent_flagship(att_units, def_units, options):
     if options["att_faction"] == "Argent":
         if len(list(filter(lambda x: x.name == "flagship", att_units))) > 0:
