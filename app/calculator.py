@@ -435,7 +435,7 @@ def parse_unit(unit_type, unit_dict, attacker, options):
 
 
 def parse_units(unit_dict, attacker, options):
-    unit_types = ["fighter", "carrier", "destroyer", "cruiser", "dread", "flagship", "warsun", "infantry", "mech",
+    unit_types = ["fighter", "carrier", "destroyer", "cruiser", "dread", "infantry", "mech", "flagship", "warsun", 
                   "pds"]
     result = []
     for u in unit_types:
