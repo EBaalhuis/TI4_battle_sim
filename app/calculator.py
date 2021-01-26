@@ -77,13 +77,14 @@ def assign_hits(units, hits, risk_direct_hit):
 
 
 def assign_fighters_only(units, hits):
+    result = copy.deepcopy(units)
     for u in units:
         if hits == 0:
-            return units
+            return result
         if u.fighter:
-            units.remove(u)
+            result.remove(u)
             hits -= 1
-    return units
+    return result
 
 
 def assign_nonfighters_first(units, hits, risk_direct_hit):
@@ -94,24 +95,26 @@ def assign_nonfighters_first(units, hits, risk_direct_hit):
             u.sustain = False
             hits -= 1
 
-    for u in units:
+    fighters = list(filter(lambda x: x.name == "fighter", units))
+    non_fighters = list(filter(lambda x: x.name != "fighter", units))
+
+    for u in non_fighters:
         if hits == 0:
             return units
         if u.name == "pds" and not u.ground:  # second part rules out Titans PDS
             break
-        if u.name != "fighter":
-            if u.sustain:
-                if hits > 1:
-                    units.remove(u)
-                    hits -= 2
-                else:
-                    u.sustain = False
-                    hits -= 1
-            else:
+        if u.sustain:
+            if hits > 1:
                 units.remove(u)
+                hits -= 2
+            else:
+                u.sustain = False
                 hits -= 1
+        else:
+            units.remove(u)
+            hits -= 1
 
-    for u in units:
+    for u in fighters:
         if hits == 0:
             return units
         if u.name == "pds" and not u.ground:  # second part rules out Titans PDS

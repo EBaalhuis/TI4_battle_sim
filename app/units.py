@@ -17,7 +17,7 @@ class Unit:
         self.non_fighter_ship = not ground and not fighter and not pds
 
     def __repr__(self):
-        return "<Combat: %s, Sustain: %s>" % (self.combat, self.sustain)
+        return "%s <Combat: %s, Sustain: %s>" % (self.name, self.combat, self.sustain)
 
 
 def warsun(faction):
