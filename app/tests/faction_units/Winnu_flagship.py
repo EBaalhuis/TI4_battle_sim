@@ -18,7 +18,6 @@ defender["fighter"] = 1
 defender["cruiser"] = 2
 
 # Factions
-# options["att_faction"] = "L1Z1X"
 
 # Ground Combat
 options["ground_combat"] = False
