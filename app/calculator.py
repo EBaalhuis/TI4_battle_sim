@@ -77,7 +77,7 @@ def assign_hits(units, hits, risk_direct_hit):
 
 
 def assign_fighters_only(units, hits):
-    result = copy.deepcopy(units)
+    result = [u for u in units]
     for u in units:
         if hits == 0:
             return result
