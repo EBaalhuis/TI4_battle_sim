@@ -5,6 +5,13 @@ def naaz_mech():
     return Unit("mech", [8, 8])
 
 
+def naaz_flagship(units):
+    for u in units:
+        if u.name == "mech":
+            u.combat = u.combat + [u.combat[0]]
+    return units
+
+
 def argent_flagship(att_units, def_units, options):
     if options["att_faction"] == "Argent":
         if len(list(filter(lambda x: x.name == "flagship", att_units))) > 0:

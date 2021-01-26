@@ -346,6 +346,12 @@ def filter_space(att_units, def_units):
 def run_simulation(att_units, def_units, options, it=IT):
     outcomes = [0, 0, 0]
 
+    # Naaz-Rokha flagship
+    if options["att_faction"] == "Naaz-Rokha" and has_flagship(att_units):
+        att_units = faction_abilities.naaz_flagship(att_units)
+    if options["def_faction"] == "Naaz-Rokha" and has_flagship(def_units):
+        def_units = faction_abilities.naaz_flagship(def_units)
+
     if options["ground_combat"]:
         att_units, def_units = filter_ground(att_units, def_units)
     else:
