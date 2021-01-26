@@ -9,7 +9,7 @@ attacker, defender, options, tol = testing_helpers.defaults()
 
 # target source: http://alphamou.se/ti4calc/
 target = [10, 81, 9]  # target percentages; [tie, attacker, defender]
-print("1 Flagship 1 Fighter [L1Z1X] vs 1 Fighter 2 Cruiser")
+print("1 Flagship [L1Z1X] vs 1 Fighter 1 Cruiser")
 
 # Units
 attacker["flagship"] = 1
