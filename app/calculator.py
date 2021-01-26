@@ -13,7 +13,9 @@ def has_flagship(units):
 
 
 def generate_hits(units, faction, morale, prototype, fire_team):
-    result = 0
+    hits = 0
+    non_fighter_hits = 0
+
     for u in units:
         for val in u.combat:
             x = random.randint(1, 10)
@@ -21,7 +23,7 @@ def generate_hits(units, faction, morale, prototype, fire_team):
             # Jol-Nar flagsip
             if faction == "Jol-Nar" and u.name == "flagship":
                 if x >= 9:
-                    result += 2
+                    hits += 2
 
             # Sardakk flagship
             if faction == "Sardakk" and has_flagship(units) and u.name != "flagship":
@@ -36,17 +38,21 @@ def generate_hits(units, faction, morale, prototype, fire_team):
                 x += 2
 
             if x >= val:
-                result += 1
+                # L1Z1X Flagship
+                if faction == "L1Z1X" and has_flagship(units) and u.name in ["flagship", "dread"]:
+                    non_fighter_hits += 1
+                else:
+                    hits += 1
 
             # Fire Team
-            elif fire_team:  # re-roll if it was a miss, ground combat only (so no prototype)
+            elif fire_team:  # re-roll if it was a miss, ground combat only (so no prototype, L1 flagship)
                 x = random.randint(1, 10)
                 if morale:
                     x += 1
                 if x >= val:
-                    result += 1
+                    hits += 1
 
-    return result
+    return hits, non_fighter_hits
 
 
 def assign_hits(units, hits, risk_direct_hit):
@@ -121,11 +127,11 @@ def combat_round(att_units, def_units, first_round, options):
     if options["att_faction"] == "Winnu" or options["def_faction"] == "Winnu":
         att_units, def_units = winnu_flagship(att_units, def_units, options)
 
-    att_hits = generate_hits(att_units, options["att_faction"],
+    att_hits, att_nonfighter_hits = generate_hits(att_units, options["att_faction"],
                              morale=(first_round and options["att_morale"]),
                              prototype=(first_round and options["att_prototype"]),
                              fire_team=(options["att_fireteam"] and first_round and options["ground_combat"]))
-    def_hits = generate_hits(def_units, options["def_faction"],
+    def_hits, def_nonfighter_hits = generate_hits(def_units, options["def_faction"],
                              morale=(first_round and options["def_morale"]),
                              prototype=(first_round and options["def_prototype"]),
                              fire_team=(options["def_fireteam"] and first_round and options["ground_combat"]))
@@ -151,7 +157,9 @@ def combat_round(att_units, def_units, first_round, options):
         att_hits, def_hits = sardakk_mechs(att_units, def_units, att_hits, def_hits, options)
 
     att_units = assign_hits(att_units, def_hits, options["att_riskdirecthit"])
+    att_units = assign_nonfighters_first(att_units, def_nonfighter_hits, options["att_riskdirecthit"])
     def_units = assign_hits(def_units, att_hits, options["def_riskdirecthit"])
+    def_units = assign_nonfighters_first(def_units, att_nonfighter_hits, options["def_riskdirecthit"])
 
     return att_units, def_units
 
