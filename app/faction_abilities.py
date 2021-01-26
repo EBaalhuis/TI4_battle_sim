@@ -41,11 +41,13 @@ def winnu_flagship(att_units, def_units, options):
     if options["att_faction"] == "Winnu":
         for u in att_units:
             if u.name == "flagship":
-                u.combat = [7] * len(def_units)
+                u.combat = [7] * len(list(
+                    filter(lambda x: not x.ground and x.name not in ["pds", "fighter"], def_units)))
 
     if options["def_faction"] == "Winnu":
         for u in def_units:
             if u.name == "flagship":
-                u.combat = [7] * len(att_units)
+                u.combat = [7] * len(list(
+                    filter(lambda x: not x.ground and x.name not in ["pds", "fighter"], att_units)))
 
     return att_units, def_units
