@@ -257,6 +257,12 @@ def iteration(att_units, def_units, options):
         else:
             def_units = assign_hits(def_units, att_cannon_hits, options["def_riskdirecthit"])
 
+    # Mentak Ambush
+    if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
+        att_hits, def_hits = faction_abilities.mentak_ambush(att_units, def_units, options)
+        att_units = assign_hits(att_units, def_hits, options["att_riskdirecthit"])
+        def_units = assign_hits(def_units, att_hits, options["def_riskdirecthit"])
+
     # Assault Cannon
     if not options["ground_combat"]:
         if options["att_assault"] and len(list(filter(lambda x: x.non_fighter_ship, att_units))) >= 3:

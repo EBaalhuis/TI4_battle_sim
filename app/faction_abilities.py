@@ -1,4 +1,52 @@
+import random
 from app.units import Unit
+
+
+def generate_ambush_hits(units):
+    hits = 0
+    fired = 0
+    cruisers = list(filter(lambda x: x.name == "cruiser", units))
+    destroyers = list(filter(lambda x: x.name == "destroyer", units))
+
+    if len(cruisers) >= 2:
+        val = cruisers[0].combat[0]
+        for _ in range(2):
+            x = random.randint(1, 10)
+            if x >= val:
+                hits += 1
+        return hits
+    elif len(cruisers) == 1:
+        fired = 1
+        val = cruisers[0].combat[0]
+        x = random.randint(1, 10)
+        if x >= val:
+            hits += 1
+
+    if fired == 0 and len(destroyers) >= 2:
+        val = destroyers[0].combat[0]
+        for _ in range(2):
+            x = random.randint(1, 10)
+            if x >= val:
+                hits += 1
+    elif fired < 2 and len(destroyers) >= 1:
+        val = destroyers[0].combat[0]
+        x = random.randint(1, 10)
+        if x >= val:
+            hits += 1
+
+    return hits
+
+
+def mentak_ambush(att_units, def_units, options):
+    att_hits = 0
+    def_hits = 0
+
+    if options["att_faction"] == "Mentak":
+        att_hits = generate_ambush_hits(att_units)
+    if options["def_faction"] == "Mentak":
+        def_hits = generate_ambush_hits(def_units)
+
+    return att_hits, def_hits
 
 
 def jol_nar_mech(units):
