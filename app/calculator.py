@@ -306,8 +306,9 @@ def iteration(att_units, def_units, options):
         first_round = False
 
     # Naalu flagship: remove fighters at end of ground combat
-    att_units = list(filter(lambda x: not x.fighter, att_units))
-    def_units = list(filter(lambda x: not x.fighter, def_units))
+    if (options["att_faction"] == "Naalu" or options["def_faction"] == "Naalu") and options["ground_combat"]:
+        att_units = list(filter(lambda x: not x.fighter, att_units))
+        def_units = list(filter(lambda x: not x.fighter, def_units))
 
     if not att_units and not def_units:
         return 0
