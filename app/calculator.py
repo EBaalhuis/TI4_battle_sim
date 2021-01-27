@@ -305,6 +305,10 @@ def iteration(att_units, def_units, options):
         att_units, def_units = combat_round(att_units, def_units, first_round, options)
         first_round = False
 
+    # Naalu flagship: remove fighters at end of ground combat
+    att_units = list(filter(lambda x: not x.fighter, att_units))
+    def_units = list(filter(lambda x: not x.fighter, def_units))
+
     if not att_units and not def_units:
         return 0
     elif not att_units:
@@ -325,7 +329,7 @@ def shield_active(att_units, def_units):
     return False
 
 
-def filter_ground(att_units, def_units):
+def filter_ground(att_units, def_units, options):
     att_res, def_res = [], []
 
     shield = shield_active(att_units, def_units)
@@ -338,6 +342,12 @@ def filter_ground(att_units, def_units):
     for u in def_units:
         if u.ground or u.cannon:
             def_res.append(u)
+
+    # Naalu flagship
+    if options["att_faction"] == "Naalu" and has_flagship(att_units):
+        att_res = faction_abilities.naalu_flagship(att_units) + att_res
+    if options["def_faction"] == "Naalu" and has_flagship(def_units):
+        def_res = faction_abilities.naalu_flagship(def_units) + def_res
 
     return att_res, def_res
 
@@ -363,7 +373,7 @@ def run_simulation(att_units, def_units, options, it=IT):
         def_units = faction_abilities.naaz_flagship(def_units)
 
     if options["ground_combat"]:
-        att_units, def_units = filter_ground(att_units, def_units)
+        att_units, def_units = filter_ground(att_units, def_units, options)
     else:
         att_units, def_units = filter_space(att_units, def_units)
 

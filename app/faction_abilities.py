@@ -12,6 +12,13 @@ def naaz_mech():
     return Unit("mech", [8, 8])
 
 
+def naalu_flagship(units):
+    result = list(filter(lambda x: x.fighter, units))
+    for u in result:
+        u.ground = True
+    return result
+
+
 def naaz_flagship(units):
     for u in units:
         if u.name == "mech":
