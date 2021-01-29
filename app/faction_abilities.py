@@ -2,6 +2,39 @@ import random
 from app.units import Unit
 
 
+def apply_argent_prom(units, options, attacker):
+    if options["ground_combat"] and attacker:
+        # apply to bombardment
+        best_unit = False
+        best_bombard = 11
+        for u in units:
+            if len(u.bombard) > 0 and min(u.bombard) < best_bombard:
+                best_bombard = min(u.bombard)
+                best_unit = u
+        if best_unit:
+            best_unit.bombard = best_unit.bombard + best_unit.bombard[0:1]
+    else:
+        # apply to space cannon defense/offense
+        best_unit = False
+        best_cannon = 11
+        for u in units:
+            if len(u.cannon) > 0 and min(u.cannon) < best_cannon:
+                best_cannon = min(u.cannon)
+                best_unit = u
+        if best_unit:
+            best_unit.cannon = best_unit.cannon + best_unit.cannon[0:1]
+
+    return units
+
+
+def argent_prom(att_units, def_units, options):
+    if options["att_argent_prom"]:
+        att_units = apply_argent_prom(att_units, options, attacker=True)
+    if options["def_argent_prom"]:
+        def_units = apply_argent_prom(def_units, options, attacker=False)
+    return att_units, def_units
+
+
 def generate_ambush_hits(units):
     hits = 0
     fired = 0

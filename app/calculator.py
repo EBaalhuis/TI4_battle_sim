@@ -417,6 +417,10 @@ def run_simulation(att_units, def_units, options, it=IT):
                 u.sustain = False
                 u.can_sustain = False
 
+    # Argent promissory
+    if options["att_argent_prom"] or options["def_argent_prom"]:
+        att_units, def_units = faction_abilities.argent_prom(att_units, def_units, options)
+
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), options)
 
