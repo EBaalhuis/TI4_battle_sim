@@ -11,7 +11,8 @@ def options_from_form(form):
                 "att_carrier2", "def_carrier2", "att_destroyer2", "def_destroyer2", "att_fighter2", "def_fighter2",
                 "att_infantry2", "def_infantry2", "att_pds2", "def_pds2"]
     agendas = ["publicize", "conventions"]
-    promissories = ["att_argent_prom", "def_argent_prom"]
+    promissories = ["att_argent_prom", "def_argent_prom", "att_warfunding", "def_warfunding", "att_warfunding_omega",
+                    "def_warfunding_omega"]
 
     options = defaultdict(lambda: False)
 

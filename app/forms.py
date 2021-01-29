@@ -91,6 +91,10 @@ class InputForm(FlaskForm):
     # Promissories
     att_argent_prom = BooleanField("Strike Wing Ambuscade", default=False)
     def_argent_prom = BooleanField("Strike Wing Ambuscade", default=False)
+    att_warfunding = BooleanField("War Funding", default=False)
+    def_warfunding = BooleanField("War Funding", default=False)
+    att_warfunding_omega = BooleanField("War Funding Omega", default=False)
+    def_warfunding_omega = BooleanField("War Funding Omega", default=False)
 
     ground_combat = BooleanField("Ground Combat", default=False)
     submit = SubmitField("Calculate")

@@ -16,30 +16,38 @@ def has_mech(units):
     return len(list(filter(lambda x: x.name == "mech", units))) > 0
 
 
-def generate_hits(units, faction, morale, prototype, fire_team):
+def roll_for_hit(u, faction, morale, prototype):
+    x = random.randint(1, 10)
+    extra_hits = 0
+
+    # Jol-Nar flagsip
+    if faction == "Jol-Nar" and u.name == "flagship":
+        if x >= 9:
+            extra_hits += 2
+
+    # Sardakk flagship
+    if faction == "Sardakk" and has_flagship(units) and u.name != "flagship":
+        x += 1
+
+    # Morale Boost
+    if morale:
+        x += 1
+
+    # Prototype Fighter
+    if prototype and u.fighter:
+        x += 2
+
+    return x, extra_hits
+
+
+def generate_hits(units, faction, morale, prototype, fire_team, war_funding):
     hits = 0
     non_fighter_hits = 0
 
     for u in units:
         for val in u.combat:
-            x = random.randint(1, 10)
-
-            # Jol-Nar flagsip
-            if faction == "Jol-Nar" and u.name == "flagship":
-                if x >= 9:
-                    hits += 2
-
-            # Sardakk flagship
-            if faction == "Sardakk" and has_flagship(units) and u.name != "flagship":
-                x += 1
-
-            # Morale Boost
-            if morale:
-                x += 1
-
-            # Prototype Fighter
-            if prototype and u.fighter:
-                x += 2
+            x, extra_hits = roll_for_hit(u, faction, morale, prototype)
+            hits += extra_hits
 
             if x >= val:
                 # L1Z1X Flagship
@@ -48,13 +56,20 @@ def generate_hits(units, faction, morale, prototype, fire_team):
                 else:
                     hits += 1
 
-            # Fire Team
-            elif fire_team:  # re-roll if it was a miss, ground combat only (so no prototype, L1 flagship)
-                x = random.randint(1, 10)
-                if morale:
-                    x += 1
-                if x >= val:
-                    hits += 1
+            # Fire Team / War Funding re-roll
+            else:
+                if fire_team:  # re-roll if it was a miss, ground combat only (so no prototype, L1 flagship)
+                    x = random.randint(1, 10)
+                    if morale:
+                        x += 1
+                    if x >= val:
+                        hits += 1
+
+                if war_funding:
+                    x, extra_hits = roll_for_hit(u, faction, morale, prototype)
+                    hits += extra_hits
+                    if x >= val:
+                        hits += 1
 
     return hits, non_fighter_hits
 
@@ -138,12 +153,18 @@ def combat_round(att_units, def_units, first_round, options):
                                                   morale=(first_round and options["att_morale"]),
                                                   prototype=(first_round and options["att_prototype"]),
                                                   fire_team=(options["att_fireteam"] and
-                                                             first_round and options["ground_combat"]))
+                                                             first_round and options["ground_combat"]),
+                                                  war_funding=(options["att_warfunding"] and first_round
+                                                               and not options["ground_combat"])
+                                                  )
     def_hits, def_nonfighter_hits = generate_hits(def_units, options["def_faction"],
                                                   morale=(first_round and options["def_morale"]),
                                                   prototype=(first_round and options["def_prototype"]),
                                                   fire_team=(options["def_fireteam"] and
-                                                             first_round and options["ground_combat"]))
+                                                             first_round and options["ground_combat"]),
+                                                  war_funding=(options["def_warfunding"] and first_round
+                                                               and not options["ground_combat"])
+                                                  )
 
     # Magen Defense Grid
     if first_round and options["def_magen"] and options["ground_combat"] and \
