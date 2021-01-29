@@ -16,7 +16,7 @@ def has_mech(units):
     return len(list(filter(lambda x: x.name == "mech", units))) > 0
 
 
-def roll_for_hit(u, faction, morale, prototype):
+def roll_for_hit(units, u, faction, morale, prototype):
     x = random.randint(1, 10)
     extra_hits = 0
 
@@ -46,7 +46,7 @@ def generate_hits(units, faction, morale, prototype, fire_team, war_funding):
 
     for u in units:
         for val in u.combat:
-            x, extra_hits = roll_for_hit(u, faction, morale, prototype)
+            x, extra_hits = roll_for_hit(units, u, faction, morale, prototype)
             hits += extra_hits
 
             if x >= val:
@@ -66,7 +66,7 @@ def generate_hits(units, faction, morale, prototype, fire_team, war_funding):
                         hits += 1
 
                 if war_funding:
-                    x, extra_hits = roll_for_hit(u, faction, morale, prototype)
+                    x, extra_hits = roll_for_hit(units, u, faction, morale, prototype)
                     hits += extra_hits
                     if x >= val:
                         hits += 1
