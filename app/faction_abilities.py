@@ -13,7 +13,7 @@ def apply_argent_prom(units, options, attacker):
                 best_unit = u
         if best_unit:
             best_unit.bombard = best_unit.bombard + best_unit.bombard[0:1]
-    else:
+    elif options["ground_combat"] and not attacker:
         # apply to space cannon defense/offense
         best_unit = False
         best_cannon = 11
@@ -23,6 +23,23 @@ def apply_argent_prom(units, options, attacker):
                 best_unit = u
         if best_unit:
             best_unit.cannon = best_unit.cannon + best_unit.cannon[0:1]
+    else:
+        # space combat - have to check if space cannon offense or AFB is better
+        best_cannon_unit = False
+        best_cannon = 11
+        best_afb_unit = False
+        best_afb = 11
+        for u in units:
+            if len(u.cannon) > 0 and min(u.cannon) < best_cannon:
+                best_cannon = min(u.cannon)
+                best_cannon_unit = u
+            if len(u.afb) > 0 and min(u.afb) < best_afb:
+                best_afb = min(u.afb)
+                best_afb_unit = u
+        if best_cannon_unit and best_cannon <= best_afb:
+            best_cannon_unit.cannon = best_cannon_unit.cannon + best_cannon_unit.cannon[0:1]
+        elif best_afb_unit:
+            best_afb_unit.afb = best_afb_unit.afb + best_afb_unit.afb[0:1]
 
     return units
 

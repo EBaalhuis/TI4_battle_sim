@@ -88,5 +88,9 @@ class InputForm(FlaskForm):
     conventions = BooleanField("Conventions of War", default=False)
     publicize = BooleanField("Publicize Weapon Schematics", default=False)
 
+    # Promissories
+    att_argent_prom = BooleanField("Strike Wing Ambuscade", default=False)
+    def_argent_prom = BooleanField("Strike Wing Ambuscade", default=False)
+
     ground_combat = BooleanField("Ground Combat", default=False)
     submit = SubmitField("Calculate")
