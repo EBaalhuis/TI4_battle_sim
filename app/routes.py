@@ -4,6 +4,7 @@ import app.calculator as calculator
 from app.route_helpers import units_from_form, options_from_form
 from app.forms import InputForm
 from collections import defaultdict
+import html_generator
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -28,6 +29,9 @@ def index():
     checkboxes["att_riskdirecthit"] = "checked"
     checkboxes["def_riskdirecthit"] = "checked"
 
-    return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes)
+    blocks = [html_generator.option_line("test3_agent", "Test Agent 3", enabled=True)]
+
+    return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes,
+                           blocks=blocks)
 
 

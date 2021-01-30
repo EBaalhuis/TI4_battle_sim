@@ -426,6 +426,7 @@
                     </div>
                 </div>
 
+                <br>
                 <!-- Promissory checkboxes -->
                 <div class="o-grid o-grid--no-gutter center-grid row" align="center">
                     <b>Promissory notes</b>
@@ -445,6 +446,20 @@
 
                 <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-5" align="right">
+                        <del>Tekklar Legion</del>
+                        <input id="att_tekklar" name="att_tekklar" type="checkbox" disabled="disabled"
+                        {{ checkboxes["att_tekklar"] }}>
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_tekklar" name="def_tekklar" type="checkbox" disabled="disabled"
+                        {{ checkboxes["def_tekklar"] }}>
+                        <del>Tekklar Legion</del>
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
                         War Funding <input id="att_warfunding" name="att_warfunding" type="checkbox"
                         {{ checkboxes["att_warfunding"] }}>
                     </div>
@@ -457,16 +472,102 @@
 
                 <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-5" align="right">
-                        <del>War Funding Ω</del> <input id="att_warfunding_omega" name="att_warfunding_omega" type="checkbox"
+                        <del>War Funding Ω</del>
+                        <input id="att_warfunding_omega" name="att_warfunding_omega" type="checkbox" disabled="disabled"
                         {{ checkboxes["att_warfunding_omega"] }}>
                     </div>
                     <div class="col-sm-2" align="center"></div>
                     <div class="col-sm-5">
-                        <input id="def_warfunding_omega" name="def_warfunding_omega" type="checkbox"
-                        {{ checkboxes["def_warfunding_omega"] }}> <del>War Funding Ω</del>
+                        <input id="def_warfunding_omega" name="def_warfunding_omega" type="checkbox" disabled="disabled"
+                        {{ checkboxes["def_warfunding_omega"] }}>
+                        <del>War Funding Ω</del>
                     </div>
                 </div>
 
+                <!-- Agent checkboxes -->
+                <div class="o-grid o-grid--no-gutter center-grid row" align="center">
+                    <b>Agents</b>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        <del>Letnev Agent</del>
+                        <input id="att_letnev_agent" name="att_letnev_agent" type="checkbox" disabled="disabled"
+                        {{ checkboxes["att_letnev_agent"] }}>
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_letnev_agent" name="def_letnev_agent" type="checkbox" disabled="disabled"
+                        {{ checkboxes["def_letnev_agent"] }}>
+                        <del>Letnev Agent</del>
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        <del>Nomad Agent (Thundarian)</del>
+                        <input id="att_nomad_agent" name="att_nomad_agent" type="checkbox"  disabled="disabled"
+                        {{ checkboxes["att_nomad_agent"] }}>
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_nomad_agent" name="def_nomad_agent" type="checkbox" disabled="disabled"
+                        {{ checkboxes["def_nomad_agent"] }}>
+                        <del>Nomad Agent (Thundarian)</del>
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        <del>Sol Agent</del>
+                        <input id="att_sol_agent" name="att_sol_agent" type="checkbox" disabled="disabled"
+                        {{ checkboxes["att_sol_agent"] }}>
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_sol_agent" name="def_sol_agent" type="checkbox" disabled="disabled"
+                        {{ checkboxes["def_sol_agent"] }}>
+                        <del>Sol Agent</del>
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        <del>Titans Agent</del>
+                        <input id="att_titans_agent" name="att_titans_agent" type="checkbox" disabled="disabled"
+                        {{ checkboxes["att_titans_agent"] }}>
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_titans_agent" name="def_titans_agent" type="checkbox" disabled="disabled"
+                        {{ checkboxes["def_titans_agent"] }}>
+                        <del>Titans Agent</del>
+                    </div>
+                </div>
+
+                <div class="o-grid o-grid--no-gutter center-grid row">
+                    <div class="col-sm-5" align="right">
+                        <del>Yin Agent</del>
+                        <input id="att_yin_agent" name="att_yin_agent" type="checkbox" disabled="disabled"
+                        {{ checkboxes["att_yin_agent"] }}>
+                    </div>
+                    <div class="col-sm-2" align="center"></div>
+                    <div class="col-sm-5">
+                        <input id="def_yin_agent" name="def_yin_agent" type="checkbox" disabled="disabled"
+                        {{ checkboxes["def_yin_agent"] }}>
+                        <del>Yin Agent</del>
+                    </div>
+                </div>
+
+
+                <!-- Test checkboxes -->
+                <div class="o-grid o-grid--no-gutter center-grid row" align="center">
+                    <b>test</b>
+                </div>
+
+                {% for block in blocks %}
+                    {{ block|safe }}
+                {% endfor %}
 
                 <br>
             </form>
