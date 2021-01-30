@@ -8,6 +8,12 @@ import app.tech_abilities as tech_abilities
 IT = 10000
 
 
+def harrow(def_units, harrow_bombarders, options):
+    hits = bombardment(harrow_bombarders, options)
+    def_units = assign_hits(def_units, hits, True, options["def_faction"])
+    return def_units
+
+
 def has_flagship(units):
     return len(list(filter(lambda x: x.name == "flagship", units))) > 0
 
@@ -20,7 +26,7 @@ def roll_for_hit(units, u, faction, morale, prototype):
     x = random.randint(1, 10)
     extra_hits = 0
 
-    # Jol-Nar flagsip
+    # Jol-Nar flagship
     if faction == "Jol-Nar" and u.name == "flagship":
         if x >= 9:
             extra_hits += 2
@@ -93,6 +99,8 @@ def assign_hits(units, hits, risk_direct_hit, faction):
         if units[0].sustain:
             units[0].sustain = False
             hits -= 1
+            # Once one ship sustains and is not Direct Hit, assume its safe
+            return assign_hits(units, hits, True, faction)
         else:
             if units[0].name == "pds" and not units[0].ground:  # second part rules out Titans PDS
                 return units
@@ -137,12 +145,10 @@ def assign_nonfighters_first(units, hits, risk_direct_hit, faction):
         if u.name == "pds" and not u.ground:  # second part rules out Titans PDS
             break
         if u.sustain:
-            if hits > 1:
-                units.remove(u)
-                hits -= 2
-            else:
-                u.sustain = False
-                hits -= 1
+            u.sustain = False
+            hits -= 1
+            # Once one ship sustains and is not Direct Hit, assume its safe
+            return assign_nonfighters_first(units, hits, True, faction)
         else:
             units.remove(u)
             hits -= 1
@@ -272,8 +278,11 @@ def space_cannon(units, options, attacker):
     return result
 
 
-def filter_bombardment(units):
-    return list(filter(lambda x: x.ground, units))
+def filter_bombardment(units, faction):
+    if faction != "L1Z1X":
+        return list(filter(lambda x: x.ground, units)), []
+    else:
+        return list(filter(lambda x: x.ground, units)), list(filter(lambda x: not x.ground, units))
 
 
 def iteration(att_units, def_units, options):
@@ -356,7 +365,7 @@ def iteration(att_units, def_units, options):
             def_units = assign_hits(def_units, bombard_hits, options["def_riskdirecthit"], options["def_faction"])
         else:
             def_units = tech_abilities.x89(def_units, bombard_hits)
-        att_units = filter_bombardment(att_units)
+        att_units, harrow_bombarders = filter_bombardment(att_units, options["att_faction"])
 
     # Mentak mech
     if options["ground_combat"]:
@@ -381,6 +390,8 @@ def iteration(att_units, def_units, options):
     while att_units and def_units:
         att_units, def_units = combat_round(att_units, def_units, first_round, options)
         first_round = False
+        if options["att_faction"] == "L1Z1X":
+            harrow(def_units, harrow_bombarders, options)
 
     # Naalu flagship: remove fighters at end of ground combat
     if (options["att_faction"] == "Naalu" or options["def_faction"] == "Naalu") and options["ground_combat"]:
