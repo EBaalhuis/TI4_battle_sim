@@ -335,6 +335,11 @@ def iteration(att_units, def_units, options):
         if def_swa2_infantry_hits > 0:
             att_units = faction_abilities.assign_swa2(att_units, def_swa2_infantry_hits)
 
+        # Argent Flight Raid Formation
+        if options["att_faction"] == "Argent" or options["def_faction"] == "Argent":
+            att_units, def_units = faction_abilities.raid_formation(att_units, def_units, att_afb_hits, def_afb_hits,
+                                                                    options)
+
         if options["def_waylay"]:
             att_units = assign_hits(att_units, def_afb_hits, options["att_riskdirecthit"], options["att_faction"])
         else:

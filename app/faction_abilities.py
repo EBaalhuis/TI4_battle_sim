@@ -2,6 +2,28 @@ import random
 from app.units import Unit
 
 
+def raid_formation(att_units, def_units, att_afb_hits, def_afb_hits, options):
+    if options["att_faction"] == "Argent":
+        damage = max(0, att_afb_hits - len(list(filter(lambda x: x.fighter, def_units))))
+        for u in def_units:
+            if damage == 0:
+                break
+            if u.sustain:
+                u.sustain = False
+                damage -= 1
+
+    if options["def_faction"] == "Argent":
+        damage = max(0, def_afb_hits - len(list(filter(lambda x: x.fighter, att_units))))
+        for u in att_units:
+            if damage == 0:
+                break
+            if u.sustain:
+                u.sustain = False
+                damage -= 1
+
+    return att_units, def_units
+
+
 def assign_swa2(units, hits):
     # These hits are assigned to infantry only
     result = [u for u in units]
