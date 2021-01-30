@@ -23,6 +23,7 @@ defender["cruiser"] = 2
 options["ground_combat"] = False
 
 # Options
+options["att_faction"] = "Winnu"
 
 outcomes = calculator.calculate(attacker, defender, options)
 testing_helpers.evaluate(outcomes, target, tol)
