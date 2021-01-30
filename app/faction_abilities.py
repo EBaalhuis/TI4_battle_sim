@@ -161,6 +161,18 @@ def generate_ambush_hits(units):
     return hits
 
 
+def mentak_mech(att_units, def_units, options):
+    if options["att_faction"] == "Mentak":
+        for u in def_units:
+            u.sustain = False
+
+    if options["def_faction"] == "Mentak":
+        for u in att_units:
+            u.sustain = False
+
+    return att_units, def_units
+
+
 def mentak_ambush(att_units, def_units, options):
     att_hits = 0
     def_hits = 0

@@ -358,6 +358,11 @@ def iteration(att_units, def_units, options):
             def_units = tech_abilities.x89(def_units, bombard_hits)
         att_units = filter_bombardment(att_units)
 
+    # Mentak mech
+    if options["ground_combat"]:
+        if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
+            att_units, def_units = faction_abilities.mentak_mech(att_units, def_units, options)
+
     # space cannon defense
     if options["ground_combat"]:
         cannon_hits = space_cannon(def_units, options, attacker=False)
