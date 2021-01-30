@@ -2,6 +2,28 @@ import random
 from app.units import Unit
 
 
+def check_letnev_flagship(units):
+    for u in units:
+        if u.name == "flagship":
+            return u
+
+    return False
+
+
+def letnev_flagship(att_units, def_units, options):
+    if options["att_faction"] == "Letnev":
+        for u in att_units:
+            if u.name == "flagship" and u.can_sustain:
+                u.sustain = True
+
+    if options["def_faction"] == "Letnev":
+        for u in def_units:
+            if u.name == "flagship" and u.can_sustain:
+                u.sustain = True
+
+    return att_units, def_units
+
+
 def tekklar(att_units, def_units, options):
     if options["att_tekklar"]:
         for u in att_units:
