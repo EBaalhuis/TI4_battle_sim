@@ -430,9 +430,18 @@ def filter_ground(att_units, def_units, options):
     return att_res, def_res
 
 
-def filter_space(att_units, def_units):
-    return list(filter(lambda x: not x.ground or len(x.cannon) > 0, att_units)), \
-           list(filter(lambda x: not x.ground or len(x.cannon) > 0, def_units))
+def filter_space(att_units, def_units, options):
+    if options["att_faction"] == "Nekro" and has_flagship(att_units):
+        att_result = list(filter(lambda x: not x.ground or len(x.cannon) > 0 or x.name == "infantry", att_units))
+    else:
+        att_result = list(filter(lambda x: not x.ground or len(x.cannon) > 0, att_units))
+
+    if options["def_faction"] == "Nekro" and has_flagship(def_units):
+        def_result = list(filter(lambda x: not x.ground or len(x.cannon) > 0 or x.name == "infantry", def_units))
+    else:
+        def_result = list(filter(lambda x: not x.ground or len(x.cannon) > 0, def_units))
+
+    return att_result, def_result
 
 
 def run_simulation(att_units, def_units, options, it=IT):
@@ -453,7 +462,7 @@ def run_simulation(att_units, def_units, options, it=IT):
     if options["ground_combat"]:
         att_units, def_units = filter_ground(att_units, def_units, options)
     else:
-        att_units, def_units = filter_space(att_units, def_units)
+        att_units, def_units = filter_space(att_units, def_units, options)
 
         # Argent flagship
         if options["att_faction"] == "Argent" or options["def_faction"] == "Argent":
