@@ -366,6 +366,8 @@ def iteration(att_units, def_units, options):
         else:
             def_units = tech_abilities.x89(def_units, bombard_hits)
         att_units, harrow_bombarders = filter_bombardment(att_units, options["att_faction"])
+    else:
+        harrow_bombarders = []
 
     # Mentak mech
     if options["ground_combat"]:
