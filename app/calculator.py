@@ -238,14 +238,20 @@ def bombardment(units, options):
     return result
 
 
-def antifighter(units):
+def antifighter(units, swa2):
     result = 0
+    swa2_hits = 0
     for u in units:
         for val in u.afb:
             x = random.randint(1, 10)
             if x >= val:
                 result += 1
-    return result
+
+            # Strike Wing Alpha II destroying infantry ability
+            if swa2 and x >= 9:
+                swa2_hits += 1
+
+    return result, swa2_hits
 
 
 def space_cannon(units, options, attacker):
@@ -316,8 +322,19 @@ def iteration(att_units, def_units, options):
 
     # anti-fighter barrage
     if not options["ground_combat"]:
-        att_afb_hits = antifighter(att_units)
-        def_afb_hits = antifighter(def_units)
+        att_afb_hits, att_swa2_infantry_hits = antifighter(att_units,
+                                                           options["att_faction"] == "Argent"
+                                                           and options["att_destroyer2"])
+        def_afb_hits, def_swa2_infantry_hits = antifighter(def_units,
+                                                           options["def_faction"] == "Argent"
+                                                           and options["att_destroyer2"])
+
+        # Strike Wing Alpha II infantry hits
+        if att_swa2_infantry_hits > 0:
+            def_units = faction_abilities.assign_swa2(def_units, att_swa2_infantry_hits)
+        if def_swa2_infantry_hits > 0:
+            att_units = faction_abilities.assign_swa2(att_units, def_swa2_infantry_hits)
+
         if options["def_waylay"]:
             att_units = assign_hits(att_units, def_afb_hits, options["att_riskdirecthit"], options["att_faction"])
         else:

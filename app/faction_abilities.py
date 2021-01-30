@@ -2,6 +2,18 @@ import random
 from app.units import Unit
 
 
+def assign_swa2(units, hits):
+    # These hits are assigned to infantry only
+    result = [u for u in units]
+    for u in units:
+        if hits == 0:
+            return result
+        if u.name == "infantry":
+            result.remove(u)
+            hits -= 1
+    return result
+
+
 def check_letnev_flagship(units):
     for u in units:
         if u.name == "flagship":
