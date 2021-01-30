@@ -20,7 +20,10 @@ def index():
         for opt in options.keys():
             checkboxes[opt] = "checked" if options[opt] else ""
 
-        return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes)
+        boxes = html_generator.make_boxes()
+
+        return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes,
+                               boxes=boxes)
     outcomes = [0, 0, 0]
 
     defaults = defaultdict(lambda: {"data": "0"})
