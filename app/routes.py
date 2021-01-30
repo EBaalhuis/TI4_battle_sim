@@ -29,9 +29,9 @@ def index():
     checkboxes["att_riskdirecthit"] = "checked"
     checkboxes["def_riskdirecthit"] = "checked"
 
-    blocks = [html_generator.option_line("test3_agent", "Test Agent 3", enabled=True)]
+    boxes = html_generator.make_boxes()
 
     return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes,
-                           blocks=blocks)
+                           boxes=boxes)
 
 

@@ -211,361 +211,48 @@
                 </div>
 
                 <!-- General checkboxes -->
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Risk Direct Hit <input id="att_riskdirecthit" name="att_riskdirecthit" type="checkbox"
-                                               {{ checkboxes["att_riskdirecthit"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_riskdirecthit" name="def_riskdirecthit" type="checkbox"
-                               {{ checkboxes["def_riskdirecthit"] }}> Risk Direct Hit
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right"></div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_nebula" name="def_nebula" type="checkbox"
-                        {{ checkboxes["def_nebula"] }}> Defending in Nebula
-                    </div>
-                </div>
+                {% for block in boxes["general"] %}
+                    {{ block|safe }}
+                {% endfor %}
 
                 <!-- Technology checkboxes -->
                 <div class="o-grid o-grid--no-gutter center-grid row" align="center">
                     <b>Technologies</b>
                 </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Antimass Deflectors <input id="att_antimass" name="att_antimass" type="checkbox"
-                        {{ checkboxes["att_antimass"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_antimass" name="def_antimass" type="checkbox"
-                        {{ checkboxes["def_antimass"] }}> Antimass Deflectors
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Graviton Laser System <input id="att_graviton" name="att_graviton" type="checkbox"
-                        {{ checkboxes["att_graviton"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_graviton" name="def_graviton" type="checkbox"
-                        {{ checkboxes["def_graviton"] }}> Graviton Laser System
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Plasma Scoring <input id="att_plasma" name="att_plasma" type="checkbox"
-                        {{ checkboxes["att_plasma"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_plasma" name="def_plasma" type="checkbox"
-                        {{ checkboxes["def_plasma"] }}> Plasma Scoring
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_magen" name="def_magen" type="checkbox"
-                        {{ checkboxes["def_magen"] }}> Magen Defense Grid
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        X-89 Bacterial Weapon Ω <input id="att_x89" name="att_x89" type="checkbox"
-                        {{ checkboxes["att_x89"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_magen_o" name="def_magen_o" type="checkbox"
-                        {{ checkboxes["def_magen_o"] }}> Magen Defense Grid Ω
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Duranium Armor <input id="att_duranium" name="att_duranium" type="checkbox"
-                        {{ checkboxes["att_duranium"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_duranium" name="def_duranium" type="checkbox"
-                        {{ checkboxes["def_duranium"] }}> Duranium Armor
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Assault Cannon <input id="att_assault" name="att_assault" type="checkbox"
-                        {{ checkboxes["att_assault"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_assault" name="def_assault" type="checkbox"
-                        {{ checkboxes["def_assault"] }}> Assault Cannon
-                    </div>
-                </div>
+                {% for block in boxes["tech"] %}
+                    {{ block|safe }}
+                {% endfor %}
 
                 <!-- Action Card checkboxes -->
                 <div class="o-grid o-grid--no-gutter center-grid row" align="center">
                     <b>Action Cards</b>
                 </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_bunker" name="def_bunker" type="checkbox"
-                        {{ checkboxes["def_bunker"] }}> Bunker
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_experimental" name="def_experimental" type="checkbox"
-                        {{ checkboxes["def_experimental"] }}> Experimental Battlestation
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Fighter Prototype <input id="att_prototype" name="att_prototype" type="checkbox"
-                        {{ checkboxes["att_prototype"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_prototype" name="def_prototype" type="checkbox"
-                        {{ checkboxes["def_prototype"] }}> Fighter Prototype
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Fire Team <input id="att_fireteam" name="att_fireteam" type="checkbox"
-                        {{ checkboxes["att_fireteam"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_fireteam" name="def_fireteam" type="checkbox"
-                        {{ checkboxes["def_fireteam"] }}> Fire Team
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Maneuvering Jets <input id="att_maneuvering" name="att_maneuvering" type="checkbox"
-                        {{ checkboxes["att_maneuvering"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_maneuvering" name="def_maneuvering" type="checkbox"
-                        {{ checkboxes["def_maneuvering"] }}> Maneuvering Jets
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Morale Boost 1st round <input id="att_morale" name="att_morale" type="checkbox"
-                        {{ checkboxes["att_morale"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_morale" name="def_morale" type="checkbox"
-                        {{ checkboxes["def_morale"] }}> Morale Boost 1st round
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Waylay <input id="att_waylay" name="att_waylay" type="checkbox"
-                        {{ checkboxes["att_waylay"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_waylay" name="def_waylay" type="checkbox"
-                        {{ checkboxes["def_waylay"] }}> Waylay
-                    </div>
-                </div>
+                {% for block in boxes["cards"] %}
+                    {{ block|safe }}
+                {% endfor %}
 
                 <!-- Agenda checkboxes -->
                 <div class="o-grid o-grid--no-gutter center-grid row" align="center">
                     <b>Agendas</b>
                 </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-12" align="center">
-                        <input id="conventions" name="conventions" type="checkbox"
-                        {{ checkboxes["conventions"] }}> Conventions of War
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-12" align="center">
-                        <input id="publicize" name="publicize" type="checkbox"
-                        {{ checkboxes["publicize"] }}> Publicize Weapon Schematics
-                    </div>
-                </div>
+                {% for block in boxes["agendas"] %}
+                    {{ block|safe }}
+                {% endfor %}
 
                 <br>
                 <!-- Promissory checkboxes -->
                 <div class="o-grid o-grid--no-gutter center-grid row" align="center">
                     <b>Promissory notes</b>
                 </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        Strike Wing Ambuscade <input id="att_argent_prom" name="att_argent_prom" type="checkbox"
-                        {{ checkboxes["att_argent_prom"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_argent_prom" name="def_argent_prom" type="checkbox"
-                        {{ checkboxes["def_argent_prom"] }}> Strike Wing Ambuscade
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        <del>Tekklar Legion</del>
-                        <input id="att_tekklar" name="att_tekklar" type="checkbox" disabled="disabled"
-                        {{ checkboxes["att_tekklar"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_tekklar" name="def_tekklar" type="checkbox" disabled="disabled"
-                        {{ checkboxes["def_tekklar"] }}>
-                        <del>Tekklar Legion</del>
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        War Funding <input id="att_warfunding" name="att_warfunding" type="checkbox"
-                        {{ checkboxes["att_warfunding"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_warfunding" name="def_warfunding" type="checkbox"
-                        {{ checkboxes["def_warfunding"] }}> War Funding
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        <del>War Funding Ω</del>
-                        <input id="att_warfunding_omega" name="att_warfunding_omega" type="checkbox" disabled="disabled"
-                        {{ checkboxes["att_warfunding_omega"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_warfunding_omega" name="def_warfunding_omega" type="checkbox" disabled="disabled"
-                        {{ checkboxes["def_warfunding_omega"] }}>
-                        <del>War Funding Ω</del>
-                    </div>
-                </div>
+                {% for block in boxes["notes"] %}
+                    {{ block|safe }}
+                {% endfor %}
 
                 <!-- Agent checkboxes -->
                 <div class="o-grid o-grid--no-gutter center-grid row" align="center">
                     <b>Agents</b>
                 </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        <del>Letnev Agent</del>
-                        <input id="att_letnev_agent" name="att_letnev_agent" type="checkbox" disabled="disabled"
-                        {{ checkboxes["att_letnev_agent"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_letnev_agent" name="def_letnev_agent" type="checkbox" disabled="disabled"
-                        {{ checkboxes["def_letnev_agent"] }}>
-                        <del>Letnev Agent</del>
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        <del>Nomad Agent (Thundarian)</del>
-                        <input id="att_nomad_agent" name="att_nomad_agent" type="checkbox"  disabled="disabled"
-                        {{ checkboxes["att_nomad_agent"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_nomad_agent" name="def_nomad_agent" type="checkbox" disabled="disabled"
-                        {{ checkboxes["def_nomad_agent"] }}>
-                        <del>Nomad Agent (Thundarian)</del>
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        <del>Sol Agent</del>
-                        <input id="att_sol_agent" name="att_sol_agent" type="checkbox" disabled="disabled"
-                        {{ checkboxes["att_sol_agent"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_sol_agent" name="def_sol_agent" type="checkbox" disabled="disabled"
-                        {{ checkboxes["def_sol_agent"] }}>
-                        <del>Sol Agent</del>
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        <del>Titans Agent</del>
-                        <input id="att_titans_agent" name="att_titans_agent" type="checkbox" disabled="disabled"
-                        {{ checkboxes["att_titans_agent"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_titans_agent" name="def_titans_agent" type="checkbox" disabled="disabled"
-                        {{ checkboxes["def_titans_agent"] }}>
-                        <del>Titans Agent</del>
-                    </div>
-                </div>
-
-                <div class="o-grid o-grid--no-gutter center-grid row">
-                    <div class="col-sm-5" align="right">
-                        <del>Yin Agent</del>
-                        <input id="att_yin_agent" name="att_yin_agent" type="checkbox" disabled="disabled"
-                        {{ checkboxes["att_yin_agent"] }}>
-                    </div>
-                    <div class="col-sm-2" align="center"></div>
-                    <div class="col-sm-5">
-                        <input id="def_yin_agent" name="def_yin_agent" type="checkbox" disabled="disabled"
-                        {{ checkboxes["def_yin_agent"] }}>
-                        <del>Yin Agent</del>
-                    </div>
-                </div>
-
-
-                <!-- Test checkboxes -->
-                <div class="o-grid o-grid--no-gutter center-grid row" align="center">
-                    <b>test</b>
-                </div>
-
-                {% for block in blocks %}
+                {% for block in boxes["agents"] %}
                     {{ block|safe }}
                 {% endfor %}
 
