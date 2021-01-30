@@ -1,10 +1,9 @@
-from flask import render_template, redirect
-from app import app
+from flask import render_template
+from app import app, html_generator
 import app.calculator as calculator
 from app.route_helpers import units_from_form, options_from_form
 from app.forms import InputForm
 from collections import defaultdict
-import html_generator
 
 
 @app.route('/', methods=['GET', 'POST'])

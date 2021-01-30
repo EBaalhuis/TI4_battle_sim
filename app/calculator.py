@@ -438,9 +438,13 @@ def run_simulation(att_units, def_units, options, it=IT):
                 u.sustain = False
                 u.can_sustain = False
 
-    # Argent promissory
+    # Strike Wing Ambuscade
     if options["att_argent_prom"] or options["def_argent_prom"]:
         att_units, def_units = faction_abilities.argent_prom(att_units, def_units, options)
+
+    # Tekklar Legion
+    if options["ground_combat"] and (options["att_tekklar"] or options["def_tekklar"]):
+        att_units, def_units = faction_abilities.tekklar(att_units, def_units, options)
 
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), options)

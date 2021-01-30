@@ -256,6 +256,14 @@
                     {{ block|safe }}
                 {% endfor %}
 
+                <!-- Commander checkboxes -->
+                <div class="o-grid o-grid--no-gutter center-grid row" align="center">
+                    <b>Commanders</b>
+                </div>
+                {% for block in boxes["commanders"] %}
+                    {{ block|safe }}
+                {% endfor %}
+
                 <br>
             </form>
         </div>

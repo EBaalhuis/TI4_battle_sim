@@ -80,15 +80,24 @@ def make_boxes():
                          centered_line("publicize", "Publicize Weapon Schematics")],
 
              "notes": [option_line("argent_prom", "Strike Wing Ambuscade"),
-                       option_line("tekklar", "Tekklar Legion", enabled=False),
+                       option_line("tekklar", "Tekklar Legion"),
                        option_line("warfunding", "War Funding"),
-                       option_line("warfunding_omega", "War Funding Ω", enabled=False)],
+                       option_line("warfunding_omega", "War Funding Ω", enabled=False),
+                       option_line("cavalry1", "The Cavalry (Memoria I)", enabled=False),
+                       option_line("cavalry2", "The Cavalry (Memoria II)", enabled=False)],
 
              "agents": [option_line("letnev_agent", "Letnev Agent", enabled=False),
                         option_line("nomad_agent", "Nomad Agent (Thundarian)", enabled=False),
                         option_line("sol_agent", "Sol Agent", enabled=False),
                         option_line("titans_agent", "Titans Agent", enabled=False),
-                        option_line("yin_agent", "Yin Agent", enabled=False)]
+                        option_line("yin_agent", "Yin Agent", enabled=False)],
+
+             "commanders": [option_line("argent_commander", "Argent Commander", enabled=False),
+                            option_line("jolnar_commander", "Jol-Nar Commander", enabled=False),
+                            option_line("l1z1x_commander", "L1Z1X Commander", enabled=False),
+                            option_line("letnev_commander", "Letnev Commander", enabled=False),
+                            option_line("sol_commander", "Sol Commander", enabled=False),
+                            option_line("winnu_commander", "Winnu Commander", enabled=False)]
              }
 
     return boxes

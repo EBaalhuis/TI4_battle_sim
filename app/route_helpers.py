@@ -12,13 +12,18 @@ def options_from_form(form):
                 "att_infantry2", "def_infantry2", "att_pds2", "def_pds2"]
     agendas = ["publicize", "conventions"]
     promissories = ["att_argent_prom", "def_argent_prom", "att_warfunding", "def_warfunding", "att_warfunding_omega",
-                    "def_warfunding_omega", "att_tekklar", "def_tekklar"]
+                    "def_warfunding_omega", "att_tekklar", "def_tekklar", "att_cavalry1", "def_cavalry1",
+                    "att_cavalry2", "def_cavalry2"]
     agents = ["att_letnev_agent", "def_letnev_agent", "att_nomad_agent", "def_nomad_agent", "att_sol_agent",
               "def_sol_agent", "att_titans_agent", "def_titans_agent", "att_yin_agent", "def_yin_agent"]
 
+    commander_factions = ["argent", "jolnar", "l1z1x", "letnev", "sol", "winnu"]
+    commanders = ["att_" + c + "_commander" for c in commander_factions] + \
+                 ["def_" + c + "_commander" for c in commander_factions]
+
     options = defaultdict(lambda: False)
 
-    for label in misc + techs + cards + upgrades + agendas + promissories + agents:
+    for label in misc + techs + cards + upgrades + agendas + promissories + agents + commanders:
         options[label] = form[label].data
 
     return options

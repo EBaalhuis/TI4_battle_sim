@@ -2,6 +2,24 @@ import random
 from app.units import Unit
 
 
+def tekklar(att_units, def_units, options):
+    if options["att_tekklar"]:
+        for u in att_units:
+            u.combat = [x - 1 for x in u.combat]
+        if options["def_faction"] == "Sardakk":
+            for u in def_units:
+                u.combat = [x + 1 for x in u.combat]
+
+    if options["def_tekklar"]:
+        for u in def_units:
+            u.combat = [x - 1 for x in u.combat]
+        if options["att_faction"] == "Sardakk":
+            for u in att_units:
+                u.combat = [x + 1 for x in u.combat]
+
+    return att_units, def_units
+
+
 def apply_argent_prom(units, options, attacker):
     if options["ground_combat"] and attacker:
         # apply to bombardment
