@@ -2,20 +2,20 @@ import random
 from app.units import Unit
 
 
-def roll_sol_agent(units, morale, fire_team):
-    best_val = min([val for u in units for val in u.combat])
-    x = random.randint(1, 10)
-    if morale:
-        x += 1
-    if x >= best_val:
-        return 1
-    elif fire_team:
-        x = random.randint(1, 10)
-        if morale:
-            x += 1
-        if x >= best_val:
-            return 1
-    return 0
+def apply_letnev_agent(units):
+    best = 11
+    best_unit = False
+    for u in units:
+        if min(u.combat) < best:
+            best = min(u.combat)
+            best_unit = u
+    best_unit.combat = best_unit.combat + best_unit.combat[0:1]
+
+    return units, best_unit
+
+
+def apply_sol_agent(units):
+    return apply_letnev_agent(units)
 
 
 def raid_formation(att_units, def_units, att_afb_hits, def_afb_hits, options):
