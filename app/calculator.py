@@ -502,6 +502,12 @@ def run_simulation(att_units, def_units, options, it=IT):
     if options["def_faction"] == "Naaz-Rokha" and has_flagship(def_units):
         def_units = faction_abilities.naaz_flagship(def_units)
 
+    # Winnu commander
+    if options["att_winnu_commander"]:
+        att_units = faction_abilities.winnu_commander(att_units)
+    if options["def_winnu_commander"]:
+        def_units = faction_abilities.winnu_commander(def_units)
+
     if options["ground_combat"]:
         att_units, def_units = filter_ground(att_units, def_units, options)
     else:

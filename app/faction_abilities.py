@@ -2,6 +2,13 @@ import random
 from app.units import Unit
 
 
+def winnu_commander(units):
+    for u in units:
+        u.combat = [x - 2 for x in u.combat]
+
+    return units
+
+
 def apply_letnev_agent(units):
     best = 11
     best_unit = False

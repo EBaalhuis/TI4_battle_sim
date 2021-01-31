@@ -86,7 +86,7 @@ def make_boxes():
                        option_line("cavalry1", "The Cavalry (Memoria I)", enabled=False),
                        option_line("cavalry2", "The Cavalry (Memoria II)", enabled=False)],
 
-             "agents": [option_line("letnev_agent", "Letnev Agent", enabled=False),
+             "agents": [option_line("letnev_agent", "Letnev Agent"),
                         option_line("nomad_agent", "Nomad Agent (Thundarian)", enabled=False),
                         option_line("sol_agent", "Sol Agent"),
                         option_line("titans_agent", "Titans Agent", enabled=False),
@@ -95,7 +95,7 @@ def make_boxes():
              "commanders": [option_line("argent_commander", "Argent Commander", enabled=False),
                             option_line("jolnar_commander", "Jol-Nar Commander", enabled=False),
                             option_line("letnev_commander", "Letnev Commander", enabled=False),
-                            option_line("winnu_commander", "Winnu Commander", enabled=False),
+                            option_line("winnu_commander", "Winnu Commander"),
                             option_line("att_l1z1x_commander", "L1Z1X Commander", "sol_commander", "Sol Commander")]
              }
 
