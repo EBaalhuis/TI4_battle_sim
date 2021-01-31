@@ -518,6 +518,12 @@ def run_simulation(att_units, def_units, options, it=IT):
     if options["ground_combat"] and (options["att_tekklar"] or options["def_tekklar"]):
         att_units, def_units = faction_abilities.tekklar(att_units, def_units, options)
 
+    # Sol commander
+    if options["def_sol_commander"] and options["ground_combat"] and len(list(filter(lambda x: x.ground, def_units))):
+        extra_infantry = [units.infantry2(options["def_faction"]) if options["def_infantry2"] \
+            else units.infantry(options["def_faction"])]
+        def_units = extra_infantry + def_units
+
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), options)
 

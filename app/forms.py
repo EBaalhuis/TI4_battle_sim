@@ -123,7 +123,6 @@ class InputForm(FlaskForm):
     def_l1z1x_commander = BooleanField("L1Z1X Commander", default=False)
     att_letnev_commander = BooleanField("Letnev Commander", default=False)
     def_letnev_commander = BooleanField("Letnev Commander", default=False)
-    att_sol_commander = BooleanField("Sol Commander", default=False)
     def_sol_commander = BooleanField("Sol Commander", default=False)
     att_winnu_commander = BooleanField("Winnu Commander", default=False)
     def_winnu_commander = BooleanField("Winnu Commander", default=False)

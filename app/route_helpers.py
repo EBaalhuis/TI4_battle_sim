@@ -17,9 +17,10 @@ def options_from_form(form):
     agents = ["att_letnev_agent", "def_letnev_agent", "att_nomad_agent", "def_nomad_agent", "att_sol_agent",
               "def_sol_agent", "att_titans_agent", "def_titans_agent", "att_yin_agent", "def_yin_agent"]
 
-    commander_factions = ["argent", "jolnar", "l1z1x", "letnev", "sol", "winnu"]
+    commander_factions = ["argent", "jolnar", "l1z1x", "letnev", "winnu"]
     commanders = ["att_" + c + "_commander" for c in commander_factions] + \
-                 ["def_" + c + "_commander" for c in commander_factions]
+                 ["def_" + c + "_commander" for c in commander_factions] + \
+                 ["def_sol_commander"]
 
     options = defaultdict(lambda: False)
 

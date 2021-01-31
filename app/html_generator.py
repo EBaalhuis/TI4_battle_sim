@@ -26,7 +26,7 @@ def def_side(name, description, enabled, on):
     return result
 
 
-def option_line(name, description, enabled=True, def_name="", def_description="", both=True):
+def option_line(name, description, def_name="", def_description="", enabled=True, both=True):
     att_on = both or len(name) > 0
     def_on = both or len(def_name) > 0
 
@@ -96,7 +96,7 @@ def make_boxes():
                             option_line("jolnar_commander", "Jol-Nar Commander", enabled=False),
                             option_line("l1z1x_commander", "L1Z1X Commander", enabled=False),
                             option_line("letnev_commander", "Letnev Commander", enabled=False),
-                            option_line("sol_commander", "Sol Commander", enabled=False),
+                            option_line("", "", "sol_commander", "Sol Commander", both=False),
                             option_line("winnu_commander", "Winnu Commander", enabled=False)]
              }
 
