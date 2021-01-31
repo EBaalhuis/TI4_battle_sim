@@ -65,7 +65,7 @@ def make_boxes():
                       option_line("x89", "X-89 Bacterial Weapon Ω", def_name="magen_o",
                                   def_description="Magen Defense Grid Ω"),
                       option_line("duranium", "Duranium Armor"),
-                      option_line("assault", "Assault Cannon"),],
+                      option_line("assault", "Assault Cannon")],
 
              "cards": [option_line("", "", def_name="bunker", def_description="Bunker", both=False),
                        option_line("", "", def_name="experimental", def_description="Experimental Battlestation",
@@ -74,7 +74,7 @@ def make_boxes():
                        option_line("fireteam", "Fire Team"),
                        option_line("maneuvering", "Maneuvering Jets"),
                        option_line("morale", "Morale Boost 1st round"),
-                       option_line("waylay", "Waylay"),],
+                       option_line("waylay", "Waylay")],
 
              "agendas": [centered_line("conventions", "Conventions of War"),
                          centered_line("publicize", "Publicize Weapon Schematics")],
@@ -88,16 +88,15 @@ def make_boxes():
 
              "agents": [option_line("letnev_agent", "Letnev Agent", enabled=False),
                         option_line("nomad_agent", "Nomad Agent (Thundarian)", enabled=False),
-                        option_line("sol_agent", "Sol Agent", enabled=False),
+                        option_line("sol_agent", "Sol Agent"),
                         option_line("titans_agent", "Titans Agent", enabled=False),
                         option_line("yin_agent", "Yin Agent", enabled=False)],
 
              "commanders": [option_line("argent_commander", "Argent Commander", enabled=False),
                             option_line("jolnar_commander", "Jol-Nar Commander", enabled=False),
-                            option_line("l1z1x_commander", "L1Z1X Commander", enabled=False),
                             option_line("letnev_commander", "Letnev Commander", enabled=False),
-                            option_line("", "", "sol_commander", "Sol Commander", both=False),
-                            option_line("winnu_commander", "Winnu Commander", enabled=False)]
+                            option_line("winnu_commander", "Winnu Commander", enabled=False),
+                            option_line("att_l1z1x_commander", "L1Z1X Commander", "sol_commander", "Sol Commander")]
              }
 
     return boxes

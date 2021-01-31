@@ -416,10 +416,14 @@ def iteration(att_units, def_units, options):
         return 1
 
 
-def shield_active(att_units, def_units):
+def shield_active(att_units, def_units, options):
     for u in att_units:
         if u.disable_shield:
             return False
+
+    # L1Z1X commander
+    if options["att_l1z1x_commander"]:
+        return False
 
     for u in def_units:
         if u.shield:
@@ -431,9 +435,11 @@ def shield_active(att_units, def_units):
 def filter_ground(att_units, def_units, options):
     att_res, def_res = [], []
 
-    shield = shield_active(att_units, def_units)
+    shield = shield_active(att_units, def_units, options)
     for u in att_units:
         if u.ground:
+            if shield:
+                u.bombard = []
             att_res.append(u)
         elif u.bombard and not shield:
             att_res.append(u)
