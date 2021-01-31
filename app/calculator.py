@@ -46,7 +46,7 @@ def roll_for_hit(units, u, faction, morale, prototype):
     return x, extra_hits
 
 
-def generate_hits(units, faction, morale, prototype, fire_team, war_funding):
+def generate_hits(units, faction, morale, prototype, fire_team, war_funding, sol_agent):
     hits = 0
     non_fighter_hits = 0
 
@@ -71,11 +71,15 @@ def generate_hits(units, faction, morale, prototype, fire_team, war_funding):
                     if x >= val:
                         hits += 1
 
-                if war_funding:
+                if war_funding:  # space combat only
                     x, extra_hits = roll_for_hit(units, u, faction, morale, prototype)
                     hits += extra_hits
                     if x >= val:
                         hits += 1
+
+    # Sol agent
+    if sol_agent:
+        hits += faction_abilities.roll_sol_agent(units, morale, fire_team)
 
     return hits, non_fighter_hits
 
@@ -175,7 +179,9 @@ def combat_round(att_units, def_units, first_round, options):
                                                   fire_team=(options["att_fireteam"] and
                                                              first_round and options["ground_combat"]),
                                                   war_funding=(options["att_warfunding"] and first_round
-                                                               and not options["ground_combat"])
+                                                               and not options["ground_combat"]),
+                                                  sol_agent=(first_round and options["att_sol_agent"]
+                                                             and options["ground_combat"])
                                                   )
     def_hits, def_nonfighter_hits = generate_hits(def_units, options["def_faction"],
                                                   morale=(first_round and options["def_morale"]),
@@ -183,7 +189,9 @@ def combat_round(att_units, def_units, first_round, options):
                                                   fire_team=(options["def_fireteam"] and
                                                              first_round and options["ground_combat"]),
                                                   war_funding=(options["def_warfunding"] and first_round
-                                                               and not options["ground_combat"])
+                                                               and not options["ground_combat"]),
+                                                  sol_agent=(first_round and options["def_sol_agent"]
+                                                             and options["ground_combat"])
                                                   )
 
     # Magen Defense Grid

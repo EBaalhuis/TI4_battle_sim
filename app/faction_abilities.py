@@ -2,6 +2,22 @@ import random
 from app.units import Unit
 
 
+def roll_sol_agent(units, morale, fire_team):
+    best_val = min([val for u in units for val in u.combat])
+    x = random.randint(1, 10)
+    if morale:
+        x += 1
+    if x >= best_val:
+        return 1
+    elif fire_team:
+        x = random.randint(1, 10)
+        if morale:
+            x += 1
+        if x >= best_val:
+            return 1
+    return 0
+
+
 def raid_formation(att_units, def_units, att_afb_hits, def_afb_hits, options):
     if options["att_faction"] == "Argent":
         damage = max(0, att_afb_hits - len(list(filter(lambda x: x.fighter, def_units))))
