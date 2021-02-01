@@ -2,6 +2,12 @@ import random
 from app.units import Unit
 
 
+def cavalry(units, upgraded):
+    # prefer to replace carrier, otherwise first unit (so unit that would be first to take hits)
+    # insert where??
+    return units
+
+
 def winnu_commander(units):
     for u in units:
         u.combat = [x - 2 for x in u.combat]

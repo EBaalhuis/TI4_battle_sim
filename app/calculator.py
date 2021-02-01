@@ -46,7 +46,7 @@ def roll_for_hit(units, u, faction, morale, prototype):
     return x, extra_hits
 
 
-def generate_hits(units, faction, morale, prototype, fire_team, war_funding, sol_agent, letnev_agent):
+def generate_hits(units, faction, morale, prototype, fire_team, war_funding, war_funding_o, sol_agent, letnev_agent):
     hits = 0
     non_fighter_hits = 0
 
@@ -79,7 +79,7 @@ def generate_hits(units, faction, morale, prototype, fire_team, war_funding, sol
                     if x >= val:
                         hits += 1
 
-                if war_funding:  # space combat only
+                if war_funding or war_funding_o:  # space combat only
                     x, extra_hits = roll_for_hit(units, u, faction, morale, prototype)
                     hits += extra_hits
                     if x >= val:
@@ -185,30 +185,26 @@ def combat_round(att_units, def_units, first_round, options):
     if options["att_faction"] == "Winnu" or options["def_faction"] == "Winnu":
         att_units, def_units = faction_abilities.winnu_flagship(att_units, def_units, options)
 
-    att_hits, att_nonfighter_hits = generate_hits(att_units, options["att_faction"],
-                                                  morale=(first_round and options["att_morale"]),
-                                                  prototype=(first_round and options["att_prototype"]),
-                                                  fire_team=(options["att_fireteam"] and
-                                                             first_round and options["ground_combat"]),
-                                                  war_funding=(options["att_warfunding"] and first_round
-                                                               and not options["ground_combat"]),
-                                                  sol_agent=(first_round and options["att_sol_agent"]
-                                                             and options["ground_combat"]),
-                                                  letnev_agent=(first_round and options["att_letnev_agent"]
-                                                                and not options["ground_combat"])
-                                                  )
-    def_hits, def_nonfighter_hits = generate_hits(def_units, options["def_faction"],
-                                                  morale=(first_round and options["def_morale"]),
-                                                  prototype=(first_round and options["def_prototype"]),
-                                                  fire_team=(options["def_fireteam"] and
-                                                             first_round and options["ground_combat"]),
-                                                  war_funding=(options["def_warfunding"] and first_round
-                                                               and not options["ground_combat"]),
-                                                  sol_agent=(first_round and options["def_sol_agent"]
-                                                             and options["ground_combat"]),
-                                                  letnev_agent=(first_round and options["def_letnev_agent"]
-                                                                and not options["ground_combat"])
-                                                  )
+    att_options = {"faction": options["att_faction"],
+                   "morale": first_round and options["att_morale"],
+                   "prototype": first_round and options["att_prototype"],
+                   "fire_team": options["att_fireteam"] and first_round and options["ground_combat"],
+                   "war_funding": options["att_warfunding"] and first_round and not options["ground_combat"],
+                   "war_funding_o": options["att_warfunding_omega"] and first_round and not options["ground_combat"],
+                   "sol_agent": first_round and options["att_sol_agent"] and options["ground_combat"],
+                   "letnev_agent": first_round and options["att_letnev_agent"] and not options["ground_combat"]}
+
+    def_options = {"faction": options["def_faction"],
+                   "morale": first_round and options["def_morale"],
+                   "prototype": first_round and options["def_prototype"],
+                   "fire_team": options["def_fireteam"] and first_round and options["ground_combat"],
+                   "war_funding": options["def_warfunding"] and first_round and not options["ground_combat"],
+                   "war_funding_o": options["def_warfunding_omega"] and first_round and not options["ground_combat"],
+                   "sol_agent": first_round and options["def_sol_agent"] and options["ground_combat"],
+                   "letnev_agent": first_round and options["def_letnev_agent"] and not options["ground_combat"]}
+
+    att_hits, att_nonfighter_hits = generate_hits(att_units, **att_options)
+    def_hits, def_nonfighter_hits = generate_hits(def_units, **def_options)
 
     # Magen Defense Grid
     if first_round and options["def_magen"] and options["ground_combat"] and \
@@ -489,6 +485,12 @@ def filter_space(att_units, def_units, options):
 
 def run_simulation(att_units, def_units, options, it=IT):
     outcomes = [0, 0, 0]
+
+    # The Cavalry
+    if options["att_cavalry1"] or options["att_cavalry2"]:
+        att_units = faction_abilities.cavalry(att_units, upgraded=options["att_cavalry2"])
+    if options["att_cavalry1"] or options["att_cavalry2"]:
+        def_units = faction_abilities.cavalry(def_units, upgraded=options["def_cavalry2"])
 
     # Jol-Nar mech
     if options["att_faction"] == "Jol-Nar" and has_mech(att_units):
