@@ -82,7 +82,7 @@ def make_boxes():
              "notes": [option_line("argent_prom", "Strike Wing Ambuscade"),
                        option_line("tekklar", "Tekklar Legion"),
                        option_line("warfunding", "War Funding"),
-                       option_line("warfunding_omega", "War Funding Ω", enabled=False),
+                       option_line("warfunding_omega", "War Funding Ω"),
                        option_line("cavalry1", "The Cavalry (Memoria I)", enabled=False),
                        option_line("cavalry2", "The Cavalry (Memoria II)", enabled=False)],
 

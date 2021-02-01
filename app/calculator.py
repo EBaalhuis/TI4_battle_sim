@@ -8,6 +8,16 @@ import app.tech_abilities as tech_abilities
 IT = 10000
 
 
+def above_average(units, hits):
+    # determine whether this number of hits was above the expected amount for this set of units
+    expected = 0
+    for u in units:
+        for val in u.combat:
+            expected += min(1, 1 - 0.1 * (val - 1))
+
+    return hits > expected
+
+
 def harrow(def_units, harrow_bombarders, options):
     hits = bombardment(harrow_bombarders, options)
     def_units = assign_hits(def_units, hits, True, options["def_faction"])
@@ -205,6 +215,12 @@ def combat_round(att_units, def_units, first_round, options):
 
     att_hits, att_nonfighter_hits = generate_hits(att_units, **att_options)
     def_hits, def_nonfighter_hits = generate_hits(def_units, **def_options)
+
+    # War Funding Omega
+    if options["att_warfunding_omega"] and above_average(def_units, def_hits):
+            def_hits, def_nonfighter_hits = generate_hits(def_units, **def_options)
+    if options["def_warfunding_omega"] and above_average(att_units, att_hits):
+            att_hits, att_nonfighter_hits = generate_hits(att_units, **att_options)
 
     # Magen Defense Grid
     if first_round and options["def_magen"] and options["ground_combat"] and \
