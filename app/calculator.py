@@ -502,12 +502,6 @@ def filter_space(att_units, def_units, options):
 def run_simulation(att_units, def_units, options, it=IT):
     outcomes = [0, 0, 0]
 
-    # The Cavalry
-    if options["att_cavalry1"] or options["att_cavalry2"]:
-        att_units = faction_abilities.cavalry(att_units, upgraded=options["att_cavalry2"])
-    if options["att_cavalry1"] or options["att_cavalry2"]:
-        def_units = faction_abilities.cavalry(def_units, upgraded=options["def_cavalry2"])
-
     # Jol-Nar mech
     if options["att_faction"] == "Jol-Nar" and has_mech(att_units):
         att_units = faction_abilities.jol_nar_mech(att_units)
@@ -530,6 +524,12 @@ def run_simulation(att_units, def_units, options, it=IT):
         att_units, def_units = filter_ground(att_units, def_units, options)
     else:
         att_units, def_units = filter_space(att_units, def_units, options)
+
+        # The Cavalry
+        if options["att_cavalry1"] or options["att_cavalry2"]:
+            att_units = faction_abilities.cavalry(att_units, upgraded=options["att_cavalry2"])
+        if options["def_cavalry1"] or options["def_cavalry2"]:
+            def_units = faction_abilities.cavalry(def_units, upgraded=options["def_cavalry2"])
 
         # Argent flagship
         if options["att_faction"] == "Argent" or options["def_faction"] == "Argent":

@@ -18,6 +18,8 @@ def duranium(units):
 
 def magen_omega(att_units):
     # attacking units take 1 hit, assigned by opponent
+    if not att_units:
+        return att_units
     if att_units[0].sustain:
         att_units[0].sustain = False
     else:

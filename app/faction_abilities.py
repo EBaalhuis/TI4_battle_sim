@@ -3,9 +3,18 @@ from app.units import Unit
 
 
 def cavalry(units, upgraded):
-    # prefer to replace carrier, otherwise first unit (so unit that would be first to take hits)
-    # insert where??
-    return units
+    eligible = [u for u in units if not u.fighter and not u.pds]
+    if not eligible:
+        return units
+    else:
+        replacing = eligible[0]
+        replacing.can_sustain = True
+        replacing.sustain = True
+        replacing.combat = [5, 5] if upgraded else [7, 7]
+        replacing.afb = [5, 5, 5] if upgraded else [8, 8, 8]
+        result = [u for u in units if u.name not in ["warsun", "flagship"] and u != replacing] + [replacing] + \
+            [u for u in units if u.name in ["warsun", "flagship"] and u != replacing]
+        return result
 
 
 def winnu_commander(units):
@@ -255,10 +264,12 @@ def mentak_flagship(att_units, def_units, options):
     if options["att_faction"] == "Mentak":
         for u in def_units:
             u.sustain = False
+            u.can_sustain = False
 
     if options["def_faction"] == "Mentak":
         for u in att_units:
             u.sustain = False
+            u.can_sustain = False
 
     return att_units, def_units
 
