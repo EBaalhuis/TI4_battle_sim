@@ -285,7 +285,16 @@ def bombardment(units, options):
                 if x >= val:
                     result += 1
 
+    # Plasma Scoring
     if options["att_plasma"]:
+        x = random.randint(1, 10)
+        if options["def_bunker"]:
+            x -= 4
+        if x >= best_dice:
+            result += 1
+
+    # Argent Commander
+    if options["att_argent_commander"]:
         x = random.randint(1, 10)
         if options["def_bunker"]:
             x -= 4
@@ -295,17 +304,30 @@ def bombardment(units, options):
     return result
 
 
-def antifighter(units, swa2):
+def antifighter(units, swa2, options, attacker):
     result = 0
     swa2_hits = 0
+    best_dice = 11
+    best_unit = False
     for u in units:
         for val in u.afb:
+            best_dice = min(best_dice, val)
             x = random.randint(1, 10)
             if x >= val:
                 result += 1
 
             # Strike Wing Alpha II destroying infantry ability
-            if swa2 and x >= 9:
+            if swa2 and u.name == "destroyer" and x >= 9:
+                swa2_hits += 1
+
+    # Argent Commander
+    if (attacker and options["att_argent_commander"]) or (not attacker and options["def_argent_commander"]):
+        x = random.randint(1, 10)
+        if x >= best_dice:
+            result += 1
+
+            # Strike Wing Alpha II destroying infantry ability
+            if swa2 and best_unit and best_unit.name == "destroyer" and x >= 9:
                 swa2_hits += 1
 
     return result, swa2_hits
@@ -321,7 +343,14 @@ def space_cannon(units, options, attacker):
             if x >= val:
                 result += 1
 
+    # Plasma Scoring
     if (attacker and options["att_plasma"]) or (not attacker and options["def_plasma"]):
+        x = random.randint(1, 10)
+        if x >= best_dice:
+            result += 1
+
+    # Argent Commander
+    if (attacker and options["att_argent_commander"]) or (not attacker and options["def_argent_commander"]):
         x = random.randint(1, 10)
         if x >= best_dice:
             result += 1
@@ -388,10 +417,10 @@ def iteration(att_units, def_units, options):
     if not options["ground_combat"]:
         att_afb_hits, att_swa2_infantry_hits = antifighter(att_units,
                                                            options["att_faction"] == "Argent"
-                                                           and options["att_destroyer2"])
+                                                           and options["att_destroyer2"], options, attacker=True)
         def_afb_hits, def_swa2_infantry_hits = antifighter(def_units,
                                                            options["def_faction"] == "Argent"
-                                                           and options["att_destroyer2"])
+                                                           and options["att_destroyer2"], options, attacker=False)
 
         # Strike Wing Alpha II infantry hits
         if att_swa2_infantry_hits > 0:
