@@ -20,7 +20,7 @@ def options_from_form(form):
     commander_factions = ["argent", "jolnar", "letnev", "winnu"]
     commanders = ["att_" + c + "_commander" for c in commander_factions] + \
                  ["def_" + c + "_commander" for c in commander_factions] + \
-                 ["def_sol_commander" + "att_l1z1x_commander"]
+                 ["def_sol_commander"] + ["att_l1z1x_commander"]
 
     options = defaultdict(lambda: False)
 
