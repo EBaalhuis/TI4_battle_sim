@@ -218,9 +218,9 @@ def combat_round(att_units, def_units, first_round, options):
 
     # War Funding Omega
     if options["att_warfunding_omega"] and above_average(def_units, def_hits):
-            def_hits, def_nonfighter_hits = generate_hits(def_units, **def_options)
+        def_hits, def_nonfighter_hits = generate_hits(def_units, **def_options)
     if options["def_warfunding_omega"] and above_average(att_units, att_hits):
-            att_hits, att_nonfighter_hits = generate_hits(att_units, **att_options)
+        att_hits, att_nonfighter_hits = generate_hits(att_units, **att_options)
 
     # Magen Defense Grid
     if first_round and options["def_magen"] and options["ground_combat"] and \
@@ -574,8 +574,8 @@ def run_simulation(att_units, def_units, options, it=IT):
 
     # Sol commander
     if options["def_sol_commander"] and options["ground_combat"] and len(list(filter(lambda x: x.ground, def_units))):
-        extra_infantry = [units.infantry2(options["def_faction"]) if options["def_infantry2"] \
-            else units.infantry(options["def_faction"])]
+        extra_infantry = [units.infantry2(options["def_faction"]) if options["def_infantry2"]
+                          else units.infantry(options["def_faction"])]
         def_units = extra_infantry + def_units
 
     for i in range(it):
