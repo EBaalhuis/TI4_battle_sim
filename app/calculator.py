@@ -647,5 +647,6 @@ def calculate(attacker_units, defender_units, options):
     def_units = parse_units(defender_units, attacker=False, options=options)
 
     outcomes = run_simulation(att_units, def_units, options)
+    outcomes = list(map(lambda x: int(round(x/IT*100, 0)), outcomes))
 
-    return list(map(lambda x: round(x/IT*100, 1), outcomes))
+    return outcomes
