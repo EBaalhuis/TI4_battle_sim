@@ -1,1 +1,1 @@
-web: gunicorn main:app
+web: gunicorn TI4_calculator:app
