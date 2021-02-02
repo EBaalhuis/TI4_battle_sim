@@ -95,7 +95,7 @@ def make_boxes(checkboxes):
                         # option_line(checkboxes, "nomad_agent", "Nomad Agent (Thundarian)", enabled=False),
                         option_line(checkboxes, "sol_agent", "Sol Agent"),
                         option_line(checkboxes, "titans_agent", "Titans Agent"),
-                        option_line(checkboxes, "yin_agent", "Yin Agent", enabled=False)],
+                        option_line(checkboxes, "yin_agent", "Yin Agent")],
 
              "commanders": [option_line(checkboxes, "argent_commander", "Argent Commander", enabled=False),
                             option_line(checkboxes, "jolnar_commander", "Jol-Nar Commander", enabled=False),
