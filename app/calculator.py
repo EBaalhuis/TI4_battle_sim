@@ -4,7 +4,6 @@ import app.units as units
 import app.faction_abilities as faction_abilities
 import app.tech_abilities as tech_abilities
 
-
 IT = 10000
 
 
@@ -20,8 +19,8 @@ def above_average(units, hits):
 
 def harrow(def_units, harrow_bombarders, options):
     hits = bombardment(harrow_bombarders, options)
-    def_units = assign_hits(def_units, hits, True, options["def_faction"])
-    return def_units
+    def_units, options = assign_hits(def_units, hits, True, options["def_faction"], options, False)
+    return def_units, options
 
 
 def has_flagship(units):
@@ -106,7 +105,7 @@ def generate_hits(units, faction, morale, prototype, fire_team, war_funding, war
     return hits, non_fighter_hits
 
 
-def assign_hits(units, hits, risk_direct_hit, faction):
+def assign_hits(units, hits, risk_direct_hit, faction, options, attacker):
     # Letnev flagship
     if faction == "Letnev":
         letnev_flagship = faction_abilities.check_letnev_flagship(units)
@@ -116,7 +115,7 @@ def assign_hits(units, hits, risk_direct_hit, faction):
 
     for u in units:
         if hits == 0:
-            return units
+            return units, options
         if u.sustain and (u.direct_hit_immune or risk_direct_hit):
             u.sustain = False
             hits -= 1
@@ -126,14 +125,22 @@ def assign_hits(units, hits, risk_direct_hit, faction):
             units[0].sustain = False
             hits -= 1
             # Once one ship sustains and is not Direct Hit, assume its safe
-            return assign_hits(units, hits, True, faction)
+            return assign_hits(units, hits, True, faction, options, attacker)
         else:
+            # Check if only PDS are left
             if units[0].name == "pds" and not units[0].ground:  # second part rules out Titans PDS
-                return units
-            del units[0]
+                return units, options
+
+            # Yin agent
+            if (options["att_yin_agent_active"] and attacker) or (options["def_yin_agent_active"] and not attacker) \
+                    and units[0].name in ["destroyer", "cruiser"]:
+                units, options = faction_abilities.yin_agent(units, units[0], faction, options, attacker)
+            else:
+                del units[0]
+
             hits -= 1
 
-    return units
+    return units, options
 
 
 def assign_fighters_only(units, hits):
@@ -141,13 +148,13 @@ def assign_fighters_only(units, hits):
     for u in units:
         if hits == 0:
             return result
-        if u.fighter:
+        if u.fighter or u.name == "virtual":
             result.remove(u)
             hits -= 1
     return result
 
 
-def assign_nonfighters_first(units, hits, risk_direct_hit, faction):
+def assign_nonfighters_first(units, hits, risk_direct_hit, faction, options, attacker):
     # Letnev flagship
     if faction == "Letnev":
         letnev_flagship = faction_abilities.check_letnev_flagship(units)
@@ -157,7 +164,7 @@ def assign_nonfighters_first(units, hits, risk_direct_hit, faction):
 
     for u in units:
         if hits == 0:
-            return units
+            return units, options
         if u.sustain and (u.direct_hit_immune or risk_direct_hit):
             u.sustain = False
             hits -= 1
@@ -167,27 +174,33 @@ def assign_nonfighters_first(units, hits, risk_direct_hit, faction):
 
     for u in non_fighters:
         if hits == 0:
-            return units
+            return units, options
         if u.name == "pds" and not u.ground:  # second part rules out Titans PDS
             break
         if u.sustain:
             u.sustain = False
             hits -= 1
             # Once one ship sustains and is not Direct Hit, assume its safe
-            return assign_nonfighters_first(units, hits, True, faction)
+            return assign_nonfighters_first(units, hits, True, faction, options, attacker)
         else:
-            units.remove(u)
+            # Yin agent
+            if (options["att_yin_agent_active"] and attacker) or (options["def_yin_agent_active"] and not attacker) \
+                    and units[0].name in ["destroyer", "cruiser"]:
+                units, options = faction_abilities.yin_agent(units, u, faction, options, attacker)
+            else:
+                units.remove(u)
+
             hits -= 1
 
     for u in fighters:
         if hits == 0:
-            return units
+            return units, options
         if u.name == "pds" and not u.ground:  # second part rules out Titans PDS
-            return units
+            return units, options
         units.remove(u)
         hits -= 1
 
-    return units
+    return units, options
 
 
 def combat_round(att_units, def_units, first_round, options):
@@ -247,12 +260,14 @@ def combat_round(att_units, def_units, first_round, options):
     if options["att_faction"] == "Sardakk" or options["def_faction"] == "Sardakk":
         att_hits, def_hits = faction_abilities.sardakk_mechs(att_units, def_units, att_hits, def_hits, options)
 
-    att_units = assign_hits(att_units, def_hits, options["att_riskdirecthit"], options["att_faction"])
-    att_units = assign_nonfighters_first(att_units, def_nonfighter_hits, options["att_riskdirecthit"],
-                                         options["att_faction"])
-    def_units = assign_hits(def_units, att_hits, options["def_riskdirecthit"], options["def_faction"])
-    def_units = assign_nonfighters_first(def_units, att_nonfighter_hits, options["def_riskdirecthit"],
-                                         options["def_faction"])
+    att_units, options = assign_hits(att_units, def_hits, options["att_riskdirecthit"], options["att_faction"], options,
+                                     True)
+    att_units, options = assign_nonfighters_first(att_units, def_nonfighter_hits, options["att_riskdirecthit"],
+                                                  options["att_faction"], options, True)
+    def_units, options = assign_hits(def_units, att_hits, options["def_riskdirecthit"], options["def_faction"], options,
+                                     False)
+    def_units, options = assign_nonfighters_first(def_units, att_nonfighter_hits, options["def_riskdirecthit"],
+                                                  options["def_faction"], options, False)
 
     return att_units, def_units
 
@@ -342,21 +357,25 @@ def iteration(att_units, def_units, options):
             def_cannon_hits = max(0, def_cannon_hits - 1)
 
         if options["def_graviton"]:
-            att_units = assign_nonfighters_first(att_units, def_cannon_hits, options["att_riskdirecthit"],
-                                                 options["att_faction"])
+            att_units, options = assign_nonfighters_first(att_units, def_cannon_hits, options["att_riskdirecthit"],
+                                                          options["att_faction"], options, True)
         else:
-            att_units = assign_hits(att_units, def_cannon_hits, options["att_riskdirecthit"], options["att_faction"])
+            att_units, options = assign_hits(att_units, def_cannon_hits, options["att_riskdirecthit"],
+                                             options["att_faction"], options, True)
         if options["att_graviton"]:
-            def_units = assign_nonfighters_first(def_units, att_cannon_hits, options["def_riskdirecthit"],
-                                                 options["def_faction"])
+            def_units, options = assign_nonfighters_first(def_units, att_cannon_hits, options["def_riskdirecthit"],
+                                                          options["def_faction"], options, False)
         else:
-            def_units = assign_hits(def_units, att_cannon_hits, options["def_riskdirecthit"], options["def_faction"])
+            def_units, options = assign_hits(def_units, att_cannon_hits, options["def_riskdirecthit"],
+                                             options["def_faction"], options, False)
 
     # Mentak Ambush
     if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
         att_hits, def_hits = faction_abilities.mentak_ambush(att_units, def_units, options)
-        att_units = assign_hits(att_units, def_hits, options["att_riskdirecthit"], options["att_faction"])
-        def_units = assign_hits(def_units, att_hits, options["def_riskdirecthit"], options["def_faction"])
+        att_units, options = assign_hits(att_units, def_hits, options["att_riskdirecthit"], options["att_faction"],
+                                         options, True)
+        def_units, options = assign_hits(def_units, att_hits, options["def_riskdirecthit"], options["def_faction"],
+                                         options, False)
 
     # Assault Cannon
     if not options["ground_combat"]:
@@ -386,11 +405,15 @@ def iteration(att_units, def_units, options):
                                                                     options)
 
         if options["def_waylay"]:
-            att_units = assign_hits(att_units, def_afb_hits, options["att_riskdirecthit"], options["att_faction"])
+            att_units, options = assign_hits(att_units, def_afb_hits, options["att_riskdirecthit"],
+                                             options["att_faction"],
+                                             options, True)
         else:
             att_units = assign_fighters_only(att_units, def_afb_hits)
         if options["att_waylay"]:
-            def_units = assign_hits(def_units, att_afb_hits, options["def_riskdirecthit"], options["def_faction"])
+            def_units, options = assign_hits(def_units, att_afb_hits, options["def_riskdirecthit"],
+                                             options["def_faction"],
+                                             options, False)
         else:
             def_units = assign_fighters_only(def_units, att_afb_hits)
 
@@ -398,7 +421,9 @@ def iteration(att_units, def_units, options):
     if options["ground_combat"]:
         bombard_hits = bombardment(att_units, options)
         if not options["att_x89"]:
-            def_units = assign_hits(def_units, bombard_hits, options["def_riskdirecthit"], options["def_faction"])
+            def_units, options = assign_hits(def_units, bombard_hits, options["def_riskdirecthit"],
+                                             options["def_faction"],
+                                             options, False)
         else:
             def_units = tech_abilities.x89(def_units, bombard_hits)
         att_units, harrow_bombarders = filter_bombardment(att_units, options["att_faction"])
@@ -418,7 +443,8 @@ def iteration(att_units, def_units, options):
         if options["att_maneuvering"]:
             cannon_hits = max(0, cannon_hits - 1)
 
-        att_units = assign_hits(att_units, cannon_hits, options["att_riskdirecthit"], options["att_faction"])
+        att_units, options = assign_hits(att_units, cannon_hits, options["att_riskdirecthit"], options["att_faction"],
+                                         options, False)
 
     # Magen Defense Grid Omega
     if options["def_magen_o"] and options["ground_combat"]:
@@ -429,7 +455,7 @@ def iteration(att_units, def_units, options):
         att_units, def_units = combat_round(att_units, def_units, first_round, options)
         first_round = False
         if options["att_faction"] == "L1Z1X":
-            harrow(def_units, harrow_bombarders, options)
+            def_units, options = harrow(def_units, harrow_bombarders, options)
 
     # Naalu flagship: remove fighters at end of ground combat
     if (options["att_faction"] == "Naalu" or options["def_faction"] == "Naalu") and options["ground_combat"]:
@@ -578,8 +604,20 @@ def run_simulation(att_units, def_units, options, it=IT):
                           else units.infantry(options["def_faction"])]
         def_units = extra_infantry + def_units
 
+    # Titan agent
+    if options["att_titans_agent"]:
+        att_units = faction_abilities.titans_agent(att_units)
+    if options["def_titans_agent"]:
+        def_units = faction_abilities.titans_agent(def_units)
+
+    # Yin agent
+    if options["att_yin_agent"]:
+        options["att_yin_agent_active"] = True
+    if options["def_yin_agent"]:
+        options["def_yin_agent_active"] = True
+
     for i in range(it):
-        res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), options)
+        res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), copy.deepcopy(options))
 
         # Yin flagship
         if options["att_faction"] == "Yin" and has_flagship(att_units) and res == 2:
@@ -647,6 +685,6 @@ def calculate(attacker_units, defender_units, options):
     def_units = parse_units(defender_units, attacker=False, options=options)
 
     outcomes = run_simulation(att_units, def_units, options)
-    outcomes = list(map(lambda x: int(round(x/IT*100, 0)), outcomes))
+    outcomes = list(map(lambda x: int(round(x / IT * 100, 0)), outcomes))
 
     return outcomes

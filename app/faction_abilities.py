@@ -1,5 +1,27 @@
 import random
-from app.units import Unit
+from app.units import Unit, fighter, fighter2
+
+
+def yin_agent(units, u, faction, options, attacker):
+    # u got destroyed and is a cruiser or destroyer; replace with 2 fighters
+    units.remove(u)
+
+    if attacker:
+        options["att_yin_agent_active"] = False
+    else:
+        options["def_yin_agent_active"] = False
+
+    upgraded = options["att_fighter2"] if attacker else options["def_fighter2"]
+    fighters = [fighter2(faction), fighter2(faction)] if upgraded else [fighter(faction), fighter(faction)]
+
+    return fighters + units, options
+
+
+def titans_agent(units):
+    # The Titans agent cancels one hit. Assume it is the first hit that would kill a unit, by prepending a
+    # virtual unit
+    virtual_unit = Unit("virtual", [], ground=True)
+    return [virtual_unit] + units
 
 
 def cavalry(units, upgraded):
