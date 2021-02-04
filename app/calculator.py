@@ -4,8 +4,6 @@ import app.units as units
 import app.faction_abilities as faction_abilities
 import app.tech_abilities as tech_abilities
 
-IT = 3000
-
 
 def above_average(units, hits):
     # determine whether this number of hits was above the expected amount for this set of units
@@ -594,7 +592,7 @@ def filter_space(att_units, def_units, options):
     return att_result, def_result
 
 
-def run_simulation(att_units, def_units, options, it=IT):
+def run_simulation(att_units, def_units, options, it):
     outcomes = [0, 0, 0]
 
     # Jol-Nar mech
@@ -699,7 +697,7 @@ def run_simulation(att_units, def_units, options, it=IT):
     return outcomes
 
 
-def print_results(outcomes, it=IT):
+def print_results(outcomes, it):
     print("Attacker wins: %.1f%%" % (outcomes[1] / it * 100))
     print("Tie: %.1f%%" % (outcomes[0] / it * 100))
     print("Defender wins: %.1f%%" % (outcomes[2] / it * 100))
@@ -751,11 +749,13 @@ def parse_units(unit_dict, attacker, options):
 
 def calculate(attacker_units, defender_units, options, test=True):
     if test:
-        IT = 10000
+        it = 10000
+    else:
+        it = 3000
     att_units = parse_units(attacker_units, attacker=True, options=options)
     def_units = parse_units(defender_units, attacker=False, options=options)
 
-    outcomes = run_simulation(att_units, def_units, options, it=IT)
-    outcomes = list(map(lambda x: int(round(x / IT * 100, 0)), outcomes))
+    outcomes = run_simulation(att_units, def_units, options, it=it)
+    outcomes = list(map(lambda x: int(round(x / it * 100, 0)), outcomes))
 
     return outcomes
