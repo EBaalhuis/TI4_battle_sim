@@ -2,6 +2,13 @@ import random
 from app.units import Unit, fighter, fighter2
 
 
+def mahact_flagship(units):
+    for u in units:
+        if u.name == "flagship":
+            u.combat = [value - 2 for value in u.combat]
+    return units
+
+
 def naalu_nekro_mech(units):
     for u in units:
         if u.name == "mech":

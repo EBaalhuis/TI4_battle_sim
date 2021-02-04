@@ -595,6 +595,12 @@ def filter_space(att_units, def_units, options):
 def run_simulation(att_units, def_units, options, it):
     outcomes = [0, 0, 0]
 
+    # Mahact flagship
+    if options["att_mahact_flagship_hide"]:
+        att_units = faction_abilities.mahact_flagship(att_units)
+    if options["def_mahact_flagship_hide"]:
+        def_units = faction_abilities.mahact_flagship(def_units)
+
     # Naalu mech / Nekro mech
     if options["att_naalu_mech_hide"] or options["att_nekro_mech_hide"]:
         att_units = faction_abilities.naalu_nekro_mech(att_units)

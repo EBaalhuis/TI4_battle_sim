@@ -73,9 +73,9 @@ def make_boxes(checkboxes, hidden):
                          option_line(checkboxes, hidden, "", "", def_name="nebula", def_description="Defending in Nebula", both=False)],
 
              "hidden": [option_line(checkboxes, hidden,
-                                    "mahact_flagship_hide", "Mahact Flagship Bonus", both=False, enabled=False),
+                                    "mahact_flagship_hide", "Mahact Flagship Bonus", both=False),
                         option_line(checkboxes, hidden,
-                                    "", "", "mahact_flagship_hide", "Mahact Flagship Bonus", both=False, enabled=False),
+                                    "", "", "mahact_flagship_hide", "Mahact Flagship Bonus", both=False),
                         option_line(checkboxes, hidden, "naalu_mech_hide", "Naalu Mech Bonus", both=False),
                         option_line(checkboxes, hidden, "", "", "naalu_mech_hide", "Naalu Mech Bonus", both=False),
                         option_line(checkboxes, hidden, "nekro_mech_hide", "Nekro Mech Bonus", both=False),
