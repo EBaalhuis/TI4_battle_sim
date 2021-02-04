@@ -595,6 +595,12 @@ def filter_space(att_units, def_units, options):
 def run_simulation(att_units, def_units, options, it):
     outcomes = [0, 0, 0]
 
+    # Naalu mech / Nekro mech
+    if options["att_naalu_mech_hide"] or options["att_nekro_mech_hide"]:
+        att_units = faction_abilities.naalu_nekro_mech(att_units)
+    if options["def_naalu_mech_hide"] or options["def_nekro_mech_hide"]:
+        def_units = faction_abilities.naalu_nekro_mech(def_units)
+
     # Jol-Nar mech
     if options["att_faction"] == "Jol-Nar" and has_mech(att_units):
         att_units = faction_abilities.jol_nar_mech(att_units)

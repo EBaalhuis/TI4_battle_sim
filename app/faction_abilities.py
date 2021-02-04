@@ -2,6 +2,13 @@ import random
 from app.units import Unit, fighter, fighter2
 
 
+def naalu_nekro_mech(units):
+    for u in units:
+        if u.name == "mech":
+            u.combat = [value - 2 for value in u.combat]
+    return units
+
+
 def yin_agent(units, u, faction, options, attacker):
     # u got destroyed and is a cruiser or destroyer; replace with 2 fighters
     units.remove(u)
