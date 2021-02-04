@@ -4,7 +4,7 @@ import app.units as units
 import app.faction_abilities as faction_abilities
 import app.tech_abilities as tech_abilities
 
-IT = 5000
+IT = 3000
 
 
 def above_average(units, hits):
@@ -749,11 +749,13 @@ def parse_units(unit_dict, attacker, options):
     return result
 
 
-def calculate(attacker_units, defender_units, options):
+def calculate(attacker_units, defender_units, options, test=True):
+    if test:
+        IT = 10000
     att_units = parse_units(attacker_units, attacker=True, options=options)
     def_units = parse_units(defender_units, attacker=False, options=options)
 
-    outcomes = run_simulation(att_units, def_units, options)
+    outcomes = run_simulation(att_units, def_units, options, it=IT)
     outcomes = list(map(lambda x: int(round(x / IT * 100, 0)), outcomes))
 
     return outcomes

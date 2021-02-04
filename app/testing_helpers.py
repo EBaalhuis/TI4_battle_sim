@@ -9,7 +9,7 @@ def defaults():
     options["def_faction"] = "Winnu"
     options["att_riskdirecthit"] = True
     options["def_riskdirecthit"] = True
-    tol = 2 # error tolerance in percentage point probability of each outcome
+    tol = 2  # error tolerance in percentage point probability of each outcome
 
     return attacker, defender, options, tol
 

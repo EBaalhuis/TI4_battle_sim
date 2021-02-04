@@ -13,7 +13,7 @@ def index():
     if form.validate_on_submit():
         attacker, defender = units_from_form(form)
         options = options_from_form(form)
-        outcomes = calculator.calculate(attacker, defender, options)
+        outcomes = calculator.calculate(attacker, defender, options, test=False)
         defaults = form
 
         checkboxes = defaultdict(lambda: "")
