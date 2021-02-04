@@ -625,6 +625,7 @@ def run_simulation(att_units, def_units, options, it):
     if options["def_winnu_commander"]:
         def_units = faction_abilities.winnu_commander(def_units)
 
+    # Filter units based on ground combat vs space combat
     if options["ground_combat"]:
         att_units, def_units = filter_ground(att_units, def_units, options)
     else:
@@ -643,6 +644,11 @@ def run_simulation(att_units, def_units, options, it):
         # Mentak flagship
         if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
             att_units, def_units = faction_abilities.mentak_flagship(att_units, def_units, options)
+
+    # L4 Disruptors
+    if options["att_letnev_l4_nekro_hide"] and options["ground_combat"]:
+        for u in def_units:
+            u.cannon = []
 
     # Defending in Nebula
     if options["def_nebula"] and not options["ground_combat"]:
