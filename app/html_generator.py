@@ -26,9 +26,17 @@ def def_side(name, description, enabled, on, checked):
     return result
 
 
-def option_line(checkboxes, name, description, def_name="", def_description="", enabled=True, both=True):
+def option_line(checkboxes, hidden, name, description, def_name="", def_description="", enabled=True, both=True):
     att_on = both or len(name) > 0
     def_on = both or len(def_name) > 0
+    if both:
+        hidden_id = name
+    elif att_on:
+        hidden_id = "att_" + name
+    else:
+        hidden_id = "def_" + def_name
+    div_id = hidden_id + "_row"
+    hide = "none" if hidden[hidden_id] else "block"
     att_checked = checkboxes["att_" + name]
     def_checked = checkboxes["def_" + name]
 
@@ -40,68 +48,73 @@ def option_line(checkboxes, name, description, def_name="", def_description="", 
     attacker_side = att_side(name, description, enabled, att_on, att_checked)
     defender_side = def_side(def_name, def_description, enabled, def_on, def_checked)
 
-    result = '<div class="o-grid o-grid--no-gutter center-grid row">' + attacker_side + \
+    result = '<div class="o-grid o-grid--no-gutter center-grid row" id="' + div_id + '" style="display: ' + hide + ';">' + attacker_side + \
              '<div class="col-sm-2" align="center"></div>' + defender_side + \
              '</div>'
     return result
 
 
-def centered_line(checkboxes, name, description, enabled=True):
+def centered_line(checkboxes, hidden, name, description, enabled=True):
+    div_id = name
     deleter_open = "" if enabled else "<del>"
     deleter_close = "" if enabled else "</del>"
     disabler = '' if enabled else 'disabled="disabled"'
     checked = checkboxes[name]
 
-    result = ('<div class="o-grid o-grid--no-gutter center-grid row">'
+    result = ('<div class="o-grid o-grid--no-gutter center-grid row" id="' + div_id + '">'
               '<div class="col-sm-12" align="center">'
               '<input id="' + name + '" name="' + name + '" type="checkbox"' + disabler + checked + '> ' 
               '' + deleter_open + description + deleter_close + '</div></div>')
     return result
 
 
-def make_boxes(checkboxes):
-    boxes = {"general": [option_line(checkboxes, "riskdirecthit", "Risk Direct Hit"),
-                         option_line(checkboxes, "", "", def_name="nebula", def_description="Defending in Nebula", both=False)],
+def make_boxes(checkboxes, hidden):
+    print(hidden)
+    boxes = {"general": [option_line(checkboxes, hidden, "riskdirecthit", "Risk Direct Hit"),
+                         option_line(checkboxes, hidden, "", "", def_name="nebula", def_description="Defending in Nebula", both=False)],
 
-             "tech": [option_line(checkboxes, "antimass", "Antimass Deflectors"),
-                      option_line(checkboxes, "graviton", "Graviton Laser System"),
-                      option_line(checkboxes, "plasma", "Plasma Scoring"),
-                      option_line(checkboxes, "", "", def_name="magen", def_description="Magen Defense Grid", both=False),
-                      option_line(checkboxes, "x89", "X-89 Bacterial Weapon Ω", def_name="magen_o",
+             "hidden": [option_line(checkboxes, hidden, "naalu_mech_hide", "Naalu Mech", both=False),
+                        option_line(checkboxes, hidden, "", "", "naalu_mech_hide", "Naalu Mech", both=False)],
+
+             "tech": [option_line(checkboxes, hidden, "antimass", "Antimass Deflectors"),
+                      option_line(checkboxes, hidden, "graviton", "Graviton Laser System"),
+                      option_line(checkboxes, hidden, "plasma", "Plasma Scoring"),
+                      option_line(checkboxes, hidden, "", "", def_name="magen", def_description="Magen Defense Grid", both=False),
+                      option_line(checkboxes, hidden, "x89", "X-89 Bacterial Weapon Ω", def_name="magen_o",
                                   def_description="Magen Defense Grid Ω"),
-                      option_line(checkboxes, "duranium", "Duranium Armor"),
-                      option_line(checkboxes, "assault", "Assault Cannon")],
+                      option_line(checkboxes, hidden, "duranium", "Duranium Armor"),
+                      option_line(checkboxes, hidden, "assault", "Assault Cannon")],
 
-             "cards": [option_line(checkboxes, "", "", def_name="bunker", def_description="Bunker", both=False),
-                       option_line(checkboxes, "", "", def_name="experimental", def_description="Experimental Battlestation",
+             "cards": [option_line(checkboxes, hidden, "", "", def_name="bunker", def_description="Bunker", both=False),
+                       option_line(checkboxes, hidden, "", "", def_name="experimental", def_description="Experimental Battlestation",
                                    both=False),
-                       option_line(checkboxes, "prototype", "Fighter Prototype"),
-                       option_line(checkboxes, "fireteam", "Fire Team"),
-                       option_line(checkboxes, "maneuvering", "Maneuvering Jets"),
-                       option_line(checkboxes, "morale", "Morale Boost 1st round"),
-                       option_line(checkboxes, "waylay", "Waylay")],
+                       option_line(checkboxes, hidden, "prototype", "Fighter Prototype"),
+                       option_line(checkboxes, hidden, "fireteam", "Fire Team"),
+                       option_line(checkboxes, hidden, "maneuvering", "Maneuvering Jets"),
+                       option_line(checkboxes, hidden, "morale", "Morale Boost 1st round"),
+                       option_line(checkboxes, hidden, "waylay", "Waylay")],
 
-             "agendas": [centered_line(checkboxes, "conventions", "Conventions of War"),
-                         centered_line(checkboxes, "publicize", "Publicize Weapon Schematics")],
+             "agendas": [centered_line(checkboxes, hidden, "conventions", "Conventions of War"),
+                         centered_line(checkboxes, hidden, "publicize", "Publicize Weapon Schematics")],
 
-             "notes": [option_line(checkboxes, "argent_prom", "Strike Wing Ambuscade"),
-                       option_line(checkboxes, "tekklar", "Tekklar Legion"),
-                       option_line(checkboxes, "warfunding", "War Funding"),
-                       option_line(checkboxes, "warfunding_omega", "War Funding Ω"),
-                       option_line(checkboxes, "cavalry1", "The Cavalry (Memoria I)"),
-                       option_line(checkboxes, "cavalry2", "The Cavalry (Memoria II)")],
+             "notes": [option_line(checkboxes, hidden, "argent_prom", "Strike Wing Ambuscade"),
+                       option_line(checkboxes, hidden, "tekklar", "Tekklar Legion"),
+                       option_line(checkboxes, hidden, "warfunding", "War Funding"),
+                       option_line(checkboxes, hidden, "warfunding_omega", "War Funding Ω"),
+                       option_line(checkboxes, hidden, "cavalry1", "The Cavalry (Memoria I)"),
+                       option_line(checkboxes, hidden, "cavalry2", "The Cavalry (Memoria II)")],
 
-             "agents": [option_line(checkboxes, "letnev_agent", "Letnev Agent"),
-                        # option_line(checkboxes, "nomad_agent", "Nomad Agent (Thundarian)", enabled=False),
-                        option_line(checkboxes, "sol_agent", "Sol Agent"),
-                        option_line(checkboxes, "titans_agent", "Titans Agent"),
-                        option_line(checkboxes, "yin_agent", "Yin Agent")],
+             "agents": [option_line(checkboxes, hidden, "letnev_agent", "Letnev Agent"),
+                        # option_line(checkboxes, hidden, "nomad_agent", "Nomad Agent (Thundarian)", enabled=False),
+                        option_line(checkboxes, hidden, "sol_agent", "Sol Agent"),
+                        option_line(checkboxes, hidden, "titans_agent", "Titans Agent"),
+                        option_line(checkboxes, hidden, "yin_agent", "Yin Agent")],
 
-             "commanders": [option_line(checkboxes, "argent_commander", "Argent Commander"),
-                            option_line(checkboxes, "jolnar_commander", "Jol-Nar Commander"),
-                            option_line(checkboxes, "letnev_commander", "Letnev Commander", enabled=False),
-                            option_line(checkboxes, "winnu_commander", "Winnu Commander"),
-                            option_line(checkboxes, "att_l1z1x_commander", "L1Z1X Commander", "sol_commander", "Sol Commander")]
+             "commanders": [option_line(checkboxes, hidden, "argent_commander", "Argent Commander"),
+                            option_line(checkboxes, hidden, "jolnar_commander", "Jol-Nar Commander"),
+                            option_line(checkboxes, hidden, "letnev_commander", "Letnev Commander", enabled=False),
+                            option_line(checkboxes, hidden, "winnu_commander", "Winnu Commander"),
+                            option_line(checkboxes, hidden, "att_l1z1x_commander", "L1Z1X Commander", "sol_commander", "Sol Commander")]
              }
 
     return boxes

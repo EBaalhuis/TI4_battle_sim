@@ -1,7 +1,7 @@
 from flask import render_template
 from app import app, html_generator
 import app.calculator as calculator
-from app.route_helpers import units_from_form, options_from_form
+from app.route_helpers import units_from_form, options_from_form, options_list
 from app.forms import InputForm
 from collections import defaultdict
 
@@ -20,18 +20,32 @@ def index():
         for opt in options.keys():
             checkboxes[opt] = "checked" if options[opt] else ""
 
-        boxes = html_generator.make_boxes(checkboxes)
+        hidden = defaultdict(lambda: False)
+        for opt in options.keys():
+            if "hide" in opt:
+                if "att_" in opt and not options["att_faction"].lower() in opt:
+                    hidden[opt] = True
+                if "def_" in opt and not options["def_faction"].lower() in opt:
+                    hidden[opt] = True
+
+        boxes = html_generator.make_boxes(checkboxes, hidden)
 
         return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes,
                                boxes=boxes)
 
     outcomes = [0, 0, 0]
     defaults = defaultdict(lambda: {"data": "0"})
+
     checkboxes = defaultdict(lambda: "")
     checkboxes["att_riskdirecthit"] = "checked"
     checkboxes["def_riskdirecthit"] = "checked"
 
-    boxes = html_generator.make_boxes(checkboxes)
+    hidden = defaultdict(lambda: False)
+    for opt in options_list():
+        if "hide" in opt:
+            hidden[opt] = True
+
+    boxes = html_generator.make_boxes(checkboxes, hidden)
 
     return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes,
                            boxes=boxes)

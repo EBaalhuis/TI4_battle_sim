@@ -212,7 +212,11 @@
 
                 <!-- General checkboxes -->
                 {% for block in boxes["general"] %}
-                    {{ block|safe }}
+                {{ block|safe }}
+                {% endfor %}
+
+                {% for block in boxes["hidden"] %}
+                {{ block|safe }}
                 {% endfor %}
 
                 <!-- Technology checkboxes -->
@@ -220,7 +224,7 @@
                     <b>Technologies</b>
                 </div>
                 {% for block in boxes["tech"] %}
-                    {{ block|safe }}
+                {{ block|safe }}
                 {% endfor %}
 
                 <!-- Action Card checkboxes -->
@@ -228,7 +232,7 @@
                     <b>Action Cards</b>
                 </div>
                 {% for block in boxes["cards"] %}
-                    {{ block|safe }}
+                {{ block|safe }}
                 {% endfor %}
 
                 <!-- Agenda checkboxes -->
@@ -236,7 +240,7 @@
                     <b>Agendas</b>
                 </div>
                 {% for block in boxes["agendas"] %}
-                    {{ block|safe }}
+                {{ block|safe }}
                 {% endfor %}
 
                 <br>
@@ -245,7 +249,7 @@
                     <b>Promissory notes</b>
                 </div>
                 {% for block in boxes["notes"] %}
-                    {{ block|safe }}
+                {{ block|safe }}
                 {% endfor %}
 
                 <!-- Agent checkboxes -->
@@ -253,7 +257,7 @@
                     <b>Agents</b>
                 </div>
                 {% for block in boxes["agents"] %}
-                    {{ block|safe }}
+                {{ block|safe }}
                 {% endfor %}
 
                 <!-- Commander checkboxes -->
@@ -261,7 +265,7 @@
                     <b>Commanders</b>
                 </div>
                 {% for block in boxes["commanders"] %}
-                    {{ block|safe }}
+                {{ block|safe }}
                 {% endfor %}
 
                 <br>
@@ -269,22 +273,22 @@
         </div>
     </div>
 
-<!--    plus/minus button stuff -->
-<!--    <div class="col-sm-4 col-sm-offset-4">-->
-<!--        <div class="input-group">-->
-<!--            <span class="input-group-btn">-->
-<!--                <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">-->
-<!--                    <span class="glyphicon glyphicon-minus"></span>-->
-<!--                </button>-->
-<!--            </span>-->
-<!--            <input type="text" name="quant[1]" class="form-control input-number" value="0" min="0" max="99">-->
-<!--            <span class="input-group-btn">-->
-<!--                <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">-->
-<!--                    <span class="glyphicon glyphicon-plus"></span>-->
-<!--                </button>-->
-<!--            </span>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    plus/minus button stuff -->
+    <!--    <div class="col-sm-4 col-sm-offset-4">-->
+    <!--        <div class="input-group">-->
+    <!--            <span class="input-group-btn">-->
+    <!--                <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">-->
+    <!--                    <span class="glyphicon glyphicon-minus"></span>-->
+    <!--                </button>-->
+    <!--            </span>-->
+    <!--            <input type="text" name="quant[1]" class="form-control input-number" value="0" min="0" max="99">-->
+    <!--            <span class="input-group-btn">-->
+    <!--                <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">-->
+    <!--                    <span class="glyphicon glyphicon-plus"></span>-->
+    <!--                </button>-->
+    <!--            </span>-->
+    <!--        </div>-->
+    <!--    </div>-->
 
 </div>
 {% endblock %}

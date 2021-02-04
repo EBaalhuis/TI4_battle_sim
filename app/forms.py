@@ -127,5 +127,9 @@ class InputForm(FlaskForm):
     att_winnu_commander = BooleanField("Winnu Commander", default=False)
     def_winnu_commander = BooleanField("Winnu Commander", default=False)
 
+    # Faction specific options that are otherwise hidden
+    att_naalu_mech_hide = BooleanField("Naalu Mech", default=False)
+    def_naalu_mech_hide = BooleanField("Naalu Mech", default=False)
+
     ground_combat = BooleanField("Ground Combat", default=False)
     submit = SubmitField("Calculate")
