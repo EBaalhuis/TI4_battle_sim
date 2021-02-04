@@ -23,9 +23,9 @@ def index():
         hidden = defaultdict(lambda: False)
         for opt in options.keys():
             if "hide" in opt:
-                if "att_" in opt and not options["att_faction"].lower() in opt:
+                if "att_" in opt and not options["att_faction"].lower().split("-")[0] in opt:
                     hidden[opt] = True
-                if "def_" in opt and not options["def_faction"].lower() in opt:
+                if "def_" in opt and not options["def_faction"].lower().split("-")[0] in opt:
                     hidden[opt] = True
 
         boxes = html_generator.make_boxes(checkboxes, hidden)

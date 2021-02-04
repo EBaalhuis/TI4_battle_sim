@@ -4,22 +4,126 @@
     {{ super() }}
 
     <script>
+        var att_mahact_flagship_hide = document.getElementById("att_mahact_flagship_hide_row");
+        var def_mahact_flagship_hide = document.getElementById("def_mahact_flagship_hide_row");
         var att_naalu_mech_hide = document.getElementById("att_naalu_mech_hide_row");
         var def_naalu_mech_hide = document.getElementById("def_naalu_mech_hide_row");
+        var att_nekro_mech_hide = document.getElementById("att_nekro_mech_hide_row");
+        var def_nekro_mech_hide = document.getElementById("def_nekro_mech_hide_row");
+        var att_mentak_hero_hide = document.getElementById("att_mentak_hero_hide_row");
+        var def_mentak_hero_hide = document.getElementById("def_mentak_hero_hide_row");
+        var att_creuss_dimensionalsplicer_hide = document.getElementById("att_creuss_dimensionalsplicer_nekro_hide_row");
+        var def_creuss_dimensionalsplicer_hide = document.getElementById("def_creuss_dimensionalsplicer_nekro_hide_row");
+        var att_letnev_l4_hide = document.getElementById("att_letnev_l4_nekro_hide_row");
+        var def_letnev_l4_hide = document.getElementById("def_letnev_l4_nekro_hide_row");
+        var att_letnev_noneuclid_hide = document.getElementById("att_letnev_noneuclid_nekro_hide_row");
+        var def_letnev_noneuclid_hide = document.getElementById("def_letnev_noneuclid_nekro_hide_row");
+        var att_naazrokha_supercharge_hide = document.getElementById("att_naazrokha_supercharge_nekro_hide_row");
+        var def_naazrokha_supercharge_hide = document.getElementById("def_naazrokha_supercharge_nekro_hide_row");
+        var att_sardakk_valkyrie_hide = document.getElementById("att_sardakk_valkyrie_nekro_hide_row");
+        var def_sardakk_valkyrie_hide = document.getElementById("def_sardakk_valkyrie_nekro_hide_row");
 
         function att_faction_options(){
+            if (this.value == "Creuss" || this.value == "Nekro") {
+                att_creuss_dimensionalsplicer_hide.style.display = 'block';
+            } else {
+                att_creuss_dimensionalsplicer_hide.style.display = 'none';
+            }
+
+            if (this.value == "Letnev" || this.value == "Nekro") {
+                att_letnev_l4_hide.style.display = 'block';
+                att_letnev_noneuclid_hide.style.display = 'block';
+            } else {
+                att_letnev_l4_hide.style.display = 'none';
+                att_letnev_noneuclid_hide.style.display = 'none';
+            }
+
+            if (this.value == "Mahact") {
+                att_mahact_flagship_hide.style.display = 'block';
+            } else {
+                att_mahact_flagship_hide.style.display = 'none';
+            }
+
+            if (this.value == "Mentak") {
+                att_mentak_hero_hide.style.display = 'block';
+            } else {
+                att_mentak_hero_hide.style.display = 'none';
+            }
+
             if (this.value == "Naalu") {
                 att_naalu_mech_hide.style.display = 'block';
             } else {
                 att_naalu_mech_hide.style.display = 'none';
             }
+
+            if (this.value == "Naaz-Rokha" || this.value == "Nekro") {
+                att_naazrokha_supercharge_hide.style.display = 'block';
+            } else {
+                att_naazrokha_supercharge_hide.style.display = 'none';
+            }
+
+            if (this.value == "Nekro") {
+                att_nekro_mech_hide.style.display = 'block';
+            } else {
+                att_nekro_mech_hide.style.display = 'none';
+            }
+
+            if (this.value == "Sardakk" || this.value == "Nekro") {
+                att_sardakk_valkyrie_hide.style.display = 'block';
+            } else {
+                att_sardakk_valkyrie_hide.style.display = 'none';
+            }
         }
 
         function def_faction_options(){
+            if (this.value == "Creuss" || this.value == "Nekro") {
+                def_creuss_dimensionalsplicer_hide.style.display = 'block';
+            } else {
+                def_creuss_dimensionalsplicer_hide.style.display = 'none';
+            }
+
+            if (this.value == "Letnev" || this.value == "Nekro") {
+                def_letnev_l4_hide.style.display = 'block';
+                def_letnev_noneuclid_hide.style.display = 'block';
+            } else {
+                def_letnev_l4_hide.style.display = 'none';
+                def_letnev_noneuclid_hide.style.display = 'none';
+            }
+
+            if (this.value == "Mahact") {
+                def_mahact_flagship_hide.style.display = 'block';
+            } else {
+                def_mahact_flagship_hide.style.display = 'none';
+            }
+
+            if (this.value == "Mentak") {
+                def_mentak_hero_hide.style.display = 'block';
+            } else {
+                def_mentak_hero_hide.style.display = 'none';
+            }
+
             if (this.value == "Naalu") {
                 def_naalu_mech_hide.style.display = 'block';
             } else {
                 def_naalu_mech_hide.style.display = 'none';
+            }
+
+            if (this.value == "Naaz-Rokha" || this.value == "Nekro") {
+                def_naazrokha_supercharge_hide.style.display = 'block';
+            } else {
+                def_naazrokha_supercharge_hide.style.display = 'none';
+            }
+
+            if (this.value == "Nekro") {
+                def_nekro_mech_hide.style.display = 'block';
+            } else {
+                def_nekro_mech_hide.style.display = 'none';
+            }
+
+            if (this.value == "Sardakk" || this.value == "Nekro") {
+                def_sardakk_valkyrie_hide.style.display = 'block';
+            } else {
+                def_sardakk_valkyrie_hide.style.display = 'none';
             }
         }
 
