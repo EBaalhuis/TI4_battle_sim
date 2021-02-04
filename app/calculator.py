@@ -4,7 +4,7 @@ import app.units as units
 import app.faction_abilities as faction_abilities
 import app.tech_abilities as tech_abilities
 
-IT = 2500
+IT = 5000
 
 
 def above_average(units, hits):
