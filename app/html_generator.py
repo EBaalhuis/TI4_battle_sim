@@ -98,7 +98,7 @@ def make_boxes(checkboxes):
                         option_line(checkboxes, "yin_agent", "Yin Agent")],
 
              "commanders": [option_line(checkboxes, "argent_commander", "Argent Commander"),
-                            option_line(checkboxes, "jolnar_commander", "Jol-Nar Commander", enabled=False),
+                            option_line(checkboxes, "jolnar_commander", "Jol-Nar Commander"),
                             option_line(checkboxes, "letnev_commander", "Letnev Commander", enabled=False),
                             option_line(checkboxes, "winnu_commander", "Winnu Commander"),
                             option_line(checkboxes, "att_l1z1x_commander", "L1Z1X Commander", "sol_commander", "Sol Commander")]

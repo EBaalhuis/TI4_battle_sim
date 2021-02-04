@@ -272,88 +272,128 @@ def combat_round(att_units, def_units, first_round, options):
     return att_units, def_units
 
 
+def bombard_roll(val, options, jolnar_commander):
+    x = random.randint(1, 10)
+    if options["def_bunker"]:
+        x -= 4
+    if x >= val:
+        return 1
+
+    # Jol-Nar commander
+    elif jolnar_commander:
+        x = random.randint(1, 10)
+        if options["def_bunker"]:
+            x -= 4
+        if x >= val:
+            return 1
+
+    return 0
+
+
 def bombardment(units, options):
+    jolnar_commander = options["att_jolnar_commander"]  # Bobmardment is exclusively done by the attacker
     result = 0
     best_dice = 11
     for u in units:
         if u.bombard:
             for val in u.bombard:
                 best_dice = min(best_dice, val)
-                x = random.randint(1, 10)
-                if options["def_bunker"]:
-                    x -= 4
-                if x >= val:
-                    result += 1
+                result += bombard_roll(val, options, jolnar_commander)
 
     # Plasma Scoring
     if options["att_plasma"]:
-        x = random.randint(1, 10)
-        if options["def_bunker"]:
-            x -= 4
-        if x >= best_dice:
-            result += 1
+        result += bombard_roll(best_dice, options, jolnar_commander)
 
     # Argent Commander
     if options["att_argent_commander"]:
-        x = random.randint(1, 10)
-        if options["def_bunker"]:
-            x -= 4
-        if x >= best_dice:
-            result += 1
+        result += bombard_roll(best_dice, options, jolnar_commander)
 
     return result
 
 
+def antifighter_roll(val, swa2, jolnar_commander):
+    x = random.randint(1, 10)
+    swa2_hits = 0
+
+    # Strike Wing Alpha II destroying infantry ability
+    if swa2 and x >= 9:
+        swa2_hits = 1
+
+    if x >= val:
+        return 1, swa2_hits
+
+    # Jol-Nar commander
+    elif jolnar_commander:
+        x = random.randint(1, 10)
+
+        # Strike Wing Alpha II destroying infantry ability
+        if swa2 and x >= 9:
+            swa2_hits = 1
+
+        if x >= val:
+            return 1, swa2_hits
+
+    return 0, swa2_hits
+
+
 def antifighter(units, swa2, options, attacker):
+    jolnar_commander = (attacker and options["att_jolnar_commander"]) or \
+                       (not attacker and options["def_jolnar_commander"])
     result = 0
     swa2_hits = 0
     best_dice = 11
-    best_unit = False
+    best_unit_destroyer = False
     for u in units:
         for val in u.afb:
+            if val < best_dice:
+                best_dice = val
+                best_unit_destroyer = u.name == "destroyer"
             best_dice = min(best_dice, val)
-            x = random.randint(1, 10)
-            if x >= val:
-                result += 1
-
-            # Strike Wing Alpha II destroying infantry ability
-            if swa2 and u.name == "destroyer" and x >= 9:
-                swa2_hits += 1
+            roll, swa2_roll = antifighter_roll(val, swa2 and u.name == "destroyer", jolnar_commander)
+            result += roll
+            swa2_hits += swa2_roll
 
     # Argent Commander
     if (attacker and options["att_argent_commander"]) or (not attacker and options["def_argent_commander"]):
-        x = random.randint(1, 10)
-        if x >= best_dice:
-            result += 1
-
-            # Strike Wing Alpha II destroying infantry ability
-            if swa2 and best_unit and best_unit.name == "destroyer" and x >= 9:
-                swa2_hits += 1
+        roll, swa2_roll = antifighter_roll(best_dice, swa2 and best_unit_destroyer, jolnar_commander)
+        result += roll
+        swa2_hits += swa2_roll
 
     return result, swa2_hits
+
+
+def cannon_roll(val, jolnar_commander):
+    x = random.randint(1, 10)
+    if x >= val:
+        return 1
+
+    # Jol-Nar commander
+    elif jolnar_commander:
+        x = random.randint(1, 10)
+        if x >= val:
+            return 1
+
+    return 0
 
 
 def space_cannon(units, options, attacker):
     result = 0
     best_dice = 11
+    jolnar_commander = (attacker and options["att_jolnar_commander"]) \
+        or (not attacker and options["def_jolnar_commander"])
+
     for u in units:
         for val in u.cannon:
             best_dice = min(best_dice, val)
-            x = random.randint(1, 10)
-            if x >= val:
-                result += 1
+            result += cannon_roll(val, jolnar_commander)
 
     # Plasma Scoring
     if (attacker and options["att_plasma"]) or (not attacker and options["def_plasma"]):
-        x = random.randint(1, 10)
-        if x >= best_dice:
-            result += 1
+        result += cannon_roll(best_dice, jolnar_commander)
 
     # Argent Commander
     if (attacker and options["att_argent_commander"]) or (not attacker and options["def_argent_commander"]):
-        x = random.randint(1, 10)
-        if x >= best_dice:
-            result += 1
+        result += cannon_roll(best_dice, jolnar_commander)
 
     return result
 
