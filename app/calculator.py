@@ -29,7 +29,7 @@ def has_mech(units):
     return len(list(filter(lambda x: x.name == "mech", units))) > 0
 
 
-def roll_for_hit(units, u, faction, morale, prototype):
+def roll_for_hit(units, u, faction, bonus, prototype):
     x = random.randint(1, 10)
     extra_hits = 0
 
@@ -42,9 +42,8 @@ def roll_for_hit(units, u, faction, morale, prototype):
     if faction == "Sardakk" and has_flagship(units) and u.name != "flagship":
         x += 1
 
-    # Morale Boost
-    if morale:
-        x += 1
+    # Morale Boost / Supercharge
+    x += bonus
 
     # Prototype Fighter
     if prototype and u.fighter:
@@ -53,7 +52,7 @@ def roll_for_hit(units, u, faction, morale, prototype):
     return x, extra_hits
 
 
-def generate_hits(units, faction, morale, prototype, fire_team, war_funding, war_funding_o, sol_agent, letnev_agent):
+def generate_hits(units, faction, bonus, prototype, fire_team, war_funding, war_funding_o, sol_agent, letnev_agent):
     hits = 0
     non_fighter_hits = 0
 
@@ -67,7 +66,7 @@ def generate_hits(units, faction, morale, prototype, fire_team, war_funding, war
 
     for u in units:
         for val in u.combat:
-            x, extra_hits = roll_for_hit(units, u, faction, morale, prototype)
+            x, extra_hits = roll_for_hit(units, u, faction, bonus, prototype)
             hits += extra_hits
 
             if x >= val:
@@ -81,13 +80,12 @@ def generate_hits(units, faction, morale, prototype, fire_team, war_funding, war
             else:
                 if fire_team:  # re-roll if it was a miss, ground combat only (so no prototype, L1 flagship)
                     x = random.randint(1, 10)
-                    if morale:
-                        x += 1
+                    x += bonus
                     if x >= val:
                         hits += 1
 
                 if war_funding or war_funding_o:  # space combat only
-                    x, extra_hits = roll_for_hit(units, u, faction, morale, prototype)
+                    x, extra_hits = roll_for_hit(units, u, faction, bonus, prototype)
                     hits += extra_hits
                     if x >= val:
                         hits += 1
@@ -206,8 +204,15 @@ def combat_round(att_units, def_units, first_round, options):
     if options["att_faction"] == "Winnu" or options["def_faction"] == "Winnu":
         att_units, def_units = faction_abilities.winnu_flagship(att_units, def_units, options)
 
+    att_bonus = 0
+    if first_round:
+        if options["att_morale"]:
+            att_bonus += 1
+        # Naaz-Rokha Supercharge
+        if options["att_naazrokha_supercharge_nekro_hide"]:
+            att_bonus += 1
     att_options = {"faction": options["att_faction"],
-                   "morale": first_round and options["att_morale"],
+                   "bonus": att_bonus,
                    "prototype": first_round and options["att_prototype"],
                    "fire_team": options["att_fireteam"] and first_round and options["ground_combat"],
                    "war_funding": options["att_warfunding"] and first_round and not options["ground_combat"],
@@ -215,8 +220,15 @@ def combat_round(att_units, def_units, first_round, options):
                    "sol_agent": first_round and options["att_sol_agent"] and options["ground_combat"],
                    "letnev_agent": first_round and options["att_letnev_agent"] and not options["ground_combat"]}
 
+    def_bonus = 0
+    if first_round:
+        if options["def_morale"]:
+            def_bonus += 1
+        # Naaz-Rokha Supercharge
+        if options["def_naazrokha_supercharge_nekro_hide"]:
+            def_bonus += 1
     def_options = {"faction": options["def_faction"],
-                   "morale": first_round and options["def_morale"],
+                   "bonus": def_bonus,
                    "prototype": first_round and options["def_prototype"],
                    "fire_team": options["def_fireteam"] and first_round and options["ground_combat"],
                    "war_funding": options["def_warfunding"] and first_round and not options["ground_combat"],
