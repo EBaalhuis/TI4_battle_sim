@@ -88,8 +88,6 @@ def make_boxes(checkboxes, hidden):
                         option_line(checkboxes, hidden, "", "", "creuss_dimensionalsplicer_nekro_hide", "Dimensional Splicer", both=False,
                                     enabled=False),
                         option_line(checkboxes, hidden, "letnev_l4_nekro_hide", "L4 Disruptors", both=False),
-                        option_line(checkboxes, hidden, "", "", "letnev_l4_nekro_hide", "L4 Disruptors", both=False,
-                                    enabled=False),
                         option_line(checkboxes, hidden, "letnev_noneuclid_nekro_hide", "Non-Euclidean Shielding", both=False,
                                     enabled=False),
                         option_line(checkboxes, hidden, "", "", "letnev_noneuclid_nekro_hide", "Non-Euclidean Shielding", both=False,

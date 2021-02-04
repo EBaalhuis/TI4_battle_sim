@@ -139,7 +139,6 @@ class InputForm(FlaskForm):
     att_creuss_dimensionalsplicer_nekro_hide = BooleanField("Dimensional Splicer", default=False)
     def_creuss_dimensionalsplicer_nekro_hide = BooleanField("Dimensional Splicer", default=False)
     att_letnev_l4_nekro_hide = BooleanField("L4 Disruptors", default=False)
-    def_letnev_l4_nekro_hide = BooleanField("L4 Disruptors", default=False)
     att_letnev_noneuclid_nekro_hide = BooleanField("Non-Euclidean Shielding", default=False)
     def_letnev_noneuclid_nekro_hide = BooleanField("Non-Euclidean Shielding", default=False)
     att_naazrokha_supercharge_nekro_hide = BooleanField("Supercharge", default=False)

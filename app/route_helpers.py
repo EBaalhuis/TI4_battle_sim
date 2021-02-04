@@ -18,9 +18,9 @@ def options_list():
               "def_sol_agent", "att_titans_agent", "def_titans_agent", "att_yin_agent", "def_yin_agent"]
 
     hidden_names = ["mahact_flagship", "naalu_mech", "nekro_mech", "mentak_hero", "creuss_dimensionalsplicer_nekro",
-                    "letnev_l4_nekro", "letnev_noneuclid_nekro", "naazrokha_supercharge_nekro",
-                    "sardakk_valkyrie_nekro"]
-    hidden = ["att_" + name + "_hide" for name in hidden_names] + ["def_" + name + "_hide" for name in hidden_names]
+                    "letnev_noneuclid_nekro", "naazrokha_supercharge_nekro", "sardakk_valkyrie_nekro"]
+    hidden = ["att_" + name + "_hide" for name in hidden_names] + ["def_" + name + "_hide" for name in hidden_names] + \
+        ["att_letnev_l4_nekro_hide"]
 
     commander_factions = ["argent", "jolnar", "letnev", "winnu"]
     commanders = ["att_" + c + "_commander" for c in commander_factions] + \
