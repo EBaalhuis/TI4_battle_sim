@@ -37,13 +37,13 @@ def option_line(checkboxes, hidden, name, description, def_name="", def_descript
         hidden_id = "def_" + def_name
     div_id = hidden_id + "_row"
     hide = "none" if hidden[hidden_id] else "block"
-    att_checked = checkboxes["att_" + name]
-    def_checked = checkboxes["def_" + name]
 
     if def_name == "" and both:
         # default setting: same option for defender and attacker
         def_name = name
         def_description = description
+    att_checked = checkboxes["att_" + name]
+    def_checked = checkboxes["def_" + def_name]
 
     attacker_side = att_side(name, description, enabled, att_on, att_checked)
     defender_side = def_side(def_name, def_description, enabled, def_on, def_checked)
