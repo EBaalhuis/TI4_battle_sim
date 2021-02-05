@@ -204,13 +204,19 @@ def combat_round(att_units, def_units, first_round, options):
     if options["att_faction"] == "Winnu" or options["def_faction"] == "Winnu":
         att_units, def_units = faction_abilities.winnu_flagship(att_units, def_units, options)
 
-    att_bonus = 0
+    att_bonus, def_bonus = 0, 0
     if first_round:
         if options["att_morale"]:
             att_bonus += 1
         # Naaz-Rokha Supercharge
         if options["att_naazrokha_supercharge_nekro_hide"]:
             att_bonus += 1
+        if options["def_morale"]:
+            def_bonus += 1
+        # Naaz-Rokha Supercharge
+        if options["def_naazrokha_supercharge_nekro_hide"]:
+            def_bonus += 1
+
     att_options = {"faction": options["att_faction"],
                    "bonus": att_bonus,
                    "prototype": first_round and options["att_prototype"],
@@ -220,13 +226,6 @@ def combat_round(att_units, def_units, first_round, options):
                    "sol_agent": first_round and options["att_sol_agent"] and options["ground_combat"],
                    "letnev_agent": first_round and options["att_letnev_agent"] and not options["ground_combat"]}
 
-    def_bonus = 0
-    if first_round:
-        if options["def_morale"]:
-            def_bonus += 1
-        # Naaz-Rokha Supercharge
-        if options["def_naazrokha_supercharge_nekro_hide"]:
-            def_bonus += 1
     def_options = {"faction": options["def_faction"],
                    "bonus": def_bonus,
                    "prototype": first_round and options["def_prototype"],
@@ -269,6 +268,15 @@ def combat_round(att_units, def_units, first_round, options):
     # Sardakk mech
     if options["att_faction"] == "Sardakk" or options["def_faction"] == "Sardakk":
         att_hits, def_hits = faction_abilities.sardakk_mechs(att_units, def_units, att_hits, def_hits, options)
+
+    # Valkyrie Particle Weave
+    if options["att_sardakk_valkyrie_nekro_hide"] and options["ground_combat"]:
+        # The part after the "or" is in case opponent also has VPW - it is mandatory to use
+        if def_hits > 0 or (options["def_sardakk_valkyrie_nekro_hide"] and options["ground_combat"] and att_hits > 0):
+            att_hits += 1
+    if options["def_sardakk_valkyrie_nekro_hide"] and options["ground_combat"]:
+        if att_hits > 0:
+            def_hits += 1
 
     att_units, options = assign_hits(att_units, def_hits, options["att_riskdirecthit"], options["att_faction"], options,
                                      True)
