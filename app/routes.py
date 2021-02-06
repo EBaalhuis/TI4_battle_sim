@@ -1,6 +1,6 @@
 from flask import render_template
 from app import app, html_generator
-import app.calculator.calculator as calculator
+import app.calculator.calculator as calc
 from app.route_helpers import units_from_form, options_from_form, options_list
 from app.forms import InputForm
 from collections import defaultdict
@@ -13,7 +13,7 @@ def index():
     if form.validate_on_submit():
         attacker, defender = units_from_form(form)
         options = options_from_form(form)
-        outcomes = calculator.calculate(attacker, defender, options, test=False)
+        outcomes = calc.calculate(attacker, defender, options, test=False)
         defaults = form
 
         checkboxes = defaultdict(lambda: "")
