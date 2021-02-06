@@ -127,6 +127,14 @@
 
         document.getElementById("att_faction").onchange = att_faction_options;
         document.getElementById("def_faction").onchange = def_faction_options;
+
+        function loading(){
+            loading_element = document.getElementById("loading")
+            loading_element.style.display = 'block';
+
+            outcomes_element = document.getElementById("outcomes")
+            outcomes_element.style.display = 'none';
+        }
     </script>
 
     <!-- plus/minus button script -->

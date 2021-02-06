@@ -197,12 +197,19 @@
                 <div class="o-grid o-grid--no-gutter center-grid row">
                     <div class="col-sm-4"></div>
                     <div class="col-sm-4" align="center">
-                        <p>{{ form.submit() }}</p>
+                        <p><input id="submit" name="submit" type="submit" value="Calculate" onclick="loading();"></p>
                     </div>
                     <div class="col-sm-4"></div>
                 </div>
 
-                <div class="row">
+                <!-- Loading animation -->
+                <div class="row" id="loading" style="display: none;">
+                    <div class="col" align="center">
+                        <img src="/static/ajax-loader.gif" alt="loading..."  width=97/>
+                    </div>
+                </div>
+
+                <div class="row" id="outcomes">
                     <div class="col" align="center">
                         <h4>Attacker wins: {{ outcomes[1]}}%</h4>
                         <h4>Tie: {{ outcomes[0] }}%</h4>
