@@ -12,8 +12,7 @@ import app.calculator.util as util
 
 
 def harrow(def_units, harrow_bombarders, options):
-    hits = bombardment(harrow_bombarders, def_units, options)
-    def_units, options = assign.assign_hits(def_units, hits, True, options["def_faction"], options, False)
+    att_units, def_units, harrow_bombarders, options = bombardment(harrow_bombarders, def_units, options)
     return def_units, options
 
 
