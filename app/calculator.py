@@ -107,18 +107,13 @@ def assign_hits(units, hits, risk_direct_hit, faction, options, attacker):
         units, hits = faction_abilities.letnev_flagship_sustain(units, hits, risk_direct_hit)
 
     for u in units:
-        if hits == 0:
+        if hits <= 0:
             return units, options
-        if u.sustain and (u.direct_hit_immune or risk_direct_hit):
-            u.sustain = False
-            u.just_sustained = True
-            hits -= 1
+        hits -= u.use_sustain(risk_direct_hit)
 
     while hits > 0 and units:
         if units[0].sustain:
-            units[0].sustain = False
-            u.just_sustained = True
-            hits -= 1
+            hits -= u.use_sustain(risk_direct_hit=True)
             # Once one ship sustains and is not Direct Hit, assume its safe
             return assign_hits(units, hits, True, faction, options, attacker)
         else:
@@ -141,7 +136,7 @@ def assign_hits(units, hits, risk_direct_hit, faction, options, attacker):
 def assign_fighters_only(units, hits):
     result = [u for u in units]
     for u in units:
-        if hits == 0:
+        if hits <= 0:
             return result
         if u.fighter or u.name == "virtual":
             result.remove(u)
@@ -155,25 +150,20 @@ def assign_nonfighters_first(units, hits, risk_direct_hit, faction, options, att
         units, hits = faction_abilities.letnev_flagship_sustain(units, hits, risk_direct_hit)
 
     for u in units:
-        if hits == 0:
+        if hits <= 0:
             return units, options
-        if u.sustain and (u.direct_hit_immune or risk_direct_hit):
-            u.sustain = False
-            u.just_sustained = True
-            hits -= 1
+        hits -= u.use_sustain(risk_direct_hit)
 
     fighters = list(filter(lambda x: x.name == "fighter", units))
     non_fighters = list(filter(lambda x: x.name != "fighter", units))
 
     for u in non_fighters:
-        if hits == 0:
+        if hits <= 0:
             return units, options
         if u.name == "pds" and not u.ground:  # second part rules out Titans PDS
             break
         if u.sustain:
-            u.sustain = False
-            u.just_sustained = True
-            hits -= 1
+            hits -= u.use_sustain(risk_direct_hit=True)
             # Once one ship sustains and is not Direct Hit, assume its safe
             return assign_nonfighters_first(units, hits, True, faction, options, attacker)
         else:
@@ -187,7 +177,7 @@ def assign_nonfighters_first(units, hits, risk_direct_hit, faction, options, att
             hits -= 1
 
     for u in fighters:
-        if hits == 0:
+        if hits <= 0:
             return units, options
         if u.name == "pds" and not u.ground:  # second part rules out Titans PDS
             return units, options
@@ -611,6 +601,12 @@ def filter_space(att_units, def_units, options):
 
 def run_simulation(att_units, def_units, options, it):
     outcomes = [0, 0, 0]
+
+    # Non-Euclidean Shielding
+    if options["att_letnev_noneuclidean_nekro_hide"]:
+        tech_abilities.noneuclidean(att_units)
+    if options["def_letnev_noneuclidean_nekro_hide"]:
+        tech_abilities.noneuclidean(def_units)
 
     # Mahact flagship
     if options["att_mahact_flagship_hide"]:

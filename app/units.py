@@ -1,11 +1,13 @@
 class Unit:
     def __init__(self, name, combat, sustain=False, ground=False, bombard=[], afb=[], cannon=[],
-                 shield=False, fighter=False, pds=False, disable_shield=False, direct_hit_immune=False):
+                 shield=False, fighter=False, pds=False, disable_shield=False, direct_hit_immune=False,
+                 noneuclidean=False):
         self.name = name
         self.combat = combat
         self.sustain = sustain
         self.can_sustain = sustain
         self.just_sustained = False
+        self.noneuclidean = noneuclidean
         self.ground = ground
         self.bombard = bombard
         self.afb = afb
@@ -19,6 +21,13 @@ class Unit:
 
     def __repr__(self):
         return "%s <Combat: %s, Sustain: %s>" % (self.name, self.combat, self.sustain)
+
+    def use_sustain(self, risk_direct_hit=True):
+        if self.sustain and (risk_direct_hit or self.direct_hit_immune):
+            self.sustain = False
+            self.just_sustained = True
+            return 2 if self.noneuclidean else 1
+        return 0
 
 
 def warsun(faction):

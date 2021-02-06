@@ -117,10 +117,7 @@ def letnev_flagship_sustain(units, hits, risk_direct_hit):
         for flagship in letnev_flagships:
             if hits == 0:
                 return units, hits
-            if flagship.sustain:
-                flagship.sustain = False
-                flagship.just_sustained = True
-                hits -= 1
+            hits -= flagship.use_sustain(risk_direct_hit)
 
     return units, hits
 

@@ -1,3 +1,11 @@
+def noneuclidean(units):
+    for u in units:
+        if u.can_sustain:
+            u.noneuclidean = True
+
+    return units
+
+
 def assault(units):
     for u in units:
         if not u.fighter:
@@ -47,10 +55,7 @@ def x89(def_units, hits):
         for u in def_units:
             if hits == 0:
                 return def_units
-            if u.sustain:
-                u.sustain = False
-                u.just_sustained = True
-                hits -= 1
+            hits -= u.use_sustain()
 
         while hits > 0 and def_units:
             del def_units[0]
@@ -63,10 +68,7 @@ def x89(def_units, hits):
         for u in def_units:
             if hits == 0:
                 return def_units
-            if u.sustain:
-                u.sustain = False
-                u.just_sustained = True
-                hits -= 1
+            hits -= u.use_sustain()
         return def_units
     else:
         # have to choose between losing mechs or all infantry - assign value
@@ -89,10 +91,7 @@ def x89(def_units, hits):
             for u in def_units:
                 if hits == 0:
                     return def_units
-                if u.sustain:
-                    u.sustain = False
-                    u.just_sustained = True
-                    hits -= 1
+                hits -= u.use_sustain()
 
             while hits > 0 and def_units:
                 del def_units[-1]
@@ -107,10 +106,7 @@ def x89(def_units, hits):
             for u in def_units:
                 if hits == 0:
                     return def_units
-                if u.sustain:
-                    u.sustain = False
-                    u.just_sustained = True
-                    hits -= 1
+                hits -= u.use_sustain()
 
             # lose mechs
             while hits > 0 and def_units:
