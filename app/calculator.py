@@ -107,6 +107,7 @@ def assign_hits(units, hits, risk_direct_hit, faction, options, attacker):
         letnev_flagship = faction_abilities.check_letnev_flagship(units)
         if letnev_flagship and letnev_flagship.sustain and hits > 0 and risk_direct_hit:
             letnev_flagship.sustain = False
+            letnev_flagship.just_sustained = True
             hits -= 1
 
     for u in units:
@@ -114,11 +115,13 @@ def assign_hits(units, hits, risk_direct_hit, faction, options, attacker):
             return units, options
         if u.sustain and (u.direct_hit_immune or risk_direct_hit):
             u.sustain = False
+            u.just_sustained = True
             hits -= 1
 
     while hits > 0 and units:
         if units[0].sustain:
             units[0].sustain = False
+            u.just_sustained = True
             hits -= 1
             # Once one ship sustains and is not Direct Hit, assume its safe
             return assign_hits(units, hits, True, faction, options, attacker)
@@ -156,6 +159,7 @@ def assign_nonfighters_first(units, hits, risk_direct_hit, faction, options, att
         letnev_flagship = faction_abilities.check_letnev_flagship(units)
         if letnev_flagship and letnev_flagship.sustain and hits > 0 and risk_direct_hit:
             letnev_flagship.sustain = False
+            letnev_flagship.just_sustained = True
             hits -= 1
 
     for u in units:
@@ -163,6 +167,7 @@ def assign_nonfighters_first(units, hits, risk_direct_hit, faction, options, att
             return units, options
         if u.sustain and (u.direct_hit_immune or risk_direct_hit):
             u.sustain = False
+            u.just_sustained = True
             hits -= 1
 
     fighters = list(filter(lambda x: x.name == "fighter", units))
@@ -175,6 +180,7 @@ def assign_nonfighters_first(units, hits, risk_direct_hit, faction, options, att
             break
         if u.sustain:
             u.sustain = False
+            u.just_sustained = True
             hits -= 1
             # Once one ship sustains and is not Direct Hit, assume its safe
             return assign_nonfighters_first(units, hits, True, faction, options, attacker)
@@ -258,13 +264,6 @@ def combat_round(att_units, def_units, first_round, options):
     if options["att_faction"] == "Letnev" or options["def_faction"] == "Letnev":
         att_units, def_units = faction_abilities.letnev_flagship(att_units, def_units, options)
 
-    # Duranium Armor
-    if not first_round:
-        if options["att_duranium"]:
-            tech_abilities.duranium(att_units)
-        if options["def_duranium"]:
-            tech_abilities.duranium(def_units)
-
     # Sardakk mech
     if options["att_faction"] == "Sardakk" or options["def_faction"] == "Sardakk":
         att_hits, def_hits = faction_abilities.sardakk_mechs(att_units, def_units, att_hits, def_hits, options)
@@ -286,6 +285,12 @@ def combat_round(att_units, def_units, first_round, options):
                                      False)
     def_units, options = assign_nonfighters_first(def_units, att_nonfighter_hits, options["def_riskdirecthit"],
                                                   options["def_faction"], options, False)
+
+    # Duranium Armor
+    if options["att_duranium"]:
+        tech_abilities.duranium(att_units)
+    if options["def_duranium"]:
+        tech_abilities.duranium(def_units)
 
     return att_units, def_units
 

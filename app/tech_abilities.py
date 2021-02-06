@@ -9,9 +9,12 @@ def assault(units):
 
 def duranium(units):
     for u in reversed(units):
-        if u.can_sustain and not u.sustain:
+        if u.can_sustain and not u.sustain and not u.just_sustained:
             u.sustain = True
-            return units
+            break
+
+    for u in units:
+        u.just_sustained = False
 
     return units
 
@@ -22,6 +25,7 @@ def magen_omega(att_units):
         return att_units
     if att_units[0].sustain:
         att_units[0].sustain = False
+        att_units[0].just_sustained = True
     else:
         del att_units[0]
 
@@ -45,6 +49,7 @@ def x89(def_units, hits):
                 return def_units
             if u.sustain:
                 u.sustain = False
+                u.just_sustained = True
                 hits -= 1
 
         while hits > 0 and def_units:
@@ -60,6 +65,7 @@ def x89(def_units, hits):
                 return def_units
             if u.sustain:
                 u.sustain = False
+                u.just_sustained = True
                 hits -= 1
         return def_units
     else:
@@ -85,6 +91,7 @@ def x89(def_units, hits):
                     return def_units
                 if u.sustain:
                     u.sustain = False
+                    u.just_sustained = True
                     hits -= 1
 
             while hits > 0 and def_units:
@@ -102,6 +109,7 @@ def x89(def_units, hits):
                     return def_units
                 if u.sustain:
                     u.sustain = False
+                    u.just_sustained = True
                     hits -= 1
 
             # lose mechs

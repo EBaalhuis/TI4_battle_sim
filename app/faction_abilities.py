@@ -84,6 +84,7 @@ def raid_formation(att_units, def_units, att_afb_hits, def_afb_hits, options):
                 break
             if u.sustain:
                 u.sustain = False
+                # do not set just_sustained, because with Raid Formation the sustain ability is not used
                 damage -= 1
 
     if options["def_faction"] == "Argent":
@@ -239,10 +240,12 @@ def mentak_mech(att_units, def_units, options):
     if options["att_faction"] == "Mentak":
         for u in def_units:
             u.sustain = False
+            u.can_sustain = False
 
     if options["def_faction"] == "Mentak":
         for u in att_units:
             u.sustain = False
+            u.can_sustain = False
 
     return att_units, def_units
 

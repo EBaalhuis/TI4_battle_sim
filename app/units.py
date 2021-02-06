@@ -5,6 +5,7 @@ class Unit:
         self.combat = combat
         self.sustain = sustain
         self.can_sustain = sustain
+        self.just_sustained = False
         self.ground = ground
         self.bombard = bombard
         self.afb = afb
