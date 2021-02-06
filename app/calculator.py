@@ -102,13 +102,9 @@ def generate_hits(units, faction, bonus, prototype, fire_team, war_funding, war_
 
 
 def assign_hits(units, hits, risk_direct_hit, faction, options, attacker):
-    # Letnev flagship
+    # Letnev flagship (sustain)
     if faction == "Letnev":
-        letnev_flagship = faction_abilities.check_letnev_flagship(units)
-        if letnev_flagship and letnev_flagship.sustain and hits > 0 and risk_direct_hit:
-            letnev_flagship.sustain = False
-            letnev_flagship.just_sustained = True
-            hits -= 1
+        units, hits = faction_abilities.letnev_flagship_sustain(units, hits, risk_direct_hit)
 
     for u in units:
         if hits == 0:
@@ -154,13 +150,9 @@ def assign_fighters_only(units, hits):
 
 
 def assign_nonfighters_first(units, hits, risk_direct_hit, faction, options, attacker):
-    # Letnev flagship
+    # Letnev flagship (sustain)
     if faction == "Letnev":
-        letnev_flagship = faction_abilities.check_letnev_flagship(units)
-        if letnev_flagship and letnev_flagship.sustain and hits > 0 and risk_direct_hit:
-            letnev_flagship.sustain = False
-            letnev_flagship.just_sustained = True
-            hits -= 1
+        units, hits = faction_abilities.letnev_flagship_sustain(units, hits, risk_direct_hit)
 
     for u in units:
         if hits == 0:
@@ -260,9 +252,9 @@ def combat_round(att_units, def_units, first_round, options):
         att_units = list(filter(lambda x: not x.pds or x.ground, att_units))
         def_units = list(filter(lambda x: not x.pds or x.ground, def_units))
 
-    # Letnev flagship
+    # Letnev flagship (repair)
     if options["att_faction"] == "Letnev" or options["def_faction"] == "Letnev":
-        att_units, def_units = faction_abilities.letnev_flagship(att_units, def_units, options)
+        att_units, def_units = faction_abilities.letnev_flagship_repair(att_units, def_units, options)
 
     # Sardakk mech
     if options["att_faction"] == "Sardakk" or options["def_faction"] == "Sardakk":

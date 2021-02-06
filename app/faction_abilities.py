@@ -111,15 +111,21 @@ def assign_swa2(units, hits):
     return result
 
 
-def check_letnev_flagship(units):
-    for u in units:
-        if u.name == "flagship":
-            return u
+def letnev_flagship_sustain(units, hits, risk_direct_hit):
+    letnev_flagships = list(filter(lambda x: x.name == "flagship", units))
+    if risk_direct_hit:
+        for flagship in letnev_flagships:
+            if hits == 0:
+                return units, hits
+            if flagship.sustain:
+                flagship.sustain = False
+                flagship.just_sustained = True
+                hits -= 1
 
-    return False
+    return units, hits
 
 
-def letnev_flagship(att_units, def_units, options):
+def letnev_flagship_repair(att_units, def_units, options):
     if options["att_faction"] == "Letnev":
         for u in att_units:
             if u.name == "flagship" and u.can_sustain:
