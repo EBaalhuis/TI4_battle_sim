@@ -298,7 +298,7 @@ def mods_before_combat(att_units, def_units, options):
     if options["att_letnev_noneuclidean_nekro_hide"]:
         att_units = tech_abilities.noneuclidean(att_units)
     if options["def_letnev_noneuclidean_nekro_hide"]:
-        att_units = tech_abilities.noneuclidean(def_units)
+        def_units = tech_abilities.noneuclidean(def_units)
 
     # Naaz-Rokha flagship
     if options["att_faction"] == "Naaz-Rokha" and util.has_flagship(att_units):
