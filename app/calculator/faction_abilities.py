@@ -1,5 +1,5 @@
 import random
-from app.units import Unit, fighter, fighter2
+from app.calculator.units import Unit, fighter, fighter2
 
 
 def mahact_flagship(units):

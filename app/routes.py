@@ -1,6 +1,6 @@
 from flask import render_template
 from app import app, html_generator
-import app.calculator as calculator
+import app.calculator.calculator as calculator
 from app.route_helpers import units_from_form, options_from_form, options_list
 from app.forms import InputForm
 from collections import defaultdict

@@ -1,32 +1,17 @@
 import random
 import copy
-import app.units as units
-import app.faction_abilities as faction_abilities
-import app.tech_abilities as tech_abilities
-
-
-def above_average(units, hits):
-    # determine whether this number of hits was above the expected amount for this set of units
-    expected = 0
-    for u in units:
-        for val in u.combat:
-            expected += min(1, 1 - 0.1 * (val - 1))
-
-    return hits > expected
+import app.calculator.units as units
+import app.calculator.faction_abilities as faction_abilities
+import app.calculator.tech_abilities as tech_abilities
+import app.calculator.parser as parser
+import app.calculator.filters as filters
+import app.calculator.util as util
 
 
 def harrow(def_units, harrow_bombarders, options):
     hits = bombardment(harrow_bombarders, options)
     def_units, options = assign_hits(def_units, hits, True, options["def_faction"], options, False)
     return def_units, options
-
-
-def has_flagship(units):
-    return len(list(filter(lambda x: x.name == "flagship", units))) > 0
-
-
-def has_mech(units):
-    return len(list(filter(lambda x: x.name == "mech", units))) > 0
 
 
 def roll_for_hit(units, u, faction, bonus, prototype):
@@ -39,7 +24,7 @@ def roll_for_hit(units, u, faction, bonus, prototype):
             extra_hits += 2
 
     # Sardakk flagship
-    if faction == "Sardakk" and has_flagship(units) and u.name != "flagship":
+    if faction == "Sardakk" and util.has_flagship(units) and u.name != "flagship":
         x += 1
 
     # Morale Boost / Supercharge
@@ -71,7 +56,7 @@ def generate_hits(units, faction, bonus, prototype, fire_team, war_funding, war_
 
             if x >= val:
                 # L1Z1X Flagship
-                if faction == "L1Z1X" and has_flagship(units) and u.name in ["flagship", "dread"]:
+                if faction == "L1Z1X" and util.has_flagship(units) and u.name in ["flagship", "dread"]:
                     non_fighter_hits += 1
                 else:
                     hits += 1
@@ -227,9 +212,9 @@ def combat_round(att_units, def_units, first_round, options):
     def_hits, def_nonfighter_hits = generate_hits(def_units, **def_options)
 
     # War Funding Omega
-    if options["att_warfunding_omega"] and above_average(def_units, def_hits):
+    if options["att_warfunding_omega"] and util.above_average(def_units, def_hits):
         def_hits, def_nonfighter_hits = generate_hits(def_units, **def_options)
-    if options["def_warfunding_omega"] and above_average(att_units, att_hits):
+    if options["def_warfunding_omega"] and util.above_average(att_units, att_hits):
         att_hits, att_nonfighter_hits = generate_hits(att_units, **att_options)
 
     # Magen Defense Grid
@@ -403,13 +388,6 @@ def space_cannon(units, options, attacker):
     return result
 
 
-def filter_bombardment(units, faction):
-    if faction != "L1Z1X":
-        return list(filter(lambda x: x.ground, units)), []
-    else:
-        return list(filter(lambda x: x.ground, units)), list(filter(lambda x: not x.ground, units))
-
-
 def iteration(att_units, def_units, options):
     # 0 - tie
     # 1 - attacker won
@@ -500,7 +478,7 @@ def iteration(att_units, def_units, options):
                                              options, False)
         else:
             def_units = tech_abilities.x89(def_units, bombard_hits)
-        att_units, harrow_bombarders = filter_bombardment(att_units, options["att_faction"])
+        att_units, harrow_bombarders = filters.filter_bombardment(att_units, options["att_faction"])
     else:
         harrow_bombarders = []
 
@@ -544,92 +522,17 @@ def iteration(att_units, def_units, options):
         return 1
 
 
-def shield_active(att_units, def_units, options):
-    for u in att_units:
-        if u.disable_shield:
-            return False
-
-    # L1Z1X commander
-    if options["att_l1z1x_commander"]:
-        return False
-
-    for u in def_units:
-        if u.shield:
-            return True
-
-    return False
-
-
-def filter_ground(att_units, def_units, options):
-    att_res, def_res = [], []
-
-    shield = shield_active(att_units, def_units, options)
-    for u in att_units:
-        if u.ground:
-            if shield:
-                u.bombard = []
-            att_res.append(u)
-        elif u.bombard and not shield:
-            att_res.append(u)
-
-    for u in def_units:
-        if u.ground or u.cannon:
-            def_res.append(u)
-
-    # Naalu flagship
-    if options["att_faction"] == "Naalu" and has_flagship(att_units):
-        att_res = faction_abilities.naalu_flagship(att_units) + att_res
-    if options["def_faction"] == "Naalu" and has_flagship(def_units):
-        def_res = faction_abilities.naalu_flagship(def_units) + def_res
-
-    return att_res, def_res
-
-
-def filter_space(att_units, def_units, options):
-    if options["att_faction"] == "Nekro" and has_flagship(att_units):
-        att_result = list(filter(lambda x: not x.ground or len(x.cannon) > 0 or x.name == "infantry", att_units))
-    else:
-        att_result = list(filter(lambda x: not x.ground or len(x.cannon) > 0, att_units))
-
-    if options["def_faction"] == "Nekro" and has_flagship(def_units):
-        def_result = list(filter(lambda x: not x.ground or len(x.cannon) > 0 or x.name == "infantry", def_units))
-    else:
-        def_result = list(filter(lambda x: not x.ground or len(x.cannon) > 0, def_units))
-
-    return att_result, def_result
-
-
-def run_simulation(att_units, def_units, options, it):
-    outcomes = [0, 0, 0]
-
+def mods_before_combat(att_units, def_units, options):
     # Non-Euclidean Shielding
     if options["att_letnev_noneuclidean_nekro_hide"]:
-        tech_abilities.noneuclidean(att_units)
+        att_units = tech_abilities.noneuclidean(att_units)
     if options["def_letnev_noneuclidean_nekro_hide"]:
-        tech_abilities.noneuclidean(def_units)
-
-    # Mahact flagship
-    if options["att_mahact_flagship_hide"]:
-        att_units = faction_abilities.mahact_flagship(att_units)
-    if options["def_mahact_flagship_hide"]:
-        def_units = faction_abilities.mahact_flagship(def_units)
-
-    # Naalu mech / Nekro mech
-    if options["att_naalu_mech_hide"] or options["att_nekro_mech_hide"]:
-        att_units = faction_abilities.naalu_nekro_mech(att_units)
-    if options["def_naalu_mech_hide"] or options["def_nekro_mech_hide"]:
-        def_units = faction_abilities.naalu_nekro_mech(def_units)
-
-    # Jol-Nar mech
-    if options["att_faction"] == "Jol-Nar" and has_mech(att_units):
-        att_units = faction_abilities.jol_nar_mech(att_units)
-    if options["def_faction"] == "Jol-Nar" and has_mech(def_units):
-        def_units = faction_abilities.jol_nar_mech(def_units)
+        att_units = tech_abilities.noneuclidean(def_units)
 
     # Naaz-Rokha flagship
-    if options["att_faction"] == "Naaz-Rokha" and has_flagship(att_units):
+    if options["att_faction"] == "Naaz-Rokha" and util.has_flagship(att_units):
         att_units = faction_abilities.naaz_flagship(att_units)
-    if options["def_faction"] == "Naaz-Rokha" and has_flagship(def_units):
+    if options["def_faction"] == "Naaz-Rokha" and util.has_flagship(def_units):
         def_units = faction_abilities.naaz_flagship(def_units)
 
     # Winnu commander
@@ -638,11 +541,63 @@ def run_simulation(att_units, def_units, options, it):
     if options["def_winnu_commander"]:
         def_units = faction_abilities.winnu_commander(def_units)
 
-    # Filter units based on ground combat vs space combat
+    # Antimass Deflectors
+    if options["att_antimass"]:
+        for u in def_units:
+            u.cannon = [x + 1 for x in u.cannon]
+    if options["def_antimass"]:
+        for u in att_units:
+            u.cannon = [x + 1 for x in u.cannon]
+
+    # Strike Wing Ambuscade
+    if options["att_argent_prom"] or options["def_argent_prom"]:
+        att_units, def_units = faction_abilities.argent_prom(att_units, def_units, options)
+
+    # Titan agent
+    if options["att_titans_agent"]:
+        att_units = faction_abilities.titans_agent(att_units)
+    if options["def_titans_agent"]:
+        def_units = faction_abilities.titans_agent(def_units)
+
     if options["ground_combat"]:
-        att_units, def_units = filter_ground(att_units, def_units, options)
-    else:
-        att_units, def_units = filter_space(att_units, def_units, options)
+        # Naalu mech / Nekro mech
+        if options["att_naalu_mech_hide"] or options["att_nekro_mech_hide"]:
+            att_units = faction_abilities.naalu_nekro_mech(att_units)
+        if options["def_naalu_mech_hide"] or options["def_nekro_mech_hide"]:
+            def_units = faction_abilities.naalu_nekro_mech(def_units)
+
+        # Jol-Nar mech
+        if options["att_faction"] == "Jol-Nar" and util.has_mech(att_units):
+            att_units = faction_abilities.jol_nar_mech(att_units)
+        if options["def_faction"] == "Jol-Nar" and util.has_mech(def_units):
+            def_units = faction_abilities.jol_nar_mech(def_units)
+
+        # L4 Disruptors
+        if options["att_letnev_l4_nekro_hide"]:
+            for u in def_units:
+                u.cannon = []
+
+        # Conventions of War
+        if options["conventions"]:
+            for u in att_units:
+                u.bombard = []
+
+        # Tekklar Legion
+        if options["att_tekklar"] or options["def_tekklar"]:
+            att_units, def_units = faction_abilities.tekklar(att_units, def_units, options)
+
+        # Sol commander
+        if options["def_sol_commander"] and any(map(lambda x: x.ground, def_units)):
+            extra_infantry = [units.infantry2(options["def_faction"]) if options["def_infantry2"]
+                              else units.infantry(options["def_faction"])]
+            def_units = extra_infantry + def_units
+
+    else:  # space combat
+        # Mahact flagship
+        if options["att_mahact_flagship_hide"]:
+            att_units = faction_abilities.mahact_flagship(att_units)
+        if options["def_mahact_flagship_hide"]:
+            def_units = faction_abilities.mahact_flagship(def_units)
 
         # The Cavalry
         if options["att_cavalry1"] or options["att_cavalry2"]:
@@ -658,69 +613,45 @@ def run_simulation(att_units, def_units, options, it):
         if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
             att_units, def_units = faction_abilities.mentak_flagship(att_units, def_units, options)
 
-    # L4 Disruptors
-    if options["att_letnev_l4_nekro_hide"] and options["ground_combat"]:
-        for u in def_units:
-            u.cannon = []
+        # Defending in Nebula
+        if options["def_nebula"] and not options["ground_combat"]:
+            for u in def_units:
+                u.combat = [x - 1 for x in u.combat]
 
-    # Defending in Nebula
-    if options["def_nebula"] and not options["ground_combat"]:
-        for u in def_units:
-            u.combat = [x - 1 for x in u.combat]
+        # Publicize Weapon Schematics
+        if options["publicize"]:
+            for u in att_units + def_units:
+                if u.name == "warsun":
+                    u.sustain = False
+                    u.can_sustain = False
 
-    # Antimass Deflectors
-    if options["att_antimass"]:
-        for u in def_units:
-            u.cannon = [x + 1 for x in u.cannon]
-    if options["def_antimass"]:
-        for u in att_units:
-            u.cannon = [x + 1 for x in u.cannon]
+        # Yin agent
+        if options["att_yin_agent"]:
+            options["att_yin_agent_active"] = True
+        if options["def_yin_agent"]:
+            options["def_yin_agent_active"] = True
 
-    # Conventions of War
-    if options["conventions"]:
-        for u in att_units:
-            u.bombard = []
+    return att_units, def_units, options
 
-    # Publicize Weapon Schematics
-    if options["publicize"]:
-        for u in att_units + def_units:
-            if u.name == "warsun":
-                u.sustain = False
-                u.can_sustain = False
 
-    # Strike Wing Ambuscade
-    if options["att_argent_prom"] or options["def_argent_prom"]:
-        att_units, def_units = faction_abilities.argent_prom(att_units, def_units, options)
+def run_simulation(att_units, def_units, options, it):
+    outcomes = [0, 0, 0]
 
-    # Tekklar Legion
-    if options["ground_combat"] and (options["att_tekklar"] or options["def_tekklar"]):
-        att_units, def_units = faction_abilities.tekklar(att_units, def_units, options)
+    # Filter units based on ground combat vs space combat
+    if options["ground_combat"]:
+        att_units, def_units = filters.filter_ground(att_units, def_units, options)
+    else:
+        att_units, def_units = filters.filter_space(att_units, def_units, options)
 
-    # Sol commander
-    if options["def_sol_commander"] and options["ground_combat"] and len(list(filter(lambda x: x.ground, def_units))):
-        extra_infantry = [units.infantry2(options["def_faction"]) if options["def_infantry2"]
-                          else units.infantry(options["def_faction"])]
-        def_units = extra_infantry + def_units
-
-    # Titan agent
-    if options["att_titans_agent"]:
-        att_units = faction_abilities.titans_agent(att_units)
-    if options["def_titans_agent"]:
-        def_units = faction_abilities.titans_agent(def_units)
-
-    # Yin agent
-    if options["att_yin_agent"]:
-        options["att_yin_agent_active"] = True
-    if options["def_yin_agent"]:
-        options["def_yin_agent_active"] = True
+    att_units, def_units, options = mods_before_combat(att_units, def_units, options)
 
     for i in range(it):
         res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), copy.deepcopy(options))
 
         # Yin flagship
-        if options["att_faction"] == "Yin" and has_flagship(att_units) and res == 2:
+        if options["att_faction"] == "Yin" and util.has_flagship(att_units) and res == 2:
             res = 0
-        if options["def_faction"] == "Yin" and has_flagship(def_units) and res == 1:
+        if options["def_faction"] == "Yin" and util.has_flagship(def_units) and res == 1:
             res = 0
 
         outcomes[res] += 1
@@ -728,63 +659,10 @@ def run_simulation(att_units, def_units, options, it):
     return outcomes
 
 
-def print_results(outcomes, it):
-    print("Attacker wins: %.1f%%" % (outcomes[1] / it * 100))
-    print("Tie: %.1f%%" % (outcomes[0] / it * 100))
-    print("Defender wins: %.1f%%" % (outcomes[2] / it * 100))
-
-
-def parse_unit(unit_type, unit_dict, attacker, options):
-    prefix = "att_" if attacker else "def_"
-
-    faction = options[prefix + "faction"]
-    amount = unit_dict[unit_type]
-    upgraded = options[prefix + unit_type + "2"]
-
-    if unit_type == "fighter":
-        func = units.fighter2 if upgraded else units.fighter
-    elif unit_type == "carrier":
-        func = units.carrier2 if upgraded else units.carrier
-    elif unit_type == "destroyer":
-        func = units.destroyer2 if upgraded else units.destroyer
-    elif unit_type == "cruiser":
-        func = units.cruiser2 if upgraded else units.cruiser
-    elif unit_type == "dread":
-        func = units.dread2 if upgraded else units.dread
-    elif unit_type == "flagship":
-        func = units.flagship2 if upgraded else units.flagship
-    elif unit_type == "warsun":
-        func = units.warsun
-    elif unit_type == "infantry":
-        func = units.infantry2 if upgraded else units.infantry
-    elif unit_type == "mech":
-        func = units.mech
-        # Naaz-Rokha mech (ship side)
-        if faction == "Naaz-Rokha" and not options["ground_combat"]:
-            func = faction_abilities.naaz_mech
-    elif unit_type == "pds":
-        func = units.pds2 if upgraded else units.pds
-
-    return [func(faction) for _ in range(amount)]
-
-
-def parse_units(unit_dict, attacker, options):
-    unit_types = ["fighter", "carrier", "destroyer", "cruiser", "dread", "infantry", "mech", "flagship", "warsun",
-                  "pds"]
-    result = []
-    for u in unit_types:
-        result = result + parse_unit(u, unit_dict, attacker, options)
-
-    return result
-
-
 def calculate(attacker_units, defender_units, options, test=True):
-    if test:
-        it = 10000
-    else:
-        it = 3000
-    att_units = parse_units(attacker_units, attacker=True, options=options)
-    def_units = parse_units(defender_units, attacker=False, options=options)
+    it = 10000 if test else 3000
+    att_units = parser.parse_units(attacker_units, attacker=True, options=options)
+    def_units = parser.parse_units(defender_units, attacker=False, options=options)
 
     outcomes = run_simulation(att_units, def_units, options, it=it)
     outcomes = list(map(lambda x: int(round(x / it * 100, 0)), outcomes))
