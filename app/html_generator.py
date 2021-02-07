@@ -110,32 +110,32 @@ def make_boxes(checkboxes, hidden):
                              tooltip="For each other player's ship that is destroyed during this combat, "
                                      "place 1 ship of that type from your reinforcements in the active system"),
                         line(checkboxes, hidden, "creuss_dimensionalsplicer_nekro_hide", "Dimensional Splicer",
-                             both=False, enabled=False, tooltip="At the start of space combat in a system that contains"
-                                                                "a wormhole and 1 or more of your ships, produce 1 hit"
-                                                                "and assign it to 1 of your opponent's ships"),
-                        line(checkboxes, hidden, "", "", "creuss_dimensionalsplicer_nekro_hide", "Dimensional Splicer", both=False,
-                             enabled=False, tooltip="At the start of space combat in a system that contains"
-                                                                "a wormhole and 1 or more of your ships, produce 1 hit"
-                                                                "and assign it to 1 of your opponent's ships"),
+                             both=False, tooltip="At the start of space combat in a system that contains"
+                                                 "a wormhole and 1 or more of your ships, produce 1 hit"
+                                                 "and assign it to 1 of your opponent's ships"),
+                        line(checkboxes, hidden, "", "", "creuss_dimensionalsplicer_nekro_hide", "Dimensional Splicer",
+                             both=False, tooltip="At the start of space combat in a system that contains"
+                                                 "a wormhole and 1 or more of your ships, produce 1 hit"
+                                                 "and assign it to 1 of your opponent's ships"),
                         line(checkboxes, hidden, "letnev_l4_nekro_hide", "L4 Disruptors", both=False,
                              tooltip="During an invasion, units cannot use Space Cannon against your units"),
                         line(checkboxes, hidden,
                              "letnev_noneuclid_nekro_hide", "Non-Euclidean Shielding", both=False,
                              tooltip="When 1 of your units uses Sustain Damage, cancel 2 hits instead of 1"),
                         line(checkboxes, hidden,
-                                    "", "", "letnev_noneuclid_nekro_hide", "Non-Euclidean Shielding", both=False,
+                             "", "", "letnev_noneuclid_nekro_hide", "Non-Euclidean Shielding", both=False,
                              tooltip="When 1 of your units uses Sustain Damage, cancel 2 hits instead of 1"),
                         line(checkboxes, hidden, "naazrokha_supercharge_nekro_hide", "Supercharge", both=False,
                              tooltip="+1 to combat rolls first round"),
                         line(checkboxes, hidden,
-                                    "", "", "naazrokha_supercharge_nekro_hide", "Supercharge", both=False,
+                             "", "", "naazrokha_supercharge_nekro_hide", "Supercharge", both=False,
                              tooltip="+1 to combat rolls first round"),
                         line(checkboxes, hidden,
-                                    "sardakk_valkyrie_nekro_hide", "Valkyrie Particle Weave", both=False,
+                             "sardakk_valkyrie_nekro_hide", "Valkyrie Particle Weave", both=False,
                              tooltip="After making combat rolls during ground combat, if your opponent produced"
                                      "1 or more hits, you produce 1 additional hit"),
                         line(checkboxes, hidden,
-                                    "", "", "sardakk_valkyrie_nekro_hide", "Valkyrie Particle Weave", both=False,
+                             "", "", "sardakk_valkyrie_nekro_hide", "Valkyrie Particle Weave", both=False,
                              tooltip="After making combat rolls during ground combat, if your opponent produced"
                                      "1 or more hits, you produce 1 additional hit"),
                         ],

@@ -1,3 +1,21 @@
+def dimensional_splicer(units):
+    # Take 1 hit, assigned by opponent
+    # Prefer to assign to ships that cannot sustain, and prefer less expendable ship
+    result = [u for u in units]
+    for u in reversed(units):
+        if not u.sustain and not (u.name == "pds" and not u.ground):
+            result.remove(u)
+            return result
+
+    # If we get here, all units must have sustain or are PDS
+    for u in reversed(result):
+        if not (u.name == "pds" and not u.ground):
+            u.use_sustain()
+            return result
+
+    return result
+
+
 def noneuclidean(units):
     for u in units:
         if u.can_sustain:

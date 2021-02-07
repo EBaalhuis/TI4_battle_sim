@@ -185,11 +185,18 @@ def start_of_space_combat(att_units, def_units, options):
                                                 options["def_faction"], options, False)
 
     # Assault Cannon
-    if not options["ground_combat"]:
-        if options["att_assault"] and len(list(filter(lambda x: x.non_fighter_ship, att_units))) >= 3:
-            def_units = tech_abilities.assault(def_units)
-        if options["def_assault"] and len(list(filter(lambda x: x.non_fighter_ship, def_units))) >= 3:
-            att_units = tech_abilities.assault(att_units)
+    if options["att_assault"] and len(list(filter(lambda x: x.non_fighter_ship, att_units))) >= 3:
+        def_units = tech_abilities.assault(def_units)
+    if options["def_assault"] and len(list(filter(lambda x: x.non_fighter_ship, def_units))) >= 3:
+        att_units = tech_abilities.assault(att_units)
+
+    # Creuss Dimensional Splicer
+    if options["att_creuss_dimensionalsplicer_nekro_hide"] \
+            and any(map(lambda x: x.fighter or x.non_fighter_ship, att_units)):
+        def_units = tech_abilities.dimensional_splicer(def_units)
+    if options["def_creuss_dimensionalsplicer_nekro_hide"] \
+            and any(map(lambda x: x.fighter or x.non_fighter_ship, def_units)):
+        att_units = tech_abilities.dimensional_splicer(att_units)
 
     return att_units, def_units, options
 
