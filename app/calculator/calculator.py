@@ -8,12 +8,8 @@ import app.calculator.parser as parser
 import app.calculator.filters as filters
 import app.calculator.space_cannon as space_cannon
 import app.calculator.antifighter as antifighter
+import app.calculator.bombard as bombard
 import app.calculator.util as util
-
-
-def harrow(def_units, harrow_bombarders, options):
-    att_units, def_units, harrow_bombarders, options = bombardment(harrow_bombarders, def_units, options)
-    return def_units, options
 
 
 def roll_for_hit(units, u, faction, bonus, prototype):
@@ -79,6 +75,7 @@ def generate_hits(units, faction, bonus, prototype, fire_team, war_funding, war_
 
     # Sol agent
     if sol_agent:
+        # noinspection PyUnboundLocalVariable
         modified_unit.combat = modified_unit.combat[:-1]
 
     # Letnev agent
@@ -178,54 +175,6 @@ def combat_round(att_units, def_units, first_round, options):
     return att_units, def_units
 
 
-def bombard_roll(val, options, jolnar_commander):
-    x = random.randint(1, 10)
-    if options["def_bunker"]:
-        x -= 4
-    if x >= val:
-        return 1
-
-    # Jol-Nar commander
-    elif jolnar_commander:
-        x = random.randint(1, 10)
-        if options["def_bunker"]:
-            x -= 4
-        if x >= val:
-            return 1
-
-    return 0
-
-
-def bombardment(att_units, def_units, options):
-    jolnar_commander = options["att_jolnar_commander"]  # Bobmardment is exclusively done by the attacker
-    bombard_hits = 0
-    best_dice = 11
-    for u in att_units:
-        if u.bombard:
-            for val in u.bombard:
-                best_dice = min(best_dice, val)
-                bombard_hits += bombard_roll(val, options, jolnar_commander)
-
-    # Plasma Scoring
-    if options["att_plasma"]:
-        bombard_hits += bombard_roll(best_dice, options, jolnar_commander)
-
-    # Argent Commander
-    if options["att_argent_commander"]:
-        bombard_hits += bombard_roll(best_dice, options, jolnar_commander)
-
-    if not options["att_x89"]:
-        def_units, options = assign.assign_hits(def_units, bombard_hits, options["def_riskdirecthit"],
-                                                options["def_faction"],
-                                                options, False)
-    else:
-        def_units = tech_abilities.x89(def_units, bombard_hits)
-
-    att_units, harrow_bombarders = filters.filter_bombardment(att_units, options["att_faction"])
-
-    return att_units, def_units, harrow_bombarders, options
-
-
 def start_of_space_combat(att_units, def_units, options):
     # Mentak Ambush
     if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
@@ -258,7 +207,7 @@ def iteration(att_units, def_units, options):
 
     if options["ground_combat"]:
         # bombardment
-        att_units, def_units, harrow_bombarders, options = bombardment(att_units, def_units, options)
+        att_units, def_units, harrow_bombarders, options = bombard.bombardment(att_units, def_units, options)
 
         # Mentak mech
         if options["att_faction"] == "Mentak" or options["def_faction"] == "Mentak":
@@ -278,7 +227,7 @@ def iteration(att_units, def_units, options):
         att_units, def_units = combat_round(att_units, def_units, first_round, options)
         first_round = False
         if options["att_faction"] == "L1Z1X":
-            def_units, options = harrow(def_units, harrow_bombarders, options)
+            def_units, options = bombard.harrow(def_units, harrow_bombarders, options)
 
     # Naalu flagship: remove fighters at end of ground combat
     if (options["att_faction"] == "Naalu" or options["def_faction"] == "Naalu") and options["ground_combat"]:
