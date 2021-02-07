@@ -27,7 +27,7 @@ def def_side(name, description, enabled, on, checked):
 
 
 def line(checkboxes, hidden, name, description, def_name="", def_description="", tooltip="(tooltip not yet written)",
-         def_tooltip="", enabled=True, both=True):
+         def_tooltip="(tooltip not yet written)", enabled=True, both=True):
     att_on = both or len(name) > 0
     def_on = both or len(def_name) > 0
     if both:
@@ -48,9 +48,16 @@ def line(checkboxes, hidden, name, description, def_name="", def_description="",
 
     attacker_side = att_side(name, description, enabled, att_on, att_checked)
     defender_side = def_side(def_name, def_description, enabled, def_on, def_checked)
-    questionmark = '<img src="/static/question.png" alt="questionmark" data-toggle="tooltip" data-boundary="viewport"' \
-                   'title="' + tooltip + \
-                   '" width=19/>'
+    if both and name != def_name:
+        questionmark = '<img src="/static/question.png" alt="questionmark" data-toggle="tooltip" ' \
+                       'data-boundary="viewport" title="' + tooltip + '" width=19/> ' + \
+                       '<img src="/static/question.png" alt="questionmark" data-toggle="tooltip" ' \
+                       'data-boundary="viewport" title="' + def_tooltip + '" width=19/>'
+
+    else:
+        questionmark = '<img src="/static/question.png" alt="questionmark" data-toggle="tooltip" ' \
+                       'data-boundary="viewport" title="' + tooltip + '" width=19/>'
+
 
     result = '<div class="o-grid o-grid--no-gutter center-grid row" id="' + div_id + '" style="display: ' \
              '' + hide + ';">' + attacker_side + '<div class="col-sm-2" align="center">' + questionmark + '</div>' \
