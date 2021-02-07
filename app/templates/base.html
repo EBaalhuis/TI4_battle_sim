@@ -215,6 +215,11 @@
     {% block app_scripts %}{% endblock %}
 {% endblock %}
 
+{% block head %}
+    {{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+{% endblock %}
+
 {% block title %}
     Twilight Imperium 4 Calculator
 {% endblock %}
