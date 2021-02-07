@@ -58,7 +58,6 @@ def line(checkboxes, hidden, name, description, def_name="", def_description="",
         questionmark = '<img src="/static/question.png" alt="questionmark" data-toggle="tooltip" ' \
                        'data-boundary="viewport" title="' + tooltip + '" width=19/>'
 
-
     result = '<div class="o-grid o-grid--no-gutter center-grid row" id="' + div_id + '" style="display: ' \
              '' + hide + ';">' + attacker_side + '<div class="col-sm-2" align="center">' + questionmark + '</div>' \
              + defender_side + '</div>'
@@ -104,25 +103,41 @@ def make_boxes(checkboxes, hidden):
                         line(checkboxes, hidden, "", "", "nekro_mech_hide", "Nekro Mech Bonus", both=False,
                              tooltip="+2 to Mech combat rolls against opponent who has an X or Y token on 1 or more of "
                                      "their techs"),
-                        line(checkboxes, hidden, "mentak_hero_hide", "Mentak Hero", both=False, enabled=False),
-                        line(checkboxes, hidden, "", "", "mentak_hero_hide", "Mentak Hero", both=False,
-                             enabled=False),
-                        line(checkboxes, hidden, "creuss_dimensionalsplicer_nekro_hide", "Dimensional Splicer", both=False,
-                             enabled=False),
+                        line(checkboxes, hidden, "mentak_hero_hide", "Mentak Hero", both=False, enabled=False,
+                             tooltip="For each other player's ship that is destroyed during this combat, "
+                                     "place 1 ship of that type from your reinforcements in the active system"),
+                        line(checkboxes, hidden, "", "", "mentak_hero_hide", "Mentak Hero", both=False, enabled=False,
+                             tooltip="For each other player's ship that is destroyed during this combat, "
+                                     "place 1 ship of that type from your reinforcements in the active system"),
+                        line(checkboxes, hidden, "creuss_dimensionalsplicer_nekro_hide", "Dimensional Splicer",
+                             both=False, enabled=False, tooltip="At the start of space combat in a system that contains"
+                                                                "a wormhole and 1 or more of your ships, produce 1 hit"
+                                                                "and assign it to 1 of your opponent's ships"),
                         line(checkboxes, hidden, "", "", "creuss_dimensionalsplicer_nekro_hide", "Dimensional Splicer", both=False,
-                             enabled=False),
-                        line(checkboxes, hidden, "letnev_l4_nekro_hide", "L4 Disruptors", both=False),
+                             enabled=False, tooltip="At the start of space combat in a system that contains"
+                                                                "a wormhole and 1 or more of your ships, produce 1 hit"
+                                                                "and assign it to 1 of your opponent's ships"),
+                        line(checkboxes, hidden, "letnev_l4_nekro_hide", "L4 Disruptors", both=False,
+                             tooltip="During an invasion, units cannot use Space Cannon against your units"),
                         line(checkboxes, hidden,
-                                    "letnev_noneuclid_nekro_hide", "Non-Euclidean Shielding", both=False),
+                             "letnev_noneuclid_nekro_hide", "Non-Euclidean Shielding", both=False,
+                             tooltip="When 1 of your units uses Sustain Damage, cancel 2 hits instead of 1"),
                         line(checkboxes, hidden,
-                                    "", "", "letnev_noneuclid_nekro_hide", "Non-Euclidean Shielding", both=False),
-                        line(checkboxes, hidden, "naazrokha_supercharge_nekro_hide", "Supercharge", both=False),
+                                    "", "", "letnev_noneuclid_nekro_hide", "Non-Euclidean Shielding", both=False,
+                             tooltip="When 1 of your units uses Sustain Damage, cancel 2 hits instead of 1"),
+                        line(checkboxes, hidden, "naazrokha_supercharge_nekro_hide", "Supercharge", both=False,
+                             tooltip="+1 to combat rolls first round"),
                         line(checkboxes, hidden,
-                                    "", "", "naazrokha_supercharge_nekro_hide", "Supercharge", both=False),
+                                    "", "", "naazrokha_supercharge_nekro_hide", "Supercharge", both=False,
+                             tooltip="+1 to combat rolls first round"),
                         line(checkboxes, hidden,
-                                    "sardakk_valkyrie_nekro_hide", "Valkyrie Particle Weave", both=False),
+                                    "sardakk_valkyrie_nekro_hide", "Valkyrie Particle Weave", both=False,
+                             tooltip="After making combat rolls during ground combat, if your opponent produced"
+                                     "1 or more hits, you produce 1 additional hit"),
                         line(checkboxes, hidden,
-                                    "", "", "sardakk_valkyrie_nekro_hide", "Valkyrie Particle Weave", both=False),
+                                    "", "", "sardakk_valkyrie_nekro_hide", "Valkyrie Particle Weave", both=False,
+                             tooltip="After making combat rolls during ground combat, if your opponent produced"
+                                     "1 or more hits, you produce 1 additional hit"),
                         ],
 
              "tech": [line(checkboxes, hidden, "antimass", "Antimass Deflectors",
@@ -134,7 +149,11 @@ def make_boxes(checkboxes, hidden):
                       line(checkboxes, hidden, "", "", def_name="magen", def_description="Magen Defense Grid",
                            both=False, tooltip="Opponent cannot make combat rolls first round of ground combat"),
                       line(checkboxes, hidden, "x89", "X-89 Bacterial Weapon Ω", def_name="magen_o",
-                           def_description="Magen Defense Grid Ω"),
+                           def_description="Magen Defense Grid Ω",
+                           tooltip="After you destroy at least 1 of your opponent's Infantry with Bombardment,"
+                                   " destroy all of your opponent's Infantry on that planet",
+                           def_tooltip="At the start of ground combat on a planet that contains 1 or more of your"
+                                       "structures, produce 1 hit and assign it to 1 of your opponent's ground forces"),
                       line(checkboxes, hidden, "duranium", "Duranium Armor",
                            tooltip="During each combat round, after you assign hits, repair 1 of your damaged units "
                                    "that did not use Sustain Damage this round"),
@@ -203,7 +222,10 @@ def make_boxes(checkboxes, hidden):
                                  tooltip="+2 to combat rolls in the Mecatol Rex system, your home system, and each "
                                          "system that contains a legendary planet"),
                             line(checkboxes, hidden, "att_l1z1x_commander", "L1Z1X Commander",
-                                 "sol_commander", "Sol Commander")]
+                                 "sol_commander", "Sol Commander",
+                                 tooltip="Units that have Planetary Shield do not prevent you from using Bombardment",
+                                 def_tooltip="At the start of ground combat on a planet you control: you may place"
+                                             "1 Infantry from your reinforcements on that planet")]
              }
 
     return boxes
