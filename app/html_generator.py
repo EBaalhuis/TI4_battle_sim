@@ -217,7 +217,7 @@ def make_boxes(checkboxes, hidden):
                                          "1 additional die"),
                             line(checkboxes, hidden, "jolnar_commander", "Jol-Nar Commander",
                                  tooltip="After you roll dice for a unit ability: you may re-roll any of those dice"),
-                            line(checkboxes, hidden, "letnev_commander", "Letnev Commander", enabled=False),
+                            # line(checkboxes, hidden, "letnev_commander", "Letnev Commander", enabled=False),
                             line(checkboxes, hidden, "winnu_commander", "Winnu Commander",
                                  tooltip="+2 to combat rolls in the Mecatol Rex system, your home system, and each "
                                          "system that contains a legendary planet"),
