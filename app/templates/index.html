@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-4 col-sm-offset-4">
+            {% for message in get_flashed_messages() %}
+            <span style="color:#ff0000;"><h3><center>{{ message }}</center></h3></span>
+            {% endfor %}
             <form action="" method="post" novalidate>
                 {{ form.hidden_tag() }}
                 <div class="o-grid o-grid--no-gutter center-grid row">

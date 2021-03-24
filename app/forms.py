@@ -1,5 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, SubmitField, BooleanField, SelectField
+from wtforms import IntegerField, SubmitField, BooleanField, SelectField, validators, ValidationError
+
+
+def max_check(form, field):
+    if field.data > 20:
+        print("max check error")
+        raise ValidationError('maximum 20 units per type')
 
 
 class InputForm(FlaskForm):
@@ -11,7 +17,7 @@ class InputForm(FlaskForm):
     def_faction = SelectField("Defender faction_units", choices=factions)
 
     # Unit amounts
-    att_flagship = IntegerField("Attacker Flagship", default=0)
+    att_flagship = IntegerField("Attacker Flagship", default=0, validators=[max_check])
     def_flagship = IntegerField("Defender Flagship", default=0)
     att_warsun = IntegerField("Attacker War Sun", default=0)
     def_warsun = IntegerField("Defender War Sun", default=0)
@@ -27,7 +33,7 @@ class InputForm(FlaskForm):
     def_fighter = IntegerField("Defender Fighter", default=0)
     att_mech = IntegerField("Attacker Mech", default=0)
     def_mech = IntegerField("Defender Mech", default=0)
-    att_infantry = IntegerField("Attacker Infantry", default=0)
+    att_infantry = IntegerField("Attacker Infantry", default=0, validators=[max_check])
     def_infantry = IntegerField("Defender Infantry", default=0)
     att_pds = IntegerField("Attacker PDS", default=0)
     def_pds = IntegerField("Defender PDS", default=0)

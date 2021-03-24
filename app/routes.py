@@ -1,7 +1,7 @@
 from flask import render_template
 from app import app, html_generator
 import app.calculator.calculator as calc
-from app.route_helpers import units_from_form, options_from_form, options_list
+from app.route_helpers import units_from_form, options_from_form, options_list, flash_errors
 from app.forms import InputForm
 from collections import defaultdict
 
@@ -32,6 +32,9 @@ def index():
 
         return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes,
                                boxes=boxes)
+    else:
+        print("in else")
+        flash_errors(form)
 
     outcomes = [0, 0, 0]
     defaults = defaultdict(lambda: {"data": "0"})
