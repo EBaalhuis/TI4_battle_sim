@@ -222,6 +222,11 @@
 {% block head %}
     {{ super() }}
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <!-- Clicky analytics code -->
+    <script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101308197);</script>
+    <script async src="//static.getclicky.com/js"></script>
+
 {% endblock %}
 
 {% block title %}
