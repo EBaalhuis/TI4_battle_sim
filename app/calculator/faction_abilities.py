@@ -272,7 +272,8 @@ def jol_nar_mech(units):
     return units
 
 
-def naaz_mech():
+def naaz_mech(faction):
+    # faction argument is convenient because this is used as a function that makes a Unit, and those expect 1 argument
     return Unit("mech", [8, 8])
 
 
