@@ -212,6 +212,12 @@ def iteration(att_units, def_units, options):
         # space cannon offense
         att_units, def_units, options = space_cannon.space_cannon_offense(att_units, def_units, options)
 
+        # Shields Holding
+        if options["att_shields"]:
+            options["att_shields_active"] = True
+        if options["def_shields"]:
+            options["def_shields_active"] = True
+
         # start of space combat abilities
         att_units, def_units, options = start_of_space_combat(att_units, def_units, options)
 

@@ -91,6 +91,8 @@ class InputForm(FlaskForm):
     def_fireteam = BooleanField("Fire Team", default=False)
     att_maneuvering = BooleanField("Maneuvering Jets", default=False)
     def_maneuvering = BooleanField("Maneuvering Jets", default=False)
+    att_shields = BooleanField("Shields Holding", default=False)
+    def_shields = BooleanField("Shields Holding", default=False)
     att_waylay = BooleanField("Waylay", default=False)
     def_waylay = BooleanField("Waylay", default=False)
 

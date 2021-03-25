@@ -79,13 +79,13 @@ def antifighter(att_units, def_units, options):
                                                 options["att_faction"],
                                                 options, True)
     else:
-        att_units = assign.assign_fighters_only(att_units, def_afb_hits)
+        att_units, options = assign.assign_fighters_only(att_units, def_afb_hits, options, attacker=True)
 
     if options["att_waylay"]:
         def_units, options = assign.assign_hits(def_units, att_afb_hits, options["def_riskdirecthit"],
                                                 options["def_faction"],
                                                 options, False)
     else:
-        def_units = assign.assign_fighters_only(def_units, att_afb_hits)
+        def_units, options = assign.assign_fighters_only(def_units, att_afb_hits, options, attacker=False)
 
     return att_units, def_units, options

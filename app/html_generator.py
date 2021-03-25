@@ -174,6 +174,9 @@ def make_boxes(checkboxes, hidden):
                             tooltip="Cancel 1 hit from Space Cannon"),
                        line(checkboxes, hidden, "morale", "Morale Boost 1st round",
                             tooltip="+1 to combat rolls first round"),
+                       line(checkboxes, hidden, "shields", "Shields Holding",
+                            tooltip="Cancel up to 2 hits during space combat (not Space Cannon). Always cancels the "
+                                    "first eligible hit"),
                        line(checkboxes, hidden, "waylay", "Waylay",
                             tooltip="Hits from AFB are produced against all ships, not just fighters")],
 

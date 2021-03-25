@@ -2,6 +2,17 @@ import app.calculator.faction_abilities as faction_abilities
 
 
 def assign_hits(units, hits, risk_direct_hit, faction, options, attacker):
+    if hits <= 0:
+        return units, options
+
+    # Shields Holding
+    if options["att_shields_active"] and attacker:
+        options["att_shields_active"] = False
+        hits -= 2
+    if options["def_shields_active"] and not attacker:
+        options["def_shields_active"] = False
+        hits -= 2
+
     # Letnev flagship (sustain)
     if faction == "Letnev":
         units, hits = faction_abilities.letnev_flagship_sustain(units, hits, risk_direct_hit)
@@ -33,18 +44,40 @@ def assign_hits(units, hits, risk_direct_hit, faction, options, attacker):
     return units, options
 
 
-def assign_fighters_only(units, hits):
+def assign_fighters_only(units, hits, options, attacker):
+    if hits <= 0:
+        return units, options
+
+    # Shields Holding
+    if options["att_shields_active"] and attacker:
+        options["att_shields_active"] = False
+        hits -= 2
+    if options["def_shields_active"] and not attacker:
+        options["def_shields_active"] = False
+        hits -= 2
+
     result = [u for u in units]
     for u in units:
         if hits <= 0:
-            return result
+            return result, options
         if u.fighter or u.name == "virtual":
             result.remove(u)
             hits -= 1
-    return result
+    return result, options
 
 
 def assign_nonfighters_first(units, hits, risk_direct_hit, faction, options, attacker):
+    if hits <= 0:
+        return units, options
+
+    # Shields Holding
+    if options["att_shields_active"] and attacker:
+        options["att_shields_active"] = False
+        hits -= 2
+    if options["def_shields_active"] and not attacker:
+        options["def_shields_active"] = False
+        hits -= 2
+
     # Letnev flagship (sustain)
     if faction == "Letnev":
         units, hits = faction_abilities.letnev_flagship_sustain(units, hits, risk_direct_hit)

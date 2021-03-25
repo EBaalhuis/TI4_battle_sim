@@ -4,6 +4,7 @@ import app.calculator.calculator as calc
 from app.route_helpers import units_from_form, options_from_form, options_list, flash_errors, error_print
 from app.forms import InputForm
 from collections import defaultdict
+import traceback
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -21,6 +22,7 @@ def index():
             error_print(attacker, defender, options)
             flash("Sorry, something went wrong in the calculation :(")
             outcomes = [0, 0, 0]
+            traceback.print_exc()
 
         # Determine which checkboxes should remain checked
         checkboxes = defaultdict(lambda: "")
