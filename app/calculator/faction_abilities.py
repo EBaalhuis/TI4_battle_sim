@@ -1,5 +1,5 @@
-import random
 from app.calculator.units import Unit, fighter, fighter2
+import app.calculator.util as util
 
 
 def mahact_flagship(units):
@@ -213,26 +213,26 @@ def generate_ambush_hits(units):
     if len(cruisers) >= 2:
         val = cruisers[0].combat[0]
         for _ in range(2):
-            x = random.randint(1, 10)
+            x = util.roll()
             if x >= val:
                 hits += 1
         return hits
     elif len(cruisers) == 1:
         fired = 1
         val = cruisers[0].combat[0]
-        x = random.randint(1, 10)
+        x = util.roll()
         if x >= val:
             hits += 1
 
     if fired == 0 and len(destroyers) >= 2:
         val = destroyers[0].combat[0]
         for _ in range(2):
-            x = random.randint(1, 10)
+            x = util.roll()
             if x >= val:
                 hits += 1
     elif fired < 2 and len(destroyers) >= 1:
         val = destroyers[0].combat[0]
-        x = random.randint(1, 10)
+        x = util.roll()
         if x >= val:
             hits += 1
 

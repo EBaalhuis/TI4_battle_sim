@@ -1,16 +1,16 @@
-import random
 import app.calculator.units as units
 import app.calculator.assign as assign
+import app.calculator.util as util
 
 
 def cannon_roll(val, jolnar_commander):
-    x = random.randint(1, 10)
+    x = util.roll()
     if x >= val:
         return 1
 
     # Jol-Nar commander
     elif jolnar_commander:
-        x = random.randint(1, 10)
+        x = util.roll()
         if x >= val:
             return 1
 

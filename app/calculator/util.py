@@ -1,3 +1,12 @@
+import random
+
+
+def roll():
+    # Simulate rolling a 10-sided die, return random int between 1 and 10 (inclusive) uniformly
+    x = random.random()
+    return int(x * 10 + 1)
+
+
 def has_flagship(units):
     return any(map(lambda u: u.name == "flagship", units))
 

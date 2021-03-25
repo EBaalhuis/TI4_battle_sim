@@ -1,11 +1,11 @@
-import random
 import app.calculator.assign as assign
 import app.calculator.filters as filters
 import app.calculator.tech_abilities as tech_abilities
+import app.calculator.util as util
 
 
 def bombard_roll(val, options, jolnar_commander):
-    x = random.randint(1, 10)
+    x = util.roll()
     if options["def_bunker"]:
         x -= 4
     if x >= val:
@@ -13,7 +13,7 @@ def bombard_roll(val, options, jolnar_commander):
 
     # Jol-Nar commander
     elif jolnar_commander:
-        x = random.randint(1, 10)
+        x = util.roll()
         if options["def_bunker"]:
             x -= 4
         if x >= val:

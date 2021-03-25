@@ -1,5 +1,3 @@
-import random
-import copy
 import app.calculator.units as units
 import app.calculator.assign as assign
 import app.calculator.faction_abilities as faction_abilities
@@ -13,7 +11,7 @@ import app.calculator.util as util
 
 
 def roll_for_hit(units, u, faction, bonus, prototype):
-    x = random.randint(1, 10)
+    x = util.roll()
     extra_hits = 0
 
     # Jol-Nar flagship
@@ -62,7 +60,7 @@ def generate_hits(units, faction, bonus, prototype, fire_team, war_funding, war_
             # Fire Team / War Funding re-roll
             else:
                 if fire_team:  # re-roll if it was a miss, ground combat only (so no prototype, L1 flagship)
-                    x = random.randint(1, 10)
+                    x = util.roll()
                     x += bonus
                     if x >= val:
                         hits += 1

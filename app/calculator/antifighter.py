@@ -1,10 +1,10 @@
-import random
 import app.calculator.assign as assign
 import app.calculator.faction_abilities as faction_abilities
+import app.calculator.util as util
 
 
 def antifighter_roll(val, swa2, jolnar_commander):
-    x = random.randint(1, 10)
+    x = util.roll()
     swa2_hits = 0
 
     # Strike Wing Alpha II destroying infantry ability
@@ -16,7 +16,7 @@ def antifighter_roll(val, swa2, jolnar_commander):
 
     # Jol-Nar commander
     elif jolnar_commander:
-        x = random.randint(1, 10)
+        x = util.roll()
 
         # Strike Wing Alpha II destroying infantry ability
         if swa2 and x >= 9:
