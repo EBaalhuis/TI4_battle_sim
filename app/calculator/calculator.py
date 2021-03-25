@@ -390,7 +390,7 @@ def run_simulation(att_units, def_units, options, it):
 
 
 def calculate(attacker_units, defender_units, options, test=True):
-    it = 10000 if test else 3000
+    it = 10000 if test else 1000
 
     att_units = parser.parse_units(attacker_units, attacker=True, options=options)
     def_units = parser.parse_units(defender_units, attacker=False, options=options)
