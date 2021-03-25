@@ -5,7 +5,7 @@ from wtforms import IntegerField, SubmitField, BooleanField, SelectField, valida
 def max_check(limit):
 
     def _max_check(form, field):
-        if field.data > limit:
+        if field.data is not None and field.data > limit:
             raise ValidationError('maximum units per type exceeded')
 
     return _max_check
