@@ -372,8 +372,11 @@ def run_simulation(att_units, def_units, options, it):
 
     att_units, def_units, options = mods_before_combat(att_units, def_units, options)
 
-    for i in range(it):
-        res = iteration(copy.deepcopy(att_units), copy.deepcopy(def_units), copy.deepcopy(options))
+    for i in range(it):        
+        a_unit_cp = [a.get_copy() for a in att_units]
+        d_unit_cp = [d.get_copy() for d in def_units]
+
+        res = iteration(a_unit_cp, d_unit_cp, options)
 
         # Yin flagship
         if options["att_faction"] == "Yin" and util.has_flagship(att_units) and res == 2:
