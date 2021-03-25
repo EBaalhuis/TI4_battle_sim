@@ -2,6 +2,16 @@ from collections import defaultdict
 from flask import flash
 
 
+def error_print(attacker, defender, options):
+    print("\nCalculation error")
+    print("Options:")
+    print(options)
+    print("Attacker:")
+    print(attacker)
+    print("Defender:")
+    print(defender)
+
+
 def flash_errors(form):
     """Flashes form errors"""
     for field, errors in form.errors.items():
