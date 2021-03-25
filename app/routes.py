@@ -33,7 +33,6 @@ def index():
         return render_template('index.html', outcomes=outcomes, form=form, defaults=defaults, checkboxes=checkboxes,
                                boxes=boxes)
     else:
-        print("in else")
         flash_errors(form)
 
     outcomes = [0, 0, 0]

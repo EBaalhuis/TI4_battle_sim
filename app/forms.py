@@ -2,10 +2,13 @@ from flask_wtf import FlaskForm
 from wtforms import IntegerField, SubmitField, BooleanField, SelectField, validators, ValidationError
 
 
-def max_check(form, field):
-    if field.data > 20:
-        print("max check error")
-        raise ValidationError('maximum 20 units per type')
+def max_check(limit):
+
+    def _max_check(form, field):
+        if field.data > limit:
+            raise ValidationError('maximum units per type exceeded')
+
+    return _max_check
 
 
 class InputForm(FlaskForm):
@@ -17,26 +20,27 @@ class InputForm(FlaskForm):
     def_faction = SelectField("Defender faction_units", choices=factions)
 
     # Unit amounts
-    att_flagship = IntegerField("Attacker Flagship", default=0, validators=[max_check])
-    def_flagship = IntegerField("Defender Flagship", default=0)
-    att_warsun = IntegerField("Attacker War Sun", default=0)
-    def_warsun = IntegerField("Defender War Sun", default=0)
-    att_dread = IntegerField("Attacker Dreadnought", default=0)
-    def_dread = IntegerField("Defender Dreadnought", default=0)
-    att_cruiser = IntegerField("Attacker Cruiser", default=0)
-    def_cruiser = IntegerField("Defender Cruiser", default=0)
-    att_carrier = IntegerField("Attacker Carrier", default=0)
-    def_carrier = IntegerField("Defender Carrier", default=0)
-    att_destroyer = IntegerField("Attacker Destroyer", default=0)
-    def_destroyer = IntegerField("Defender Destroyer", default=0)
-    att_fighter = IntegerField("Attacker Fighter", default=0)
-    def_fighter = IntegerField("Defender Fighter", default=0)
-    att_mech = IntegerField("Attacker Mech", default=0)
-    def_mech = IntegerField("Defender Mech", default=0)
-    att_infantry = IntegerField("Attacker Infantry", default=0, validators=[max_check])
-    def_infantry = IntegerField("Defender Infantry", default=0)
-    att_pds = IntegerField("Attacker PDS", default=0)
-    def_pds = IntegerField("Defender PDS", default=0)
+    max_infantry_fighter = 20
+    att_flagship = IntegerField("Attacker Flagship", default=0, validators=[max_check(limit=1)])
+    def_flagship = IntegerField("Defender Flagship", default=0, validators=[max_check(limit=1)])
+    att_warsun = IntegerField("Attacker War Sun", default=0, validators=[max_check(limit=2)])
+    def_warsun = IntegerField("Defender War Sun", default=0, validators=[max_check(limit=2)])
+    att_dread = IntegerField("Attacker Dreadnought", default=0, validators=[max_check(limit=5)])
+    def_dread = IntegerField("Defender Dreadnought", default=0, validators=[max_check(limit=5)])
+    att_cruiser = IntegerField("Attacker Cruiser", default=0, validators=[max_check(limit=8)])
+    def_cruiser = IntegerField("Defender Cruiser", default=0, validators=[max_check(limit=8)])
+    att_carrier = IntegerField("Attacker Carrier", default=0, validators=[max_check(limit=4)])
+    def_carrier = IntegerField("Defender Carrier", default=0, validators=[max_check(limit=4)])
+    att_destroyer = IntegerField("Attacker Destroyer", default=0, validators=[max_check(limit=8)])
+    def_destroyer = IntegerField("Defender Destroyer", default=0, validators=[max_check(limit=8)])
+    att_fighter = IntegerField("Attacker Fighter", default=0, validators=[max_check(limit=max_infantry_fighter)])
+    def_fighter = IntegerField("Defender Fighter", default=0, validators=[max_check(limit=max_infantry_fighter)])
+    att_mech = IntegerField("Attacker Mech", default=0, validators=[max_check(limit=4)])
+    def_mech = IntegerField("Defender Mech", default=0, validators=[max_check(limit=4)])
+    att_infantry = IntegerField("Attacker Infantry", default=0, validators=[max_check(limit=max_infantry_fighter)])
+    def_infantry = IntegerField("Defender Infantry", default=0, validators=[max_check(limit=max_infantry_fighter)])
+    att_pds = IntegerField("Attacker PDS", default=0, validators=[max_check(limit=6)])
+    def_pds = IntegerField("Defender PDS", default=0, validators=[max_check(limit=6)])
 
     # Unit upgrades
     att_flagship2 = BooleanField("Flagship 2", default=False)
