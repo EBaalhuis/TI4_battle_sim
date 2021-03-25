@@ -202,6 +202,12 @@ def start_of_space_combat(att_units, def_units, options):
 
 
 def iteration(att_units, def_units, options):
+    # Yin agent
+    if options["att_yin_agent"]:
+        options["att_yin_agent_active"] = True
+    if options["def_yin_agent"]:
+        options["def_yin_agent_active"] = True
+
     if not options["ground_combat"]:
         # space cannon offense
         att_units, def_units, options = space_cannon.space_cannon_offense(att_units, def_units, options)
@@ -352,12 +358,6 @@ def mods_before_combat(att_units, def_units, options):
                     u.sustain = False
                     u.can_sustain = False
 
-        # Yin agent
-        if options["att_yin_agent"]:
-            options["att_yin_agent_active"] = True
-        if options["def_yin_agent"]:
-            options["def_yin_agent_active"] = True
-
     return att_units, def_units, options
 
 
@@ -373,10 +373,10 @@ def run_simulation(att_units, def_units, options, it):
     att_units, def_units, options = mods_before_combat(att_units, def_units, options)
 
     for i in range(it):        
-        a_unit_cp = [a.get_copy() for a in att_units]
-        d_unit_cp = [d.get_copy() for d in def_units]
+        att_unit_cp = [a.get_copy() for a in att_units]
+        def_unit_cp = [d.get_copy() for d in def_units]
 
-        res = iteration(a_unit_cp, d_unit_cp, options)
+        res = iteration(att_unit_cp, def_unit_cp, options)
 
         # Yin flagship
         if options["att_faction"] == "Yin" and util.has_flagship(att_units) and res == 2:

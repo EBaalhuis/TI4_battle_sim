@@ -20,7 +20,8 @@ class Unit:
         self.non_fighter_ship = not ground and not fighter and not pds
 
     def get_copy(self):
-        return Unit(self.name, self.combat, self.can_sustain, self.ground, self.bombard, self.afb, self.cannon, self.shield, self.fighter, self.pds, self.disable_shield, self.direct_hit_immune, self.noneuclidean)
+        return Unit(self.name, self.combat, self.can_sustain, self.ground, self.bombard, self.afb, self.cannon,
+                    self.shield, self.fighter, self.pds, self.disable_shield, self.direct_hit_immune, self.noneuclidean)
 
     def __repr__(self):
         return "%s <Combat: %s, Sustain: %s>" % (self.name, self.combat, self.sustain)
